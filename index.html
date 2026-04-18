@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVL - Dashboard de Produção Real-Time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+    * {
+        min-width: 0;
+	box-sizing: border-box;
+    }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            /* No mobile permitimos scroll, no desktop travamos para o Fullscreen */
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .app-container {
+                height: 100vh;
+            }
+        }
+
+        .card-premium {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            min-height: 100px;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            margin-bottom: auto;
+            align-self: flex-start;
+            gap: 6px;
+        }
+
+        .stat-value {
+            font-size: clamp(1.5rem, 5vh, 2.6rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: #0f172a;
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .card-accent {
+            position: absolute;
+            left: 0;
+            top: 10%;
+            bottom: 10%;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+        }
+
+
+	.stat-subtext {
+    		font-size: 0.7rem;
+    		font-weight: 700;
+    		margin-top: 4px;
+    		text-align: center;
+    		padding: 4px 8px;
+    		border-radius: 999px;
+	    	background: #f1f5f9;
+    		color: #64748b;
+		transition: all 0.3s ease;
+		}
+	.stat-value.updated {
+    		transform: scale(1.08);
+    		color: #2563eb;
+		}
+
+
+        .chart-container-bg {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.15rem;
+            border: 1px solid #e2e8f0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+         /*   min-height: 300px; /* Garante altura mínima no mobile */
+        }
+
+        @media (min-width: 1024px) {
+            .chart-container-bg {
+                min-height: 0; /* No desktop volta a ser flexível */
+            }
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .pulse-status {
+            animation: pulse-status 2s infinite;
+        }
+
+        @keyframes pulse-status {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .op-icon-container {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #f1f5f9;
+            color: #3b82f6;
+            font-size: 1.6rem;
+            border: 1px solid #e2e8f0;
+        }
+
+.bar-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+   </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+<div class="app-container">
+    <!-- Cabeçalho -->
+<header class="flex-shrink-0 px-4 py-2 flex items-center justify-between border-b border-slate-200 bg-white z-10 h-auto min-h-[70px] flex-wrap gap-2">
+    <!-- ESQUERDA -->
+            <div class="flex items-center gap-3">
+                <img src="https://mldgp1977.github.io/KVL/logo.png" class="h-8 lg:h-12" onerror="this.src='https://via.placeholder.com/120x40?text=KVL'">
+                <div class="hidden sm:block h-8 w-[1px] bg-slate-200"></div>
+ 	        <div class="flex items-center gap-2 sm:gap-4">
+                <div id="op-visual-icon" class="op-icon-container scale-75 sm:scale-100">
+                <i class="fas fa-industry"></i>
+                </div>
+
+                <div>
+                    <h1 id="operation-title" class="font-extrabold uppercase text-slate-900 text-xs lg:text-base">Sincronizando...</h1>
+                    <div class="flex items-center gap-2">
+                        <span id="status-dot" class="w-2 h-2 rounded-full bg-yellow-500 pulse-status"></span>
+                        <p id="status-text" class="uppercase tracking-widest text-slate-500 text-[9px]">A aguardar API...</p>
+                    </div>
+           </div>
+        </div>
+    </div>
+
+    <!-- CENTRO -->
+            <div class="text-center order-3 w-full sm:w-auto sm:order-2 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+                <div class="font-black text-slate-900 text-sm lg:text-lg">KVL: CONTROLE DE PRODUÇÃO</div>
+                <div class="font-bold text-blue-600 uppercase tracking-widest text-[9px]">Painel em Tempo Real</div>
+            </div>
+
+    <!-- DIREITA -->
+          <div class="text-right order-2 sm:order-3">
+                <div id="clock" class="font-black text-slate-900 text-sm lg:text-xl leading-none">00:00:00</div>
+                <div id="date" class="hidden sm:block font-bold uppercase text-blue-600 text-[9px]">--</div>
+<button onclick="sairFullscreen()"
+        class="fixed top-2 right-2 bg-black/40 text-white px-2 py-1 rounded text-[10px] z-50 opacity-0 transition-opacity duration-300"
+        id="btn-exit">
+    ✕
+</button>
+            </div>
+
+        </header>
+
+    <!-- Conteúdo Principal -->
+<main class="w-full flex-grow p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6 overflow-x-hidden">
+
+            <!-- KPIs Superiores -->
+            <div class="col-span-1 lg:col-span-6 lg:row-span-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="card-premium">
+                    <div class="card-accent bg-slate-400"></div>
+                    <span class="stat-label"><i class="fas fa-box"></i> Produção</span>
+                    <div id="card-total-producao" class="stat-value">0</div>
+                </div>
+
+                <div class="card-premium">
+                    <div class="card-accent bg-blue-500"></div>
+                    <span class="stat-label"><i class="fas fa-chart-line"></i> Média Pçs/Hora</span>
+                    <div id="card-media-hora" class="stat-value text-blue-600">0</div>
+                </div>
+        
+                <div class="card-premium">
+                    <div class="card-accent bg-emerald-500"></div>
+                    <span class="stat-label"><i class="fas fa-check-circle"></i>Pçs Boas</span>
+                    <div id="card-pecas-boas" class="stat-value text-emerald-600">0</div>
+                </div>
+                <div class="card-premium">
+                    <div class="card-accent bg-rose-500"></div>
+                    <span class="stat-label"><i class="fas fa-tools"></i> Consertos</span>
+                    <div id="card-consertos" class="stat-value text-rose-500">0</div>
+                </div>
+
+                <div class="card-premium">
+                    <div class="card-accent bg-slate-700"></div>
+                    <span class="stat-label"><i class="fas fa-gauge-high"></i> Ritmo</span>
+                    <div id="card-ritmo" class="stat-value">0%</div>
+                    <div id="ritmo-status" class="stat-subtext">--</div>
+                </div>
+                <div class="card-premium">
+                    <div class="card-accent bg-cyan-500"></div>
+                    <span class="stat-label"><i class="fas fa-award"></i> Qualidade</span>
+                    <div id="card-qualidade" class="stat-value text-cyan-600">0%</div>
+                    <div id="qualidade-status" class="stat-subtext">--</div>
+                </div>
+            </div>
+
+            <!-- Gráficos Principais -->
+            <div class="col-span-1 lg:col-span-4 lg:row-span-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="chart-container-bg">
+                    <h3 class="font-black text-slate-400 uppercase text-[12px] mb-2 tracking-widest flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Produção vs. Meta
+                    </h3>
+                    <div class="flex-grow relative"><canvas id="chart-producao-meta"></canvas></div>
+                </div>
+               <div class="chart-container-bg">
+		 <h3 class="font-black text-slate-400 uppercase text-[12px] mb-2 tracking-widest flex items-center gap-2">
+   		  <span class="flex items-center gap-2">
+        		<span class="w-2 h-2 rounded-full bg-emerald-500"></span> 
+        		Produção vs. Retrabalho
+    			</span>
+			<span id="perc-retrabalho-label"
+          		class="ml-auto text-rose-500 font-bold text-[8px]">
+       			0% Retrabalho
+   			</span>
+		</h3>
+                  <div class="flex-grow flex flex-col justify-center gap-4">
+                        <div class="w-full h-8 bg-slate-100 rounded-full overflow-hidden flex">
+                            <div id="bar-producao" class="h-full bg-emerald-500 bar-label transition-all"></div>
+                            <div id="bar-retrabalho" class="h-full bg-rose-500 bar-label transition-all"></div>
+                        </div>
+                        <div id="label-retrabalho-float"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-rose-600">
+                       </div>
+                        <div class="flex justify-between text-[12px] font-bold text-slate-600">
+                            <span id="label-producao">Produção: 0</span>
+                            <span id="label-retrabalho">Retrabalho: 0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container-bg">
+		<h3 class="font-black text-slate-400 uppercase text-[12px] mb-2 tracking-widest flex items-center">
+		    <!-- ESQUERDA -->
+    			<div class="flex items-center gap-2">
+       			 <span class="w-2 h-2 rounded-full bg-indigo-500"></span> 
+       			 Eficiência Operador
+    			</div>
+		    <!-- DIREITA -->
+   			 <div class="ml-auto flex items-center gap-3 text-[8px] font-bold">
+       			 <span class="flex items-center gap-1 text-slate-600">
+          		  <span class="w-2 h-2 bg-green-500 rounded-sm"></span> ≥90%
+       			 </span>
+       			 <span class="flex items-center gap-1 text-slate-600">
+          		  <span class="w-2 h-2 bg-yellow-400 rounded-sm"></span> 70–90%
+      			  </span>
+      			  <span class="flex items-center gap-1 text-slate-600">
+         		   <span class="w-2 h-2 bg-red-500 rounded-sm"></span> &lt;70%
+      			  </span>
+  			  </div>
+			</h3>
+                    <div class="flex-grow relative"><canvas id="chart-operador"></canvas></div>
+                </div>
+
+
+               <div class="chart-container-bg">
+                    <h3 class="font-black text-slate-400 uppercase text-[12px] mb-2 tracking-widest flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-500"></span> Evolução Acumulada
+                    </h3>
+                    <div class="flex-grow relative"><canvas id="chart-acumulado"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita -->
+            <div class="col-span-1 lg:col-span-2 lg:row-span-5 flex flex-col gap-4">
+                <div class="chart-container-bg flex flex-col items-center justify-around py-4">
+                                    <h3 class="w-full text-[12px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                       <span class="w-2 h-2 rounded-full bg-blue-500"></span> Progresso do Dia
+                                      </h3>
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-slate-50">
+                    <div id="progress-line" class="h-full bg-blue-600 transition-all duration-1000" style="width: 0%"></div>
+                </div>            
+
+               <!-- TOPO: GAUGE -->
+                    <div class="relative w-40 h-40 lg:w-60 lg:h-60 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" stroke="#f1f5f9" stroke-width="8" fill="transparent" />
+                            <circle id="progress-circle" cx="50" cy="50" r="42" stroke="#3b82f6" stroke-width="8" fill="transparent" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" class="transition-all duration-1000" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="perc-conclusao" class="font-black text-3xl">0%</span>
+  		<span class="font-black text-blue-600 uppercase mt-1 tracking-widest"
+      		style="font-size: clamp(0.5rem, 1.2vw, 0.7rem);">
+		<span id="meta-dia-val"
+  		    class="font-bold text-slate-400 mt-1 uppercase"
+   		   style="font-size: clamp(0.45rem, 1vw, 0.65rem);">
+    </div>
+</div>
+
+<!-- BASE: IMAGEM -->
+
+                    <div class="w-full flex justify-center mt-2">
+                        <img id="volume-img" src="https://mldgp1977.github.io/KVL/N0.png" class="h-40 lg:h-60 object-contain">
+                    </div>
+                        <div class="w-full p-3 bg-slate-50 rounded-xl border-l-4 border-blue-600 flex justify-between items-center mt-2">
+                <div>
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5 tracking-widest">Próxima Operação</span>
+                    <span id="next-op" class="text-xs font-black text-slate-800 uppercase tracking-tighter">---</span>
+                </div>
+                <div id="op-indicators" class="flex gap-1"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        Chart.register(ChartDataLabels);
+
+Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+Chart.defaults.font.size = 10;
+Chart.defaults.color = '#94a3b8';
+
+const normalizePercent = (v) => {
+    let val = parseFloat(v);
+
+    if (isNaN(val)) return 0;
+
+    // se for decimal (0.85, 1.21, 2.35 vindo como proporção)
+    if (val <= 10) {
+        val = val * 100;
+    }
+
+    return val;
+};
+
+        // URL da API
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyP126bjQe6YPclYrUGCJ7eYCsIWqcVEMFQC0RiJI_Mxi7a9NBL8nOOZqn2Q3ySJ0UrtA/exec'; 
+        
+        const OPERATIONS = [
+            { id: 'RotativoTraseiro', label: 'Traseira', icon: 'fa-rotate-left', color: '#3b82f6' },
+            { id: 'RotativoAcoplamentoBolso', label: 'Acoplamento & Bolso', icon: 'fa-object-group', color: '#10b981' },
+            { id: 'RotativoFechadeira', label: 'Fechadeira', icon: 'fa-solid fa-diagram-successor', color: '#f59e0b' },
+            { id: 'RotativoGanchinho', label: 'Ganchinho', icon: 'fa-solid fa-link', color: '#ef4444' },
+            { id: 'RotativoCos', label: 'Cós', icon: 'fa-solid fa-object-ungroup', color: '#8b5cf6' },
+            { id: 'RotativoRevisaoFinal', label: 'Revisão Final', icon: 'fa-clipboard-check', color: '#06b6d4' }
+        ];
+
+        let currentOpIndex = 0;
+        let charts = {};
+        let rotationTimeout = null;
+        let lastSuccessfulData = {};
+        let retryCount = 0;
+        const MAX_RETRIES = 2;
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('pt-PT');
+            document.getElementById('date').innerText = now.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' });
+        }
+        setInterval(updateClock, 1000);
+
+        window.handleApiResponse = function(result) {
+            const statusText = document.getElementById('status-text');
+            const statusDot = document.getElementById('status-dot');
+            const currentOp = OPERATIONS[currentOpIndex].id;
+
+            if (result && (result.status === 'success' || result.data) && result.data) {
+                retryCount = 0;
+                lastSuccessfulData[currentOp] = result.data;
+                updateUI(OPERATIONS[currentOpIndex], result.data);
+                
+                statusText.innerText = "Ligado";
+                statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                startTimer();
+            } 
+            else {
+                handleFetchError();
+            }
+        };
+
+        function handleFetchError() {
+            const statusText = document.getElementById('status-text');
+            const statusDot = document.getElementById('status-dot');
+            const currentOp = OPERATIONS[currentOpIndex].id;
+
+            if (retryCount < MAX_RETRIES) {
+                retryCount++;
+                statusText.innerText = `A tentar novamente (${retryCount})...`;
+                statusDot.className = "w-2 h-2 rounded-full bg-orange-400 pulse-status";
+                setTimeout(fetchData, 3000);
+            } else {
+                retryCount = 0;
+                statusText.innerText = "Erro de Ligação (Cache)";
+                statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+                
+                if (lastSuccessfulData[currentOp]) {
+                    updateUI(OPERATIONS[currentOpIndex], lastSuccessfulData[currentOp]);
+                } else {
+                    useDemoMode(OPERATIONS[currentOpIndex]);
+                }
+                startTimer();
+            }
+        }
+
+        function fetchData() {
+            const currentOp = OPERATIONS[currentOpIndex];
+            const old = document.getElementById('api-script');
+            if (old) old.remove();
+
+            const script = document.createElement('script');
+            script.id = 'api-script';
+            // Adicionado parâmetro cache-breaker 'v' para evitar respostas antigas do browser
+            script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
+            
+            script.onerror = () => handleFetchError();
+            document.body.appendChild(script);
+        }
+
+        function startTimer() {
+            if (rotationTimeout) clearTimeout(rotationTimeout);
+            rotationTimeout = setTimeout(() => {
+                currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
+                fetchData();
+            }, 12000);
+        }
+
+        function updateUI(opInfo, data) {
+            if (!data) return;
+
+            document.getElementById('operation-title').innerText = opInfo.label;
+            
+            const iconContainer = document.getElementById('op-visual-icon');
+            iconContainer.innerHTML = `<i class="fas ${opInfo.icon || 'fa-industry'}"></i>`;
+            iconContainer.style.background = `${opInfo.color}10`; 
+            iconContainer.style.color = opInfo.color;
+            iconContainer.style.borderColor = `${opInfo.color}30`;
+
+            document.getElementById('card-total-producao').innerText = data.total || 0;
+            document.getElementById('card-media-hora').innerText = data.media || 0;
+            document.getElementById('card-pecas-boas').innerText = data.boas || 0;
+            document.getElementById('card-consertos').innerText = data.consertos || 0;
+            
+const percentCard = (v) => {
+    let val = parseFloat(v) || 0;
+
+    // normaliza tudo para %
+    if (val <= 1) {
+        val = val * 100;
+    } else if (val <= 10) {
+        // caso venha 3 (representando 300%)
+        val = val * 100;
+    }
+
+    val = Math.min(val, 100);
+
+    return Math.round(val);
+};
+
+const ritmoVal = percentCard(data.ritmo);
+const qualidadeVal = percentCard(data.qualidade);
+updateQualidadeStatus(qualidadeVal);
+
+document.getElementById('card-ritmo').innerText = ritmoVal + '%';
+document.getElementById('card-qualidade').innerText = qualidadeVal + '%';
+
+updateRitmoStatus(ritmoVal);
+
+            const tl = data.timeline || {};
+            const metaDia = parseInt(tl.metadia) || 0;
+            const porcExecRaw = parseFloat(tl.porcexec) || 0;
+            const porcExec = normalizePercent(tl.porcexec) / 100;
+const porcExecPercent = normalizePercent(tl.porcexec);
+const img = getVolumeImage(porcExecPercent);
+
+document.getElementById('volume-img').src =
+    `https://mldgp1977.github.io/KVL/${img}`;
+            
+            document.getElementById('meta-dia-val').innerText = `Meta: ${metaDia}`;
+            document.getElementById('perc-conclusao').innerText =
+    Math.round(normalizePercent(tl.porcexec)) + '%';
+            
+            const dashOffset = 263.89 - (263.89 * Math.min(1, porcExec));
+document.getElementById('progress-circle').style.strokeDashoffset = dashOffset;
+document.getElementById('progress-line').style.width = (Math.min(1, porcExec) * 100) + '%';
+
+            const percRet = parseFloat(tl.porc) || 0;
+           
+
+            updateCharts(data);
+            
+            document.getElementById('next-op').innerText = OPERATIONS[(currentOpIndex + 1) % OPERATIONS.length].label;
+            document.getElementById('op-indicators').innerHTML = OPERATIONS.map((_, i) => 
+                `<div class="h-1.5 rounded-full transition-all duration-500 ${i === currentOpIndex ? 'w-4 bg-blue-600' : 'w-1 bg-slate-200'}"></div>`
+            ).join('');
+        }
+
+        function initCharts() {
+            const baseOptions = {
+                responsive: true, maintainAspectRatio: false,
+                animation: { duration: 800 },
+                plugins: { legend: { display: false }, datalabels: { display: true,color: '#0f172a',font: {weight: 'bold',size: 10}, anchor: 'end', align: 'top',  formatter: (value) => value || ''} },
+                scales: { 
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 9, weight: '700' } } }, 
+                    y: { beginAtZero: true,grace: '15%', grid: { display: false }, ticks: { color: '#f1f5f9' }, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 8 } } } 
+                }
+            };
+
+            charts.main = new Chart(document.getElementById('chart-producao-meta'), {
+                data: {
+                    labels: [],
+                    datasets: [
+                        { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: {display: function(context) {return context.dataIndex === context.dataset.data.length - 1;},align: 'right', anchor:'end', offset: 10, color: '#ffffff',borderRadius: 4,padding: 4, color: '#dc2626',font: {weight: 'bold', size: 10 }}, data: [] },
+                        { type: 'bar', label: 'Produzido', backgroundColor: '#3b82f6', borderRadius: 4, data: [], maxBarThickness: 40,barPercentage: 0.9, categoryPercentage: 0.8, datalabels: { anchor: 'end', align: 'top' } }
+                    ]
+                },
+                options: baseOptions
+            });
+
+            charts.pie = new Chart(document.getElementById('chart-retrabalho'), {
+                type: 'bar',
+                data: { 
+                    labels: ['Real', 'Retrabalho'], 
+                    datasets: [{ backgroundColor: ['#10b981', '#f43f5e'], data: [0, 0], borderRadius: 8, maxBarThickness: 50 }] 
+                },
+                options: baseOptions
+            });
+
+charts.ops = new Chart(document.getElementById('chart-operador'), {
+    type: 'bar',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Performance',
+                data: [],
+                borderRadius: 6,
+                maxBarThickness: 40,
+                barPercentage: 0.9,
+                categoryPercentage: 0.8,
+                backgroundColor: [],
+datalabels: {
+    labels: {
+
+        // 🔝 LABEL EXTERNO (PERCENTUAL)
+        percent: {
+            anchor: 'end',
+            align: 'end',
+            offset: 6,
+            color: '#000',
+            clamp: true,
+            clip: false,
+            formatter: (value) => Math.round(value) + '%',
+            font: {
+                weight: 'bold',
+                size: 10
+            }
+        },
+
+        // 📦 LABEL INTERNO (VOLUME PRODUZIDO)
+        volume: {
+            anchor: 'center',
+            align: 'center',
+            color: '#ffffff',
+            formatter: (value, context) => {
+                const vol = context.dataset.volumeData?.[context.dataIndex] || 0;
+                return vol;
+            },
+            font: {
+                weight: 'bold',
+                size: 10
+            }
+        }
+    }
+}
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: {
+                    maxRotation: 45,
+                    minRotation: 45,
+color: '#94a3b8',
+        font: {
+            size: 10,
+            weight: '700'
+        }
+                }
+            },
+            y: {
+                grid: { display: false },
+		beginAtZero: true,
+                grace: '25%',
+                ticks: {
+        color: '#94a3b8',
+        font: {
+            size: 8
+        },
+                    callback: v => v + '%'
+                }
+            }
+        }
+    }
+});
+
+            charts.acc = new Chart(document.getElementById('chart-acumulado'), {
+                type: 'line',
+                data: { labels: [], datasets: [{ borderColor: '#06b6d4', borderWidth: 3, fill: true, backgroundColor: 'rgba(6, 182, 212, 0.08)', tension: 0.4, pointRadius: 0, data: [] }] },
+                options: baseOptions
+            });
+        }
+
+function updateCharts(data) {
+    const tl = data.timeline;
+    if (!tl) return;
+
+    // PRODUÇÃO vs META (GRÁFICO 1)
+
+    const labels = tl.labels || [];
+    const prod = tl.prod || [];
+    const meta = tl.meta || [];
+
+    const filtered = labels.map((label, i) => ({
+        label,
+        prod: prod[i],
+        meta: meta[i]
+    })).filter(item => item.label && item.label !== "");
+
+    charts.main.data.labels = filtered.map(i => i.label);
+    charts.main.data.datasets[1].data = filtered.map(i => i.prod);
+    charts.main.data.datasets[0].data = filtered.map(i => i.meta);
+
+    charts.main.update();
+
+
+    // PROD vs RETRABALHO
+const prodreal = tl.prodReal || 0;
+const retrab = tl.retrabalho || 0;
+const total = prodreal + retrab;
+
+const percRetrab = total ? (retrab / total * 100) : 0;
+const percProd = total ? (prodreal / total * 100) : 0;
+
+let percRetrabVisual = percRetrab;
+let percProdVisual = percProd;
+
+// garante visibilidade mínima
+if (percRetrab > 0 && percRetrab < 5) {
+    percRetrabVisual = 5;
+    percProdVisual = 95;
+}
+
+document.getElementById('bar-producao').style.width = percProdVisual + '%';
+document.getElementById('bar-retrabalho').style.width = percRetrabVisual + '%';
+document.getElementById('perc-retrabalho-label').innerText = percRetrab.toFixed(1) + '% Retrabalho';
+
+// largura das barras
+//document.getElementById('bar-producao').style.width = percProd + '%';
+//document.getElementById('bar-retrabalho').style.width = percRetrab + '%';
+
+// TEXTO DENTRO DAS BARRAS (%)
+// PRODUÇÃO (fica dentro)
+document.getElementById('bar-producao').innerText = percProd.toFixed(1) + '%';
+
+// RETRABALHO
+const barRetrab = document.getElementById('bar-retrabalho');
+
+// sempre escreve dentro
+barRetrab.innerText = percRetrab.toFixed(1) + '%';
+
+// garante que fique visível e centralizado
+barRetrab.style.display = 'flex';
+barRetrab.style.alignItems = 'center';
+barRetrab.style.justifyContent = 'center';
+barRetrab.style.color = '#ffffff';
+barRetrab.style.fontSize = '10px';
+barRetrab.style.whiteSpace = 'nowrap';
+
+// 🔥 ajuste inteligente para valores pequenos
+if (percRetrab < 5) {
+    barRetrab.style.minWidth = '40px'; // força espaço mínimo
+}
+
+// TEXTOS ABAIXO (VALORES ABSOLUTOS)
+document.getElementById('label-producao').innerText = `Produção: ${prodreal} peças`;
+document.getElementById('label-retrabalho').innerText = `Retrabalho: ${retrab} peças`;
+
+// OPERADORES
+
+const nomes = (tl.costureira || [])
+    .filter(n => n && n.trim() !== "")
+    .map(nome => {
+        const partes = nome.trim().split(' ');
+
+        if (partes.length === 1) return partes[0]; // só um nome
+
+        const primeiro = partes[0];
+        const segundo = partes[1].substring(0, 3);
+
+        return `${primeiro} ${segundo}`;
+    });
+
+const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
+    return Number(normalizePercent(v).toFixed(1));
+});
+const volume = (tl.prodreal1 || []).slice(0, nomes.length); // coluna O
+const metaOperador = (tl.meta1 || []).slice(0, nomes.length).map(v => {
+    let val = parseFloat(v) || 0;
+    val = val <= 1 ? val * 100 : val; 
+    return Number(val.toFixed(2));
+});
+
+// cores dinâmicas
+const cores = perc.map(v => {
+    if (v < 70) return '#ef4444';   // vermelho
+    if (v < 90) return '#facc15';   // amarelo
+    return '#22c55e';               // verde
+});
+
+// aplica dados
+charts.ops.data.labels = nomes;
+charts.ops.data.datasets[0].data = perc.map(v => {
+    return normalizePercent(v);
+});
+charts.ops.data.datasets[0].backgroundColor = cores;
+
+
+charts.ops.data.datasets[0].volumeData = volume;
+
+// linha da meta
+//charts.ops.data.datasets[1].data = metaOperador;
+
+charts.ops.update();
+
+
+
+
+
+
+
+    // ACUMULADO
+
+    let acc = 0;
+
+    charts.acc.data.labels = filtered.map(i => i.label);
+    charts.acc.data.datasets[0].data = filtered.map(i => {
+        acc += parseFloat(i.prod) || 0;
+        return acc;
+    });
+
+    charts.acc.update();
+}
+
+function getVolumeImage(porc) {
+    if (porc <= 0) return 'N0.png';
+    if (porc <= 10) return 'N1.png';
+    if (porc <= 20) return 'N2.png';
+    if (porc <= 40) return 'N3.png';
+    if (porc <= 60) return 'N4.png';
+    if (porc <= 80) return 'N5.png';
+    if (porc <= 100) return 'N6.png';
+    return 'N7.png';
+}
+
+function updateRitmoStatus(valor) {
+    const el = document.getElementById('ritmo-status');
+
+    if (!el) return;
+
+    if (valor >= 90) {
+        el.innerText = "🟢 Bem Cadenciado";
+animateValue(el);
+        el.style.background = "#dcfce7";
+        el.style.color = "#166534";
+    } 
+    else if (valor >= 80) {
+        el.innerText = "🟡 Ritmo Oscilante";
+animateValue(el);
+        el.style.background = "#fef9c3";
+        el.style.color = "#854d0e";
+    } 
+    else {
+        el.innerText = "🔴 Ritmo Baixo";
+animateValue(el);
+        el.style.background = "#fee2e2";
+        el.style.color = "#991b1b";
+    }
+}
+
+function updateQualidadeStatus(valor) {
+    const el = document.getElementById('qualidade-status');
+
+    if (!el) return;
+
+    if (valor >= 96.8) {
+        el.innerText = "🟢 Ótimo";
+        el.style.background = "#dcfce7";
+        el.style.color = "#166534";
+    } 
+    else if (valor >= 93) {
+        el.innerText = "🟡 Atenção";
+        el.style.background = "#fef9c3";
+        el.style.color = "#854d0e";
+    } 
+    else {
+        el.innerText = "🔴 Crítico";
+        el.style.background = "#fee2e2";
+        el.style.color = "#991b1b";
+    }
+
+    animateValue(el);
+}
+
+function entrarFullscreen() {
+    const el = document.documentElement;
+
+    if (el.requestFullscreen) {
+        el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+    }
+}
+
+// dispara no primeiro clique
+document.addEventListener('click', () => {
+    if (window.innerWidth >= 1024) {
+        const el = document.documentElement;
+        if (el.requestFullscreen) el.requestFullscreen();
+    }
+},);
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    }
+});
+
+function sairFullscreen() {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+}
+
+function animateValue(el) {
+    el.classList.add('updated');
+    setTimeout(() => el.classList.remove('updated'), 300);
+}
+
+        function useDemoMode(opInfo) {
+            updateUI(opInfo, {
+                total: "--", media: "--", boas: "--", consertos: "--", ritmo: 0, qualidade: 0,
+                timeline: {
+                    labels: ['Sem Dados'], prod: [0], meta: [0], prodReal: 0, retrabalho: 0, porc: 0,
+                    costureira: ['Aguardando'], prodreal1: [0], metadia: 0, porcexec: 0
+                }
+            });
+        }
+
+        window.onload = () => {
+            updateClock();
+            initCharts();
+            fetchData();
+let timeout;
+
+document.addEventListener('mousemove', () => {
+    const btn = document.getElementById('btn-exit');
+    if (!btn) return; // evita erro se ainda não carregou
+
+    btn.style.opacity = '1';
+
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        btn.style.opacity = '0';
+    }, 2000);
+});
+
+
+        };
+    </script>
+</body>
+</html>
