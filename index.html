@@ -27,10 +27,10 @@
             overflow-x: hidden;
         }
 
-         (min-width: 1024px) {
+        @media (min-width: 1024px) {
             body {
                 height: 100vh;
-        overflow-y: auto;  
+        overflow-y: auto; 
         overflow-x: hidden;
             }
         }
@@ -42,9 +42,10 @@
             width: 100%;
         }
 
-         (min-width: 1024px) {
+        @media (min-width: 1024px) {
             .app-container {
-                height: 100vh;
+min-height: 100vh;
+        height: auto; 
             }
         }
 
@@ -125,7 +126,7 @@
          /*   min-height: 300px; /* Garante altura mínima no mobile */
         }
 
-         (mn-width: 1024px) {
+        @media (min-width: 1024px) {
             .chart-container-bg {
                 min-height: 0; /* No desktop volta a ser flexível */
             }
@@ -219,7 +220,7 @@
         </header>
 
     <!-- Conteúdo Principal -->
-<main class="w-full flex-grow p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-6 gap-3 overflow-y-auto">
+<main class="w-full flex-grow p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-6 gap-6 overflow-y-auto">
 
             <!-- KPIs Superiores -->
             <div class="col-span-1 lg:col-span-6 lg:row-span-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -408,7 +409,8 @@ const normalizePercent = (v) => {
 
         function updateClock() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('pt-PT');
+			const pad = n => n.toString().padStart(2, '0');
+            document.getElementById('clock').innerText = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
             document.getElementById('date').innerText = now.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' });
         }
         setInterval(updateClock, 1000);
