@@ -27,10 +27,11 @@
             overflow-x: hidden;
         }
 
-        @media (min-width: 1024px) {
+         (min-width: 1024px) {
             body {
                 height: 100vh;
-                overflow: hidden;
+        overflow-y: auto;  
+        overflow-x: hidden;
             }
         }
 
@@ -41,7 +42,7 @@
             width: 100%;
         }
 
-        @media (min-width: 1024px) {
+         (min-width: 1024px) {
             .app-container {
                 height: 100vh;
             }
@@ -124,7 +125,7 @@
          /*   min-height: 300px; /* Garante altura mínima no mobile */
         }
 
-        @media (min-width: 1024px) {
+         (mn-width: 1024px) {
             .chart-container-bg {
                 min-height: 0; /* No desktop volta a ser flexível */
             }
@@ -174,7 +175,7 @@
         ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
    </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="min-h-screen flex flex-col overflow-x-hidden overflow-y-auto">
 
 <div class="app-container">
     <!-- Cabeçalho -->
@@ -218,7 +219,7 @@
         </header>
 
     <!-- Conteúdo Principal -->
-<main class="w-full flex-grow p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-6 gap-3 overflow-hidden">
+<main class="w-full flex-grow p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-6 gap-3 overflow-y-auto">
 
             <!-- KPIs Superiores -->
             <div class="col-span-1 lg:col-span-6 lg:row-span-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
