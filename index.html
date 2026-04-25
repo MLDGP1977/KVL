@@ -123,14 +123,20 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            height: 100%;
             /*   min-height: 300px; /* Garante altura mínima no mobile */
         }
 
-        @media (min-width: 1024px) {
+        @media (max-width: 768px) {
             .chart-container-bg {
-                min-height: 0;
-                /* No desktop volta a ser flexível */
+                height: auto;
+                min-height: 300px;
             }
+
+            .chart-container-bg canvas {
+                height: 240px !important;
+            }
+
         }
 
         canvas {
@@ -248,6 +254,17 @@
         <!-- Conteúdo Principal -->
         <main class="w-full flex-grow p-2 sm:p-2 lg:p-2 grid grid-cols-1 lg:grid-cols-4 gap-2 overflow-x-hidden">
 
+            <div id="mobile-menu" class="lg:hidden p-2 flex flex-col gap-2">
+
+                <!-- SETORES -->
+                <div id="setores" class="flex flex-wrap gap-2"></div>
+
+                <!-- OPERAÇÕES -->
+                <div id="operacoes" class="flex flex-wrap gap-2 mt-2"></div>
+
+            </div>
+
+
             <!-- KPIs Superiores -->
             <div class="col-span-1 lg:col-span-4 lg:row-span-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div class="card-premium">
@@ -294,8 +311,7 @@
 
                         <!-- 🔢 TEXTO -->
                         <div class="flex flex-col items-center justify-center flex-1 text-center">
-                            <span id="perc-conclusao"
-                                class="stat-value text-blue-600 leading-none"> 0%</span>
+                            <span id="perc-conclusao" class="stat-value text-blue-600 leading-none"> 0%</span>
                             <span id="meta-dia-val" class="font-bold text-slate-400 uppercase leading-none mt-3"
                                 style="font-size: clamp(0.65rem, 1.3vw, 0.85rem);">
                             </span>
@@ -306,14 +322,16 @@
 
 
             <!-- Gráficos Principais -->
-            <div class="col-span-1 lg:col-span-4 lg:row-span-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="col-span-1 lg:col-span-4 lg:row-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="col-span-1 lg:col-span-4 lg:row-span-5 grid grid-cols-1 md:grid-cols-2 gap-1">
                     <div class="chart-container-bg">
                         <h3
                             class="font-black text-slate-400 uppercase text-[12px] mb-2 tracking-widest flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-blue-500"></span> Produção vs. Meta
                         </h3>
-                        <div class="flex-grow relative"><canvas id="chart-producao-meta"></canvas></div>
+                        <div class="relative w-full h-full">
+                            <canvas id="chart-producao-meta"></canvas>
+                        </div>
                     </div>
 
 
@@ -347,48 +365,50 @@
             </div>
 
             <!-- Barra Inferior -->
-            <div class="col-span-1 lg:col-span-4 mt-2">
+            <div class="col-span-1 lg:col-span-4 mt-2 hidden lg:block">
                 <div class="w-full flex flex-col gap-1">
                     <div class="chart-container-bg flex flex-col items-center justify-around py-4 relative w-full">
 
-                        <div class="absolute top-0 left-0 w-full h-1.5 bg-slate-50">
-                            <div id="progress-line" class="h-full bg-blue-600 transition-all duration-1000"
-                                style="width: 0%"></div>
+                        <div
+                            class="w-full p-3 bg-slate-50 rounded-xl border-l-4 border-blue-600 grid grid-cols-2 items-center mt-2 relative">
+
+                            <div class="flex flex-col pr-6">
+                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">
+                                    Operação Atual
+                                </span>
+                                <span id="current-op-footer" class="text-sm font-black text-slate-800 uppercase">
+                                    ---
+                                </span>
+                            </div>
+
+                            <div class="absolute left-1/2 top-1/4 bottom-1/4 w-px bg-slate-300"></div>
+
+                            <div class="flex justify-between items-center pl-6">
+                                <div class="flex flex-col">
+                                    <span
+                                        class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5 tracking-widest">
+                                        Próxima Operação
+                                    </span>
+                                    <span id="next-op"
+                                        class="text-xs font-black text-blue-600 uppercase tracking-tighter">
+                                        ---
+                                    </span>
+                                </div>
+
+                                <div id="op-indicators"
+                                    class="flex gap-1 bg-white p-2 rounded-lg shadow-sm border border-slate-100">
+                                </div>
+                            </div>
+
                         </div>
-
-                        <div class="w-full p-3 bg-slate-50 rounded-xl border-l-4 border-blue-600 grid grid-cols-2 items-center mt-2 relative">
-    
-    <div class="flex flex-col pr-6">
-        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">
-            Operação Atual
-        </span>
-        <span id="current-op-footer" class="text-sm font-black text-slate-800 uppercase">
-            ---
-        </span>
-    </div>
-
-    <div class="absolute left-1/2 top-1/4 bottom-1/4 w-px bg-slate-300"></div>
-
-    <div class="flex justify-between items-center pl-6">
-        <div class="flex flex-col">
-            <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5 tracking-widest">
-                Próxima Operação
-            </span>
-            <span id="next-op" class="text-xs font-black text-blue-600 uppercase tracking-tighter">
-                ---
-            </span>
-        </div>
-
-        <div id="op-indicators" class="flex gap-1 bg-white p-2 rounded-lg shadow-sm border border-slate-100">
-            </div>
-    </div>
-
-</div>
                     </div>
                 </div>
             </div>
 
         </main>
+
+
+
 
 
 
@@ -467,10 +487,18 @@
                 { id: 'RTTrasForro', label: 'Traseira: Forro Boca', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasLateral', label: 'Traseira: Marcação Lateral', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-                { id: 'RRTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-             
+
             ];
+
+            const SETORES = {
+                Acabamento: OPERATIONS.filter(op => op.label.includes('Acabamento')),
+                Montagem: OPERATIONS.filter(op => op.label.includes('Montagem')),
+                Dianteira: OPERATIONS.filter(op => op.label.includes('Dianteira')),
+                Traseira: OPERATIONS.filter(op => op.label.includes('Traseira')),
+                Preparação: OPERATIONS.filter(op => op.label.includes('Preparação'))
+            };
 
             let currentOpIndex = 0;
             let charts = {};
@@ -478,6 +506,8 @@
             let lastSuccessfulData = {};
             let retryCount = 0;
             const MAX_RETRIES = 2;
+            let modoManual = window.innerWidth < 768;
+
 
             function updateClock() {
                 const now = new Date();
@@ -487,6 +517,7 @@
             setInterval(updateClock, 1000);
 
             window.handleApiResponse = function (result) {
+                hideLoading();
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
@@ -503,7 +534,7 @@
                         .some(d => (d.total || 0) > 0);
 
                     // 🚫 se atual é zero E existe alguma válida → pula
-                    if (total <= 0 && existeValida) {
+                    if (!modoManual && total <= 0 && existeValida) {
                         currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
                         fetchData();
                         return;
@@ -528,6 +559,7 @@
                 }
             };
             function handleFetchError() {
+                hideLoading();
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
@@ -567,6 +599,8 @@
 
             function startTimer() {
                 if (rotationTimeout) clearTimeout(rotationTimeout);
+
+                if (modoManual) return;
                 rotationTimeout = setTimeout(() => {
                     currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
                     fetchData();
@@ -630,7 +664,7 @@
 
                 const dashOffset = 263.89 - (263.89 * Math.min(1, porcExec));
                 document.getElementById('progress-circle').style.strokeDashoffset = dashOffset;
-                document.getElementById('progress-line').style.width = (Math.min(1, porcExec) * 100) + '%';
+
 
                 const percRet = parseFloat(tl.porc) || 0;
 
@@ -658,48 +692,48 @@
                     data: {
                         labels: [],
                         datasets: [
-                          //  { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: { display: function (context) { return context.dataIndex === context.dataset.data.length - 1; }, align: 'right', anchor: 'end', offset: 60, color: '#ffffff', borderRadius: 4, padding: 4, color: '#dc2626', font: { weight: 'bold', size: 13 } }, data: [] },
+                            //  { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: { display: function (context) { return context.dataIndex === context.dataset.data.length - 1; }, align: 'right', anchor: 'end', offset: 60, color: '#ffffff', borderRadius: 4, padding: 4, color: '#dc2626', font: { weight: 'bold', size: 13 } }, data: [] },
                             { type: 'bar', label: 'Produzido', backgroundColor: '#3b82f6', borderRadius: 4, data: [], maxBarThickness: 80, barPercentage: 0.9, categoryPercentage: 0.8, datalabels: { anchor: 'end', align: 'top' } }
                         ]
                     },
                     options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false },
-         datalabels: {
-                display: true,
-                color: '#000000',
-                font: { weight: 'bold', size: 14 }
-            },   
-            annotation: {
-                annotations: {
-                    linhaMeta: {
-                        type: 'line',
-                        yMin: 0,
-                        yMax: 0,
-                        borderColor: '#dc2626',
-                        borderWidth: 3,
-                        borderDash: [6, 6],
-                        label: {
-                            display: true,
-                            content: 'Meta',
-                            position: 'end',
-                            xAdjust: 12, // Empurra o rótulo para fora da área das colunas
-                            yAdjust: -10,    // Move um pouco para cima da linha para não colidir
-                            backgroundColor: 'transparent',
-                            color: '#dc2626',
-                            font: { weight: 'bold', size: 13 }
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                display: true,
+                                color: '#000000',
+                                font: { weight: 'bold', size: 14 }
+                            },
+                            annotation: {
+                                annotations: {
+                                    linhaMeta: {
+                                        type: 'line',
+                                        yMin: 0,
+                                        yMax: 0,
+                                        borderColor: '#dc2626',
+                                        borderWidth: 3,
+                                        borderDash: [6, 6],
+                                        label: {
+                                            display: true,
+                                            content: 'Meta',
+                                            position: 'end',
+                                            xAdjust: 12, // Empurra o rótulo para fora da área das colunas
+                                            yAdjust: -10,    // Move um pouco para cima da linha para não colidir
+                                            backgroundColor: 'transparent',
+                                            color: '#dc2626',
+                                            font: { weight: 'bold', size: 13 }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 13, weight: '700' } } },
+                            y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 12 } } }
                         }
                     }
-                }
-            }
-        },
-        scales: {
-            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 13, weight: '700' } } },
-            y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 12 } } }
-        }
-    }
                 });
 
 
@@ -758,7 +792,21 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { display: false }
+                            legend: { display: false },
+
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const performance = context.raw;
+                                        const volume = context.dataset.volumeData?.[context.dataIndex] || 0;
+
+                                        return [
+                                            `Performance: ${performance}%`,
+                                            `Quantidade: ${volume}`
+                                        ];
+                                    }
+                                }
+                            }
                         },
                         scales: {
                             x: {
@@ -792,60 +840,152 @@
 
             }
 
-function updateCharts(data) {
-    const tl = data.timeline;
-    if (!tl || !charts.main || !charts.ops) return;
+            function initMobileMenu() {
+                if (!modoManual) return;
 
-    // --- GRÁFICO 1: PRODUÇÃO vs META ---
-    const labels = tl.labels || [];
-    const prod = tl.prod || [];
-    const metaArray = tl.meta || [];
+                const setoresDiv = document.getElementById('setores');
+                const opsDiv = document.getElementById('operacoes');
 
-    const filtered = labels.map((label, i) => ({
-        label,
-        prod: prod[i],
-        meta: metaArray[i]
-    })).filter(item => item.label && item.label !== "");
+                Object.keys(SETORES).forEach(setor => {
+                    const btn = document.createElement('button');
+                    btn.textContent = setor;
+                    btn.className = "bg-slate-200 px-3 py-2 rounded text-xs font-bold";
 
-    charts.main.data.labels = filtered.map(i => i.label);
-    
-    // CORREÇÃO: O dataset de barras agora é o [0]
-    charts.main.data.datasets[0].data = filtered.map(i => i.prod);
+                    btn.onclick = () => {
+                        // remove seleção de todos
+                        document.querySelectorAll('#setores button')
+                            .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
 
-    // Atualiza a Linha de Meta (Annotation)
-    const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
-    
-    if (charts.main.options.plugins.annotation) {
-        const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
-        anno.yMin = valorMeta;
-        anno.yMax = valorMeta;
-        anno.label.content = 'Meta: ' + valorMeta;
-    }
-    charts.main.update();
+                        // ativa o clicado
+                        btn.classList.add('bg-blue-500', 'text-white');
+
+                        // renderiza operações
+                        renderOperacoes(setor);
+                    };
+
+                    setoresDiv.appendChild(btn);
+                });
+
+                // ✅ CORREÇÃO
+                const primeiroSetor = Object.keys(SETORES)[0];
+
+            }
 
 
-    // --- GRÁFICO 2: EFICIÊNCIA OPERADOR ---
-    const nomes = (tl.costureira || [])
-        .filter(n => n && n.trim() !== "")
-        .map(nome => {
-            const partes = nome.trim().split(' ');
-            return partes.length === 1 ? partes[0] : `${partes[0]} ${partes[1].substring(0, 4)}`;
-        });
+            function showLoading() {
+                const el = document.getElementById('loading-overlay');
+                el.classList.remove('opacity-0', 'pointer-events-none');
+                el.classList.add('opacity-100');
+            }
 
-    const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
-        return Number(normalizePercent(v).toFixed(1));
-    });
-    
-    const volume = (tl.prodreal1 || []).slice(0, nomes.length);
-    const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
+            function hideLoading() {
+                const el = document.getElementById('loading-overlay');
+                el.classList.remove('opacity-100');
+                el.classList.add('opacity-0', 'pointer-events-none');
+            }
 
-    charts.ops.data.labels = nomes;
-    charts.ops.data.datasets[0].data = perc;
-    charts.ops.data.datasets[0].backgroundColor = cores;
-    charts.ops.data.datasets[0].volumeData = volume;
+            function renderOperacoes(setor) {
+                const opsDiv = document.getElementById('operacoes');
+                opsDiv.innerHTML = "";
 
-    charts.ops.update();
-}
+                SETORES[setor].forEach(op => {
+                    const index = OPERATIONS.findIndex(o => o.id === op.id);
+
+                    const btn = document.createElement('button');
+                    btn.textContent = op.label.split(': ')[1] || op.label;
+
+                    btn.className = "bg-slate-200 px-3 py-2 rounded text-xs font-bold";
+
+                    btn.onclick = () => {
+                        modoManual = true;
+
+                        if (rotationTimeout) clearTimeout(rotationTimeout);
+                        currentOpIndex = index;
+
+
+                        document.querySelectorAll('#operacoes button')
+                            .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+
+
+                        btn.classList.add('bg-blue-500', 'text-white');
+
+                        showLoading();
+
+                        fetchData();
+                    };
+
+                    opsDiv.appendChild(btn);
+                });
+            }
+
+
+
+
+
+            function updateCharts(data) {
+                const tl = data.timeline;
+                if (!tl || !charts.main || !charts.ops) return;
+
+                // --- GRÁFICO 1: PRODUÇÃO vs META ---
+                const labels = tl.labels || [];
+                const prod = tl.prod || [];
+                const metaArray = tl.meta || [];
+
+                const filtered = labels.map((label, i) => ({
+                    label,
+                    prod: prod[i],
+                    meta: metaArray[i]
+                })).filter(item => item.label && item.label !== "");
+
+                charts.main.data.labels = filtered.map(i => i.label);
+
+                // CORREÇÃO: O dataset de barras agora é o [0]
+                charts.main.data.datasets[0].data = filtered.map(i => i.prod);
+
+                // Atualiza a Linha de Meta (Annotation)
+                const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
+
+                if (charts.main.options.plugins.annotation) {
+                    const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
+                    anno.yMin = valorMeta;
+                    anno.yMax = valorMeta;
+                    anno.label.content = 'Meta: ' + valorMeta;
+                }
+                charts.main.update();
+
+                setTimeout(() => {
+                    charts.main.resize();
+                    charts.ops.resize();
+                }, 200);
+
+
+                // --- GRÁFICO 2: EFICIÊNCIA OPERADOR ---
+                const nomes = (tl.costureira || [])
+                    .filter(n => n && n.trim() !== "")
+                    .map(nome => {
+                        const partes = nome.trim().split(' ');
+                        return partes.length === 1 ? partes[0] : `${partes[0]} ${partes[1].substring(0, 4)}`;
+                    });
+
+                const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
+                    return Number(normalizePercent(v).toFixed(1));
+                });
+
+                const volume = (tl.prodreal1 || []).slice(0, nomes.length);
+                const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
+
+                charts.ops.data.labels = nomes;
+                charts.ops.data.datasets[0].data = perc;
+                charts.ops.data.datasets[0].backgroundColor = cores;
+                charts.ops.data.datasets[0].volumeData = volume;
+
+                charts.ops.update();
+
+                setTimeout(() => {
+                    charts.main.resize();
+                    charts.ops.resize();
+                }, 200);
+            }
 
             function getVolumeImage(porc) {
                 if (porc <= 0) return 'N0.png';
@@ -959,6 +1099,7 @@ function updateCharts(data) {
             window.onload = () => {
                 updateClock();
                 initCharts();
+                initMobileMenu();
                 fetchData();
                 let timeout;
 
@@ -978,5 +1119,13 @@ function updateCharts(data) {
             };
         </script>
 </body>
+<div id="loading-overlay"
+    class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
+
+    <div class="bg-white px-6 py-4 rounded-xl shadow-xl flex items-center gap-3">
+        <div class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <span class="font-bold text-sm text-slate-700">A carregar...</span>
+    </div>
+</div>
 
 </html>
