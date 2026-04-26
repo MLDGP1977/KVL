@@ -89,8 +89,8 @@
         <!-- CONTEÚDO -->
         <div class="flex-grow pb-20 overflow-y-auto">
 
-            <!-- ABA CONFIGURAÇÃO -->
-            <div id="view-painel" class="p-5 hidden animate-in fade-in duration-300">
+            <!-- ABA PAINEL -->
+            <div id="view-painel" class="p-5 animate-in fade-in duration-300">
                 <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
                     <span class="bg-indigo-600 w-1.5 h-5 mr-2 rounded"></span>
                     Painel Geral
@@ -105,20 +105,19 @@
                     </div>
                 </div>
 
+
                 <!-- ABA PAINEL -->
                 <div id="containerPainel"></div>
 
-                <div id="setores" class="grid grid-cols-3 gap-2"></div>
+                <!-- SETORES -->
+                <div id="setores" class="grid grid-cols-3 gap-2 text-center"></div>
 
-                    <!-- SETORES -->
-                    <div id="setores" class="grid grid-cols-3 gap-2 text-center"></div>
+                <!-- OPERAÇÕES -->
+                <select id="operacoesSelect" class="w-full p-2 mt-2 border rounded-lg text-sm bg-white shadow-sm">
+                    <option value="">Selecione a operação</option>
+                </select>
 
-                    <!-- OPERAÇÕES -->
-                    <select id="operacoesSelect" class="w-full p-2 mt-2 border rounded-lg text-sm bg-white shadow-sm">
-                        <option value="">Selecione a operação</option>
-                    </select>
 
-                </div>
 
                 <div class="grid grid-cols-2 gap-3 mb-6">
                     <div class="bg-white p-3 rounded-2xl border shadow-sm border-l-4 border-slate-400">
@@ -226,34 +225,35 @@
                         </div>
                     </div>
                     <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                        <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Eficiência Operador</h3>
+                        <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Eficiência Operador
+                        </h3>
                         <div class="h-[250px] max-h-[250px]">
                             <canvas id="chart-operador-dash"></canvas>
                         </div>
-                     </div>   
-                        
-                        <div class="bg-white p-4 rounded-2xl border shadow-sm mt-4">
-    <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">
-        Eficiência Detalhada
-    </h3>
-
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left">
-            <thead>
-                <tr class="text-slate-400 text-xs uppercase">
-                    <th class="py-2">Operador</th>
-                    <th class="py-2 text-center">%</th>
-                    <th class="py-2 text-center">Qtd</th>
-                    <th class="py-2 text-center">Status</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaOperadores"></tbody>
-        </table>
-    </div>
-</div>
-
                     </div>
+
+                    <div class="bg-white p-4 rounded-2xl border shadow-sm mt-4">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">
+                            Eficiência Detalhada
+                        </h3>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead>
+                                    <tr class="text-slate-400 text-xs uppercase">
+                                        <th class="py-2">Operador</th>
+                                        <th class="py-2 text-center">%</th>
+                                        <th class="py-2 text-center">Qtd</th>
+                                        <th class="py-2 text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaOperadores"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
             <!-- Config Botons -->
@@ -437,334 +437,334 @@
                     </button>
                 </form>
             </div>
-        </div>
-
-        <div id="statusMessage"
-            class="fixed bottom-6 left-1/2 -translate-x-1/2 hidden px-6 py-3 rounded-full shadow-2xl text-sm font-bold z-50 transition-all">
-        </div>
 
 
-        <!-- ABA ANÁLISE -->
-        <div id="view-analise" class="p-5 hidden animate-in fade-in duration-300">
-
-            <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
-                <span class="bg-purple-600 w-1.5 h-5 mr-2 rounded"></span>
-                Análise de Produção
-            </h2>
-
-            <!-- filtros -->
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div>
-                    <label class="text-xs font-semibold text-slate-500">Data</label>
-                    <input type="date" id="analiseData" class="w-full p-3 border rounded-xl">
-                </div>
-
-                <div>
-                    <label class="text-xs font-semibold text-slate-500">Operação</label>
-                    <select id="analiseOperacao" class="w-full p-3 border rounded-xl"></select>
-                </div>
+            <div id="statusMessage"
+                class="fixed bottom-6 left-1/2 -translate-x-1/2 hidden px-6 py-3 rounded-full shadow-2xl text-sm font-bold z-50 transition-all">
             </div>
 
-            <!-- gráfico -->
-            <div class="flex gap-2 mb-3">
-                <button id="btnCarregarGrafico" onclick="carregarGrafico()"
-                    class="bg-purple-600 text-white px-4 py-2 rounded-xl font-bold">
-                    Gerar Gráfico
-                </button>
 
-                <span id="loadingGrafico" class="hidden text-sm text-slate-500 flex items-center">
-                    ⏳ Carregando...
-                </span>
+            <!-- ABA ANÁLISE -->
+            <div id="view-analise" class="p-5 hidden animate-in fade-in duration-300">
+
+                <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
+                    <span class="bg-purple-600 w-1.5 h-5 mr-2 rounded"></span>
+                    Análise de Produção
+                </h2>
+
+                <!-- filtros -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-500">Data</label>
+                        <input type="date" id="analiseData" class="w-full p-3 border rounded-xl">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-semibold text-slate-500">Operação</label>
+                        <select id="analiseOperacao" class="w-full p-3 border rounded-xl"></select>
+                    </div>
+                </div>
+
+                <!-- gráfico -->
+                <div class="flex gap-2 mb-3">
+                    <button id="btnCarregarGrafico" onclick="carregarGrafico()"
+                        class="bg-purple-600 text-white px-4 py-2 rounded-xl font-bold">
+                        Gerar Gráfico
+                    </button>
+
+                    <span id="loadingGrafico" class="hidden text-sm text-slate-500 flex items-center">
+                        ⏳ Carregando...
+                    </span>
+                </div>
+
+                <canvas id="graficoProducao"></canvas>
+
             </div>
-
-            <canvas id="graficoProducao"></canvas>
-
         </div>
-    </div>
 
-    <script>
-        Chart.register(ChartDataLabels);
-        Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
-        Chart.defaults.font.size = 12;
-        Chart.defaults.color = '#94a3b8';
-        const normalizePercent = (v) => {
-            let val = parseFloat(v);
+        <script>
+            Chart.register(ChartDataLabels);
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+            Chart.defaults.font.size = 12;
+            Chart.defaults.color = '#94a3b8';
+            const normalizePercent = (v) => {
+                let val = parseFloat(v);
 
-            if (isNaN(val)) return 0;
+                if (isNaN(val)) return 0;
 
-            // se for decimal (0.85, 1.21, 2.35 vindo como proporção)
-            if (val <= 10) {
-                val = val * 100;
-            }
-
-            return val;
-        };
-
-        const CONFIG_API_URL = 'https://script.google.com/macros/s/AKfycbw58X9fHQNtN89z1piRnB8fGnpd65ipbvVYRHt3Jpa3PDGUHHUyrsp89SooxLSdz5ER/exec';
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwVXmll05QQOMqjcM6gVJZrtG8ctsVDXAh_l85eqQXqdkkSkuqzbeyDo7PTge8EN9Difw/exec';
-        const LANCAMENTO_API_URL = 'https://script.google.com/macros/s/AKfycbzLxh58y2Lw0tesJ125RajOHAS5el5JS_sNOOU-NH_ACmp_p3PJHyktvnshmNAwC0lw/exec';
-
-        const OPERATIONS = [
-            { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoCaseado', label: 'Acabamento: Caseado', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoCosturaPonta', label: 'Acabamento: Costura Ponta', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoEtiquetaCos', label: 'Acabamento: Etiqueta Cós', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoPassante', label: 'Acabamento: Passante', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoPonta', label: 'Acabamento: Ponta', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoRebEntrePernas', label: 'Acabamento: Reb Entre Perna', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoRevisaoFinal', label: 'Acabamento: Revisão Final', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RtAcabamentoTravet', label: 'Acabamento: Travet', icon: 'fa-bacon', color: '#3b82f6' },
-            { id: 'RTDianteira2Lado', label: 'Dianteira: 2°Lado', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraBcBolso', label: 'Dianteira: Boca Bolso', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraBRelog', label: 'Dianteira: Bolso Relogio', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraCaseado', label: 'Dianteira: Caseado', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraVista', label: 'Dianteira: Conj. Vista', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraCurva', label: 'Dianteira: Curva', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraEspelho', label: 'Dianteira: Espelho', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFPerna', label: 'Dianteira: Fechar entre Perna', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFEspelho', label: 'Dianteira: Fechar Espelho', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFForro', label: 'Dianteira: Fechar Forro', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFixado', label: 'Dianteira: Fixado', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFixadoL', label: 'Dianteira: Fixado Lateral', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraFBoca', label: 'Dianteira: Forro Boca', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraGanchinho', label: 'Dianteira: Ganchinho', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraMPonta', label: 'Dianteira: Marcação Ponta', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraPonta', label: 'Dianteira: Ponta', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraRevel', label: 'Dianteira: Revel Boca', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTDianteiraSand', label: 'Dianteira: Sanduíche', icon: 'fa-clone', color: '#10b981' },
-            { id: 'RTMontAcop', label: 'Montagem: Acoplamento', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontBarra', label: 'Montagem: Barra', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontBolso', label: 'Montagem: Boca Bolso', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontCos', label: 'Montagem: Cós', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontPerna', label: 'Montagem: Fechar entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontLateral', label: 'Montagem: Fechar Lateral', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontPonta', label: 'Montagem: Marcação Ponta', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontReb', label: 'Montagem: Reb. Entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontGancho', label: 'Montagem: Rebater Gancho', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontRLateral', label: 'Montagem: Rebater lateral', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTMontTravet', label: 'Montagem: Travet', icon: 'fa-object-group', color: '#f59e0b' },
-            { id: 'RTPrepBRelogio', label: 'Preparação: Bainha BRelogio', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTPrepBTraseiro', label: 'Preparação: Bainha BTraseiro', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTPrepVista', label: 'Preparação: Bainha Con. Vista', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTPrepEmenda', label: 'Preparação: Emenda Cós', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTPrepLateral', label: 'Preparação: Marc. Lateral', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTPrepSanduiche', label: 'Preparação: Sanduíche', icon: 'fa-uncharted', color: '#ef4444' },
-            { id: 'RTTrasBainha', label: 'Traseira: Bainha B.Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasBolso', label: 'Traseira: Bolso Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasFechadeira', label: 'Traseira: Fechadeira', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasOver', label: 'Traseira: Overloque', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasForro', label: 'Traseira: Forro Boca', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasLateral', label: 'Traseira: Marcação Lateral', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-            { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-
-        ];
-
-        const SETORES = {
-            Acabamento: OPERATIONS.filter(op => op.label.includes('Acabamento')),
-            Montagem: OPERATIONS.filter(op => op.label.includes('Montagem')),
-            Dianteira: OPERATIONS.filter(op => op.label.includes('Dianteira')),
-            Traseira: OPERATIONS.filter(op => op.label.includes('Traseira')),
-            Preparação: OPERATIONS.filter(op => op.label.includes('Preparação'))
-        };
-
-        let currentOpIndex = 0;
-        let charts = {};
-        let rotationTimeout = null;
-        let lastSuccessfulData = {};
-        let retryCount = 0;
-        const MAX_RETRIES = 2;
-        let modoManual = true;
-
-
-        let todosOsModelos = [];
-        let todasAsCostureiras = [];
-
-        function updateClock() {
-            const now = new Date();
-
-            const clockEl = document.getElementById('clock');
-            const dateEl = document.getElementById('date');
-
-            if (clockEl) {
-                clockEl.innerText = now.toLocaleTimeString('pt-PT');
-            }
-
-            if (dateEl) {
-                dateEl.innerText = now.toLocaleDateString('pt-PT', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long'
-                });
-            }
-        }
-        setInterval(updateClock, 1000);
-
-        window.handleApiResponse = function (result) {
-            hideLoading();
-            const statusText = document.getElementById('status-text');
-            const statusDot = document.getElementById('status-dot');
-            const currentOp = OPERATIONS[currentOpIndex].id;
-
-            if (result && (result.status === 'success' || result.data) && result.data) {
-
-                retryCount = 0;
-                lastSuccessfulData[currentOp] = result.data;
-
-                const total = result.data.total || 0;
-
-                // 🔍 verifica se existe alguma operação com valor > 0
-                const existeValida = Object.values(lastSuccessfulData)
-                    .some(d => (d.total || 0) > 0);
-
-                // 🚫 se atual é zero E existe alguma válida → pula
-                if (!modoManual && total <= 0 && existeValida) {
-                    currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
-                    fetchData();
-                    return;
-                }
-
-                // ✅ se TODAS são zero → entra aqui normalmente
-                updateUI(OPERATIONS[currentOpIndex], result.data);
-
-                // 🟡 muda status visual (opcional, mas muito bom)
-                if (!existeValida) {
-                    statusText.innerText = "Sem produção";
-                    statusDot.className = "w-2 h-2 rounded-full bg-yellow-400 pulse-status";
-                } else {
-                    statusText.innerText = "Ligado";
-                    statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
-                }
-
-                startTimer();
-            }
-            else {
-                handleFetchError();
-            }
-        };
-        function handleFetchError() {
-            hideLoading();
-            const statusText = document.getElementById('status-text');
-            const statusDot = document.getElementById('status-dot');
-            const currentOp = OPERATIONS[currentOpIndex].id;
-
-            if (retryCount < MAX_RETRIES) {
-                retryCount++;
-                statusText.innerText = `A tentar novamente (${retryCount})...`;
-                statusDot.className = "w-2 h-2 rounded-full bg-orange-400 pulse-status";
-                setTimeout(fetchData, 3000);
-            } else {
-                retryCount = 0;
-                statusText.innerText = "Erro de Ligação (Cache)";
-                statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
-
-                if (lastSuccessfulData[currentOp]) {
-                    updateUI(OPERATIONS[currentOpIndex], lastSuccessfulData[currentOp]);
-                } else {
-                    useDemoMode(OPERATIONS[currentOpIndex]);
-                }
-                startTimer();
-            }
-        }
-        function fetchData() {
-            const currentOp = OPERATIONS[currentOpIndex];
-            const old = document.getElementById('api-script');
-            if (old) old.remove();
-
-            const script = document.createElement('script');
-            script.id = 'api-script';
-            // Adicionado parâmetro cache-breaker 'v' para evitar respostas antigas do browser
-            script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
-
-            script.onerror = () => handleFetchError();
-            document.body.appendChild(script);
-        }
-        function startTimer() {
-            if (rotationTimeout) clearTimeout(rotationTimeout);
-
-            if (modoManual) return;
-            rotationTimeout = setTimeout(() => {
-                currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
-                fetchData();
-            }, 10000);
-        }
-
-        function updateUI(opInfo, data) {
-            if (!data) return;
-
-            document.getElementById('operation-title').innerText = opInfo.label;
-
-
-
-
-            document.getElementById('card-total-producao').innerText = data.total || 0;
-
-            const percentCard = (v) => {
-                let val = parseFloat(v) || 0;
-
-                // normaliza tudo para %
-                if (val <= 1) {
-                    val = val * 100;
-                } else if (val <= 10) {
-                    // caso venha 3 (representando 300%)
+                // se for decimal (0.85, 1.21, 2.35 vindo como proporção)
+                if (val <= 10) {
                     val = val * 100;
                 }
 
-                val = Math.min(val, 100);
-
-                return Math.round(val);
+                return val;
             };
 
-            const ritmoVal = percentCard(data.ritmo);
-            const qualidadeVal = percentCard(data.qualidade);
-            updateQualidadeStatus(qualidadeVal);
+            const CONFIG_API_URL = 'https://script.google.com/macros/s/AKfycbw58X9fHQNtN89z1piRnB8fGnpd65ipbvVYRHt3Jpa3PDGUHHUyrsp89SooxLSdz5ER/exec';
+            const API_URL = 'https://script.google.com/macros/s/AKfycbwVXmll05QQOMqjcM6gVJZrtG8ctsVDXAh_l85eqQXqdkkSkuqzbeyDo7PTge8EN9Difw/exec';
+            const LANCAMENTO_API_URL = 'https://script.google.com/macros/s/AKfycbzLxh58y2Lw0tesJ125RajOHAS5el5JS_sNOOU-NH_ACmp_p3PJHyktvnshmNAwC0lw/exec';
+
+            const OPERATIONS = [
+                { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoCaseado', label: 'Acabamento: Caseado', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoCosturaPonta', label: 'Acabamento: Costura Ponta', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoEtiquetaCos', label: 'Acabamento: Etiqueta Cós', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoPassante', label: 'Acabamento: Passante', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoPonta', label: 'Acabamento: Ponta', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoRebEntrePernas', label: 'Acabamento: Reb Entre Perna', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoRevisaoFinal', label: 'Acabamento: Revisão Final', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RtAcabamentoTravet', label: 'Acabamento: Travet', icon: 'fa-bacon', color: '#3b82f6' },
+                { id: 'RTDianteira2Lado', label: 'Dianteira: 2°Lado', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraBcBolso', label: 'Dianteira: Boca Bolso', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraBRelog', label: 'Dianteira: Bolso Relogio', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraCaseado', label: 'Dianteira: Caseado', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraVista', label: 'Dianteira: Conj. Vista', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraCurva', label: 'Dianteira: Curva', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraEspelho', label: 'Dianteira: Espelho', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFPerna', label: 'Dianteira: Fechar entre Perna', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFEspelho', label: 'Dianteira: Fechar Espelho', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFForro', label: 'Dianteira: Fechar Forro', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFixado', label: 'Dianteira: Fixado', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFixadoL', label: 'Dianteira: Fixado Lateral', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraFBoca', label: 'Dianteira: Forro Boca', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraGanchinho', label: 'Dianteira: Ganchinho', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraMPonta', label: 'Dianteira: Marcação Ponta', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraPonta', label: 'Dianteira: Ponta', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraRevel', label: 'Dianteira: Revel Boca', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTDianteiraSand', label: 'Dianteira: Sanduíche', icon: 'fa-clone', color: '#10b981' },
+                { id: 'RTMontAcop', label: 'Montagem: Acoplamento', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontBarra', label: 'Montagem: Barra', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontBolso', label: 'Montagem: Boca Bolso', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontCos', label: 'Montagem: Cós', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontPerna', label: 'Montagem: Fechar entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontLateral', label: 'Montagem: Fechar Lateral', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontPonta', label: 'Montagem: Marcação Ponta', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontReb', label: 'Montagem: Reb. Entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontGancho', label: 'Montagem: Rebater Gancho', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontRLateral', label: 'Montagem: Rebater lateral', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTMontTravet', label: 'Montagem: Travet', icon: 'fa-object-group', color: '#f59e0b' },
+                { id: 'RTPrepBRelogio', label: 'Preparação: Bainha BRelogio', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTPrepBTraseiro', label: 'Preparação: Bainha BTraseiro', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTPrepVista', label: 'Preparação: Bainha Con. Vista', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTPrepEmenda', label: 'Preparação: Emenda Cós', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTPrepLateral', label: 'Preparação: Marc. Lateral', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTPrepSanduiche', label: 'Preparação: Sanduíche', icon: 'fa-uncharted', color: '#ef4444' },
+                { id: 'RTTrasBainha', label: 'Traseira: Bainha B.Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasBolso', label: 'Traseira: Bolso Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasFechadeira', label: 'Traseira: Fechadeira', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasOver', label: 'Traseira: Overloque', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasForro', label: 'Traseira: Forro Boca', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasLateral', label: 'Traseira: Marcação Lateral', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+
+            ];
+
+            const SETORES = {
+                Acabamento: OPERATIONS.filter(op => op.label.includes('Acabamento')),
+                Montagem: OPERATIONS.filter(op => op.label.includes('Montagem')),
+                Dianteira: OPERATIONS.filter(op => op.label.includes('Dianteira')),
+                Traseira: OPERATIONS.filter(op => op.label.includes('Traseira')),
+                Preparação: OPERATIONS.filter(op => op.label.includes('Preparação'))
+            };
+
+            let currentOpIndex = 0;
+            let charts = {};
+            let rotationTimeout = null;
+            let lastSuccessfulData = {};
+            let retryCount = 0;
+            const MAX_RETRIES = 2;
+            let modoManual = true;
 
 
-            document.getElementById('card-qualidade').innerText = qualidadeVal + '%';
+            let todosOsModelos = [];
+            let todasAsCostureiras = [];
 
-            updateRitmoStatus(ritmoVal);
+            function updateClock() {
+                const now = new Date();
 
-            const tl = data.timeline || {};
-            const metaDia = parseInt(tl.metadia) || 0;
-            const porcExecRaw = parseFloat(tl.porcexec) || 0;
-            const porcExec = normalizePercent(tl.porcexec) / 100;
-            const porcExecPercent = normalizePercent(tl.porcexec);
-            const img = getVolumeImage(porcExecPercent);
+                const clockEl = document.getElementById('clock');
+                const dateEl = document.getElementById('date');
 
-            document.getElementById('volume-img').src =
-                `https://mldgp1977.github.io/KVL/${img}`;
+                if (clockEl) {
+                    clockEl.innerText = now.toLocaleTimeString('pt-PT');
+                }
 
-            document.getElementById('meta-dia-val').innerText = `Meta: ${metaDia}`;
-            document.getElementById('perc-conclusao').innerText =
-                Math.round(normalizePercent(tl.porcexec)) + '%';
+                if (dateEl) {
+                    dateEl.innerText = now.toLocaleDateString('pt-PT', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long'
+                    });
+                }
+            }
+            setInterval(updateClock, 1000);
 
-            const dashOffset = 263.89 - (263.89 * Math.min(1, porcExec));
-            document.getElementById('progress-circle').style.strokeDashoffset = dashOffset;
+            window.handleApiResponse = function (result) {
+                hideLoading();
+                const statusText = document.getElementById('status-text');
+                const statusDot = document.getElementById('status-dot');
+                const currentOp = OPERATIONS[currentOpIndex].id;
+
+                if (result && (result.status === 'success' || result.data) && result.data) {
+
+                    retryCount = 0;
+                    lastSuccessfulData[currentOp] = result.data;
+
+                    const total = result.data.total || 0;
+
+                    // 🔍 verifica se existe alguma operação com valor > 0
+                    const existeValida = Object.values(lastSuccessfulData)
+                        .some(d => (d.total || 0) > 0);
+
+                    // 🚫 se atual é zero E existe alguma válida → pula
+                    if (!modoManual && total <= 0 && existeValida) {
+                        currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
+                        fetchData();
+                        return;
+                    }
+
+                    // ✅ se TODAS são zero → entra aqui normalmente
+                    updateUI(OPERATIONS[currentOpIndex], result.data);
+
+                    // 🟡 muda status visual (opcional, mas muito bom)
+                    if (!existeValida) {
+                        statusText.innerText = "Sem produção";
+                        statusDot.className = "w-2 h-2 rounded-full bg-yellow-400 pulse-status";
+                    } else {
+                        statusText.innerText = "Ligado";
+                        statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                    }
+
+                    startTimer();
+                }
+                else {
+                    handleFetchError();
+                }
+            };
+            function handleFetchError() {
+                hideLoading();
+                const statusText = document.getElementById('status-text');
+                const statusDot = document.getElementById('status-dot');
+                const currentOp = OPERATIONS[currentOpIndex].id;
+
+                if (retryCount < MAX_RETRIES) {
+                    retryCount++;
+                    statusText.innerText = `A tentar novamente (${retryCount})...`;
+                    statusDot.className = "w-2 h-2 rounded-full bg-orange-400 pulse-status";
+                    setTimeout(fetchData, 3000);
+                } else {
+                    retryCount = 0;
+                    statusText.innerText = "Erro de Ligação (Cache)";
+                    statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+
+                    if (lastSuccessfulData[currentOp]) {
+                        updateUI(OPERATIONS[currentOpIndex], lastSuccessfulData[currentOp]);
+                    } else {
+                        useDemoMode(OPERATIONS[currentOpIndex]);
+                    }
+                    startTimer();
+                }
+            }
+            function fetchData() {
+                const currentOp = OPERATIONS[currentOpIndex];
+                const old = document.getElementById('api-script');
+                if (old) old.remove();
+
+                const script = document.createElement('script');
+                script.id = 'api-script';
+                // Adicionado parâmetro cache-breaker 'v' para evitar respostas antigas do browser
+                script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
+
+                script.onerror = () => handleFetchError();
+                document.body.appendChild(script);
+            }
+            function startTimer() {
+                if (rotationTimeout) clearTimeout(rotationTimeout);
+
+                if (modoManual) return;
+                rotationTimeout = setTimeout(() => {
+                    currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
+                    fetchData();
+                }, 10000);
+            }
+
+            function updateUI(opInfo, data) {
+                if (!data) return;
+
+                document.getElementById('operation-title').innerText = opInfo.label;
 
 
-            const percRet = parseFloat(tl.porc) || 0;
 
 
-            updateCharts(data);
-        }
+                document.getElementById('card-total-producao').innerText = data.total || 0;
 
-function atualizarTabelaOperadores(nomes, perc, volume) {
-    const tbody = document.getElementById('tabelaOperadores');
-    if (!tbody) return;
+                const percentCard = (v) => {
+                    let val = parseFloat(v) || 0;
 
-    tbody.innerHTML = "";
+                    // normaliza tudo para %
+                    if (val <= 1) {
+                        val = val * 100;
+                    } else if (val <= 10) {
+                        // caso venha 3 (representando 300%)
+                        val = val * 100;
+                    }
 
-    // 🔥 CALCULA TOTAIS
-    const totalQtd = volume.reduce((acc, v) => acc + (v || 0), 0);
+                    val = Math.min(val, 100);
 
-    // média ponderada (mais correta)
-    const totalPerc = totalQtd > 0
-        ? Math.round(volume.reduce((acc, v, i) => acc + (v * perc[i]), 0) / totalQtd)
-        : 0;
+                    return Math.round(val);
+                };
 
-    // 🔥 LINHA TOTAL
-    tbody.innerHTML += `
+                const ritmoVal = percentCard(data.ritmo);
+                const qualidadeVal = percentCard(data.qualidade);
+                updateQualidadeStatus(qualidadeVal);
+
+
+                document.getElementById('card-qualidade').innerText = qualidadeVal + '%';
+
+                updateRitmoStatus(ritmoVal);
+
+                const tl = data.timeline || {};
+                const metaDia = parseInt(tl.metadia) || 0;
+                const porcExecRaw = parseFloat(tl.porcexec) || 0;
+                const porcExec = normalizePercent(tl.porcexec) / 100;
+                const porcExecPercent = normalizePercent(tl.porcexec);
+                const img = getVolumeImage(porcExecPercent);
+
+                document.getElementById('volume-img').src =
+                    `https://mldgp1977.github.io/KVL/${img}`;
+
+                document.getElementById('meta-dia-val').innerText = `Meta: ${metaDia}`;
+                document.getElementById('perc-conclusao').innerText =
+                    Math.round(normalizePercent(tl.porcexec)) + '%';
+
+                const dashOffset = 263.89 - (263.89 * Math.min(1, porcExec));
+                document.getElementById('progress-circle').style.strokeDashoffset = dashOffset;
+
+
+                const percRet = parseFloat(tl.porc) || 0;
+
+
+                updateCharts(data);
+            }
+
+            function atualizarTabelaOperadores(nomes, perc, volume) {
+                const tbody = document.getElementById('tabelaOperadores');
+                if (!tbody) return;
+
+                tbody.innerHTML = "";
+
+                // 🔥 CALCULA TOTAIS
+                const totalQtd = volume.reduce((acc, v) => acc + (v || 0), 0);
+
+                // média ponderada (mais correta)
+                const totalPerc = totalQtd > 0
+                    ? Math.round(volume.reduce((acc, v, i) => acc + (v * perc[i]), 0) / totalQtd)
+                    : 0;
+
+                // 🔥 LINHA TOTAL
+                tbody.innerHTML += `
         <tr class="bg-slate-100 border-b-2">
             <td class="py-2 font-bold">TOTAL OPERAÇÃO</td>
             <td class="py-2 text-center font-bold">${totalPerc}%</td>
@@ -773,26 +773,26 @@ function atualizarTabelaOperadores(nomes, perc, volume) {
         </tr>
     `;
 
-    // 🔽 LINHAS DOS OPERADORES
-    nomes.forEach((nome, i) => {
-        const p = perc[i] || 0;
-        const v = volume[i] || 0;
+                // 🔽 LINHAS DOS OPERADORES
+                nomes.forEach((nome, i) => {
+                    const p = perc[i] || 0;
+                    const v = volume[i] || 0;
 
-        let status = "";
-        let cor = "";
+                    let status = "";
+                    let cor = "";
 
-        if (p >= 90) {
-            status = "Ótimo";
-            cor = "text-green-600";
-        } else if (p >= 70) {
-            status = "Atenção";
-            cor = "text-yellow-600";
-        } else {
-            status = "Crítico";
-            cor = "text-red-600";
-        }
+                    if (p >= 90) {
+                        status = "Ótimo";
+                        cor = "text-green-600";
+                    } else if (p >= 70) {
+                        status = "Atenção";
+                        cor = "text-yellow-600";
+                    } else {
+                        status = "Crítico";
+                        cor = "text-red-600";
+                    }
 
-        tbody.innerHTML += `
+                    tbody.innerHTML += `
             <tr class="border-t">
                 <td class="py-2 font-semibold">${nome}</td>
                 <td class="py-2 text-center font-bold">${p}%</td>
@@ -802,775 +802,775 @@ function atualizarTabelaOperadores(nomes, perc, volume) {
                 </td>
             </tr>
         `;
-    });
-}
+                });
+            }
 
 
 
 
-        function initCharts() {
-            const baseOptions = {
-                responsive: true, maintainAspectRatio: false,
-                animation: { duration: 800 },
-                plugins: { legend: { display: false }, datalabels: { display: true, color: '#0f172a', font: { weight: 'bold', size: 13 }, anchor: 'end', align: 'top', formatter: (value) => value || '' } },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 13, weight: '700' } } },
-                    y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#f1f5f9' }, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 } } }
-                }
-            };
-
-            charts.main = new Chart(document.getElementById('chart-producao-meta-dash'), {
-                data: {
-                    labels: [],
-                    datasets: [
-                        //  { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: { display: function (context) { return context.dataIndex === context.dataset.data.length - 1; }, align: 'right', anchor: 'end', offset: 60, color: '#ffffff', borderRadius: 4, padding: 4, color: '#dc2626', font: { weight: 'bold', size: 13 } }, data: [] },
-                        { type: 'bar', label: 'Produzido', backgroundColor: '#3b82f6', borderRadius: 4, data: [], maxBarThickness: 80, barPercentage: 0.9, categoryPercentage: 0.8, datalabels: { anchor: 'end', align: 'top' } }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            display: true,
-                            color: '#000000',
-                            font: { weight: 'bold', size: 14 }
-                        },
-                        annotation: {
-                            annotations: {
-                                linhaMeta: {
-                                    type: 'line',
-                                    yMin: 0,
-                                    yMax: 0,
-                                    borderColor: '#dc2626',
-                                    borderWidth: 3,
-                                    borderDash: [6, 6],
-                                    label: {
-                                        display: true,
-                                        content: 'Meta',
-                                        position: 'end',
-                                        xAdjust: 12, // Empurra o rótulo para fora da área das colunas
-                                        yAdjust: -10,    // Move um pouco para cima da linha para não colidir
-                                        backgroundColor: 'transparent',
-                                        color: '#dc2626',
-                                        font: { weight: 'bold', size: 13 }
-                                    }
-                                }
-                            }
-                        }
-                    },
+            function initCharts() {
+                const baseOptions = {
+                    responsive: true, maintainAspectRatio: false,
+                    animation: { duration: 800 },
+                    plugins: { legend: { display: false }, datalabels: { display: true, color: '#0f172a', font: { weight: 'bold', size: 13 }, anchor: 'end', align: 'top', formatter: (value) => value || '' } },
                     scales: {
                         x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 13, weight: '700' } } },
-                        y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 12 } } }
+                        y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#f1f5f9' }, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 } } }
                     }
-                }
-            });
-            charts.ops = new Chart(document.getElementById('chart-operador-dash'), {
-                type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Performance',
-                            data: [],
-                            borderRadius: 6,
-                            maxBarThickness: 80,
-                            barPercentage: 0.9,
-                            categoryPercentage: 0.8,
-                            backgroundColor: [],
+                };
+
+                charts.main = new Chart(document.getElementById('chart-producao-meta-dash'), {
+                    data: {
+                        labels: [],
+                        datasets: [
+                            //  { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: { display: function (context) { return context.dataIndex === context.dataset.data.length - 1; }, align: 'right', anchor: 'end', offset: 60, color: '#ffffff', borderRadius: 4, padding: 4, color: '#dc2626', font: { weight: 'bold', size: 13 } }, data: [] },
+                            { type: 'bar', label: 'Produzido', backgroundColor: '#3b82f6', borderRadius: 4, data: [], maxBarThickness: 80, barPercentage: 0.9, categoryPercentage: 0.8, datalabels: { anchor: 'end', align: 'top' } }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
                             datalabels: {
-                                labels: {
-
-                                    // 🔝 LABEL EXTERNO (PERCENTUAL)
-                                    percent: {
-                                        anchor: 'end',
-                                        align: 'end',
-                                        offset: 6,
-                                        color: '#000',
-                                        clamp: true,
-                                        clip: false,
-                                        formatter: (value) => Math.round(value) + '%',
-                                        font: {
-                                            weight: 'bold',
-                                            size: 13
-                                        }
-                                    },
-
-                                    // 📦 LABEL INTERNO (VOLUME PRODUZIDO)
-                                    volume: {
-                                        anchor: 'center',
-                                        align: 'center',
-                                        color: '#ffffff',
-                                        formatter: (value, context) => {
-                                            const vol = context.dataset.volumeData?.[context.dataIndex] || 0;
-                                            return vol;
-                                        },
-                                        font: {
-                                            weight: 'bold',
-                                            size: 13
+                                display: true,
+                                color: '#000000',
+                                font: { weight: 'bold', size: 14 }
+                            },
+                            annotation: {
+                                annotations: {
+                                    linhaMeta: {
+                                        type: 'line',
+                                        yMin: 0,
+                                        yMax: 0,
+                                        borderColor: '#dc2626',
+                                        borderWidth: 3,
+                                        borderDash: [6, 6],
+                                        label: {
+                                            display: true,
+                                            content: 'Meta',
+                                            position: 'end',
+                                            xAdjust: 12, // Empurra o rótulo para fora da área das colunas
+                                            yAdjust: -10,    // Move um pouco para cima da linha para não colidir
+                                            backgroundColor: 'transparent',
+                                            color: '#dc2626',
+                                            font: { weight: 'bold', size: 13 }
                                         }
                                     }
                                 }
                             }
+                        },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 13, weight: '700' } } },
+                            y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 12 } } }
                         }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
+                    }
+                });
+                charts.ops = new Chart(document.getElementById('chart-operador-dash'), {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: 'Performance',
+                                data: [],
+                                borderRadius: 6,
+                                maxBarThickness: 80,
+                                barPercentage: 0.9,
+                                categoryPercentage: 0.8,
+                                backgroundColor: [],
+                                datalabels: {
+                                    labels: {
 
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    const performance = context.raw;
-                                    const volume = context.dataset.volumeData?.[context.dataIndex] || 0;
+                                        // 🔝 LABEL EXTERNO (PERCENTUAL)
+                                        percent: {
+                                            anchor: 'end',
+                                            align: 'end',
+                                            offset: 6,
+                                            color: '#000',
+                                            clamp: true,
+                                            clip: false,
+                                            formatter: (value) => Math.round(value) + '%',
+                                            font: {
+                                                weight: 'bold',
+                                                size: 13
+                                            }
+                                        },
 
-                                    return [
-                                        `Performance: ${performance}%`,
-                                        `Quantidade: ${volume}`
-                                    ];
+                                        // 📦 LABEL INTERNO (VOLUME PRODUZIDO)
+                                        volume: {
+                                            anchor: 'center',
+                                            align: 'center',
+                                            color: '#ffffff',
+                                            formatter: (value, context) => {
+                                                const vol = context.dataset.volumeData?.[context.dataIndex] || 0;
+                                                return vol;
+                                            },
+                                            font: {
+                                                weight: 'bold',
+                                                size: 13
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const performance = context.raw;
+                                        const volume = context.dataset.volumeData?.[context.dataIndex] || 0;
+
+                                        return [
+                                            `Performance: ${performance}%`,
+                                            `Quantidade: ${volume}`
+                                        ];
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 45,
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 13,
+                                        weight: '700'
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: { display: false },
+                                beginAtZero: true,
+                                grace: '25%',
+                                ticks: {
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 10
+                                    },
+                                    callback: v => v + '%'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            function initMobileMenu() {
+                if (!modoManual) return;
+
+                const setoresDiv = document.getElementById('setores');
+                if (!setoresDiv) return;
+                const opsDiv = document.getElementById('operacoes');
+
+                Object.keys(SETORES).forEach(setor => {
+                    const btn = document.createElement('button');
+                    btn.textContent = setor;
+                    btn.className = "w-full text-center bg-slate-100 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all";
+
+                    btn.onclick = () => {
+
+                        document.querySelectorAll('#setores button')
+                            .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+
+                        btn.classList.add('bg-blue-500', 'text-white');
+
+                        renderOperacoes(setor);
+                    };
+
+                    setoresDiv.appendChild(btn);
+                });
+                const primeiroSetor = Object.keys(SETORES)[0];
+
+
+            }
+            function showLoading() {
+                const el = document.getElementById('loading-overlay');
+                el.classList.remove('opacity-0', 'pointer-events-none');
+                el.classList.add('opacity-100');
+            }
+            function hideLoading() {
+                const el = document.getElementById('loading-overlay');
+                el.classList.remove('opacity-100');
+                el.classList.add('opacity-0', 'pointer-events-none');
+            }
+            function renderOperacoes(setor) {
+                const select = document.getElementById('operacoesSelect');
+
+                select.innerHTML = '<option value="">Selecione a operação</option>';
+
+                SETORES[setor].forEach(op => {
+                    const index = OPERATIONS.findIndex(o => o.id === op.id);
+
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = op.label;
+
+                    select.appendChild(option);
+                });
+
+                select.onchange = function () {
+                    if (this.value === "") return;
+
+                    modoManual = true;
+
+                    if (rotationTimeout) clearTimeout(rotationTimeout);
+
+                    currentOpIndex = parseInt(this.value);
+
+                    showLoading();
+                    fetchData();
+                };
+            }
+
+
+            function updateCharts(data) {
+                const tl = data.timeline;
+                if (!tl || !charts.main || !charts.ops) return;
+
+                // --- GRÁFICO 1: PRODUÇÃO vs META ---
+                const labels = tl.labels || [];
+                const prod = tl.prod || [];
+                const metaArray = tl.meta || [];
+
+                const filtered = labels.map((label, i) => ({
+                    label,
+                    prod: prod[i],
+                    meta: metaArray[i]
+                })).filter(item => item.label && item.label !== "");
+
+                charts.main.data.labels = filtered.map(i => i.label);
+
+                // CORREÇÃO: O dataset de barras agora é o [0]
+                charts.main.data.datasets[0].data = filtered.map(i => i.prod);
+
+                // Atualiza a Linha de Meta (Annotation)
+                const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
+
+                if (charts.main.options.plugins.annotation) {
+                    const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
+                    anno.yMin = valorMeta;
+                    anno.yMax = valorMeta;
+                    anno.label.content = 'Meta: ' + valorMeta;
+                }
+                charts.main.update();
+
+
+
+                // --- GRÁFICO 2: EFICIÊNCIA OPERADOR ---
+                const nomes = (tl.costureira || [])
+                    .filter(n => n && n.trim() !== "")
+                    .map(nome => {
+                        const partes = nome.trim().split(' ');
+                        return partes.length === 1 ? partes[0] : `${partes[0]} ${partes[1].substring(0, 4)}`;
+                    });
+
+                const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
+                    return Number(normalizePercent(v).toFixed(1));
+                });
+
+                const volume = (tl.prodreal1 || []).slice(0, nomes.length);
+                const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
+
+
+
+                const dados = nomes.map((n, i) => ({
+                    nome: n,
+                    perc: perc[i],
+                    vol: volume[i]
+                })).sort((a, b) => b.perc - a.perc);
+
+                // 🔄 separa novamente já ordenado
+                const nomesOrd = dados.map(d => d.nome);
+                const percOrd = dados.map(d => d.perc);
+                const volumeOrd = dados.map(d => d.vol);
+
+
+
+
+                charts.ops.data.labels = nomes;
+                charts.ops.data.datasets[0].data = perc;
+                charts.ops.data.datasets[0].backgroundColor = cores;
+                charts.ops.data.datasets[0].volumeData = volume;
+
+                atualizarTabelaOperadores(nomes, perc, volume);
+
+                charts.ops.update();
+
+
+            }
+            function getVolumeImage(porc) {
+                if (porc <= 0) return 'N0.png';
+                if (porc <= 10) return 'N1.png';
+                if (porc <= 20) return 'N2.png';
+                if (porc <= 40) return 'N3.png';
+                if (porc <= 60) return 'N4.png';
+                if (porc <= 80) return 'N5.png';
+                if (porc <= 100) return 'N6.png';
+                return 'N7.png';
+            }
+
+            function updateRitmoStatus(valor) {
+                const el = document.getElementById('ritmo-status');
+
+                if (!el) return;
+
+                if (valor >= 90) {
+                    el.innerText = "🟢 Bem Cadenciado";
+                    animateValue(el);
+                    el.style.background = "#dcfce7";
+                    el.style.color = "#166534";
+                }
+                else if (valor >= 80) {
+                    el.innerText = "🟡 Ritmo Oscilante";
+                    animateValue(el);
+                    el.style.background = "#fef9c3";
+                    el.style.color = "#854d0e";
+                }
+                else {
+                    el.innerText = "🔴 Ritmo Baixo";
+                    animateValue(el);
+                    el.style.background = "#fee2e2";
+                    el.style.color = "#991b1b";
+                }
+            }
+
+            function updateQualidadeStatus(valor) {
+                const el = document.getElementById('qualidade-status');
+
+                if (!el) return;
+
+                if (valor >= 90) {
+                    el.innerText = "🟢 Ótimo";
+                    el.style.background = "#dcfce7";
+                    el.style.color = "#166534";
+                }
+                else if (valor >= 35) {
+                    el.innerText = "🟡 Atenção";
+                    el.style.background = "#fef9c3";
+                    el.style.color = "#854d0e";
+                }
+                else {
+                    el.innerText = "🔴 Crítico";
+                    el.style.background = "#fee2e2";
+                    el.style.color = "#991b1b";
+                }
+
+                animateValue(el);
+            }
+            function animateValue(el) {
+                el.classList.add('updated');
+                setTimeout(() => el.classList.remove('updated'), 300);
+            }
+
+            function useDemoMode(opInfo) {
+                updateUI(opInfo, {
+                    total: "--", media: "--", boas: "--", consertos: "--", ritmo: 0, qualidade: 0,
+                    timeline: {
+                        labels: ['Sem Dados'], prod: [0], meta: [0], prodReal: 0, retrabalho: 0, porc: 0,
+                        costureira: ['Aguardando'], prodreal1: [0], metadia: 0, porcexec: 0
+                    }
+                });
+            }
+
+            function switchTab(tab) {
+                document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
+                document.querySelectorAll('[id^="tab-"]').forEach(t => t.className = 'py-2 px-4 transition-all text-slate-500 whitespace-nowrap text-sm uppercase tracking-wider');
+
+                const target = document.getElementById(`view-${tab}`);
+                if (target) target.classList.remove('hidden');
+
+                document.getElementById(`tab-${tab}`).className = 'py-2 px-4 transition-all tab-active whitespace-nowrap text-sm uppercase tracking-wider';
+                if (tab === 'analise') {
+                    setTimeout(() => {
+                        if (document.getElementById('analiseOperacao').value) {
+                            carregarGrafico();
+                        }
+                    }, 200);
+                }
+                if (tab === 'painel') {
+                    fetchData(); // Dispara a busca de dados da API e atualiza os gráficos
+                }
+
+            }
+
+            window.onload = () => {
+                const hoje = new Date();
+                const offset = hoje.getTimezoneOffset();
+                const dataLocal = new Date(hoje.getTime() - (offset * 60 * 1000));
+                const hojeISO = dataLocal.toISOString().split('T')[0];
+                const hojeBR = hoje.toLocaleDateString('pt-BR');
+                updateClock();
+                switchTab('painel');
+                initCharts();
+                initMobileMenu();
+                fetchData();
+                let timeout;
+
+                document.getElementById('campoData').value = hojeBR;
+                document.getElementById('manualData').value = hojeISO;
+                document.getElementById('analiseData').value = document.getElementById('manualData').value;
+                document.addEventListener('mousemove', () => {
+                    const btn = document.getElementById('btn-exit');
+                    if (!btn) return; // evita erro se ainda não carregou
+
+                    btn.style.opacity = '1';
+
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        btn.style.opacity = '0';
+                    }, 2000);
+                });
+                carregarListasIniciais();
+            };
+
+            async function fetchGAS(baseUrl, params) {
+                let url = baseUrl + (baseUrl.includes('?') ? '&' : '?');
+                const queryParts = [];
+                for (const key in params) queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+                url += queryParts.join('&');
+
+                try {
+                    const response = await fetch(url);
+                    const text = await response.text();
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        return { status: "error", message: "Erro de formato" };
+                    }
+                } catch (err) {
+                    return { status: "error", message: "Erro de conexão" };
+                }
+            }
+
+            async function carregarListasIniciais() {
+                mostrarStatus('Sincronizando listas...', 'success');
+                const data = await fetchGAS(CONFIG_API_URL, { action: 'getListas' });
+
+                if (data.status === 'error') {
+                    mostrarStatus('Erro ao carregar', 'error');
+                    return;
+                }
+
+                todosOsModelos = data.modelos || [];
+                todasAsCostureiras = data.colaboradores || [];
+
+                const popular = (id, lista) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    el.innerHTML = '<option value="">Selecione...</option>';
+                    (lista || []).forEach(v => {
+                        if (v) el.innerHTML += `<option value="${v}">${v}</option>`;
+                    });
+                };
+
+                popular('campoBotao', data.botoes);
+                popular('campoSetor', data.setores);
+                popular('campoOperacao', data.operacoes);
+                popular('campoColaborador', data.colaboradores);
+                popular('campoModelo', todosOsModelos);
+                popular('campoFicha', data.fichas);
+
+                popular('manualSetor', data.setores);
+                popular('manualOperacao', data.operacoes);
+                popular('manualModelo', todosOsModelos);
+                popular('manualColaborador', data.colaboradores);
+                popular('manualHora', data.horas || ["07:00", "08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]);
+
+                popular('manualFicha', data.fichas);
+
+                popular('analiseOperacao', data.operacoes);
+
+                mostrarStatus('Listas Prontas!', 'success');
+            }
+
+
+            async function carregarGrafico() {
+
+                const btn = document.getElementById('btnCarregarGrafico');
+                const loading = document.getElementById('loadingGrafico');
+
+                const dataISO = document.getElementById('analiseData').value;
+                const operacao = document.getElementById('analiseOperacao').value;
+
+                if (!dataISO || !operacao) {
+                    mostrarStatus('Selecione Data e Operação', 'error');
+                    return;
+                }
+
+                // 🔒 trava botão + mostra loading
+                btn.disabled = true;
+                btn.classList.add('opacity-50');
+                loading.classList.remove('hidden');
+
+                const [ano, mes, dia] = dataISO.split("-");
+                const dataBR = `${dia}/${mes}/${ano}`;
+
+                try {
+
+                    // 🔥 feedback visual imediato (limpa gráfico)
+                    if (chart) {
+                        chart.destroy();
+                    }
+
+                    const res = await fetchGAS(CONFIG_API_URL, {
+                        action: 'getProducaoPorHora',
+                        data: dataBR,
+                        operacao: operacao
+                    });
+
+                    if (res && typeof res === 'object') {
+                        desenharGrafico(res);
+                    }
+
+                } catch (err) {
+                    mostrarStatus('Erro ao carregar gráfico', 'error');
+                }
+
+                // 🔓 libera botão
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+                loading.classList.add('hidden');
+            }
+
+            let chart;
+
+            function desenharGrafico(dados) {
+
+                const labels = Object.keys(dados).sort((a, b) => {
+                    return parseInt(a) - parseInt(b);
+                });
+                const valores = labels.map(h => dados[h]);
+
+                const ctx = document.getElementById('graficoProducao');
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Produção por Hora',
+                            data: valores
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: (value) => value,
+                                font: {
+                                    weight: 'bold'
                                 }
                             }
                         }
                     },
-                    scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: {
-                                maxRotation: 45,
-                                minRotation: 45,
-                                color: '#94a3b8',
-                                font: {
-                                    size: 13,
-                                    weight: '700'
-                                }
-                            }
-                        },
-                        y: {
-                            grid: { display: false },
-                            beginAtZero: true,
-                            grace: '25%',
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 10
-                                },
-                                callback: v => v + '%'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        function initMobileMenu() {
-            if (!modoManual) return;
-
-            const setoresDiv = document.getElementById('setores');
-            if (!setoresDiv) return;
-            const opsDiv = document.getElementById('operacoes');
-
-            Object.keys(SETORES).forEach(setor => {
-                const btn = document.createElement('button');
-                btn.textContent = setor;
-                btn.className = "w-full text-center bg-slate-100 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all";
-
-                btn.onclick = () => {
-
-                    document.querySelectorAll('#setores button')
-                        .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-
-                    btn.classList.add('bg-blue-500', 'text-white');
-
-                    renderOperacoes(setor);
-                };
-
-                setoresDiv.appendChild(btn);
-            });
-            const primeiroSetor = Object.keys(SETORES)[0];
-
-
-        }
-        function showLoading() {
-            const el = document.getElementById('loading-overlay');
-            el.classList.remove('opacity-0', 'pointer-events-none');
-            el.classList.add('opacity-100');
-        }
-        function hideLoading() {
-            const el = document.getElementById('loading-overlay');
-            el.classList.remove('opacity-100');
-            el.classList.add('opacity-0', 'pointer-events-none');
-        }
-function renderOperacoes(setor) {
-    const select = document.getElementById('operacoesSelect');
-
-    select.innerHTML = '<option value="">Selecione a operação</option>';
-
-    SETORES[setor].forEach(op => {
-        const index = OPERATIONS.findIndex(o => o.id === op.id);
-
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = op.label;
-
-        select.appendChild(option);
-    });
-
-    select.onchange = function () {
-        if (this.value === "") return;
-
-        modoManual = true;
-
-        if (rotationTimeout) clearTimeout(rotationTimeout);
-
-        currentOpIndex = parseInt(this.value);
-
-        showLoading();
-        fetchData();
-    };
-}
-
-
-        function updateCharts(data) {
-            const tl = data.timeline;
-            if (!tl || !charts.main || !charts.ops) return;
-
-            // --- GRÁFICO 1: PRODUÇÃO vs META ---
-            const labels = tl.labels || [];
-            const prod = tl.prod || [];
-            const metaArray = tl.meta || [];
-
-            const filtered = labels.map((label, i) => ({
-                label,
-                prod: prod[i],
-                meta: metaArray[i]
-            })).filter(item => item.label && item.label !== "");
-
-            charts.main.data.labels = filtered.map(i => i.label);
-
-            // CORREÇÃO: O dataset de barras agora é o [0]
-            charts.main.data.datasets[0].data = filtered.map(i => i.prod);
-
-            // Atualiza a Linha de Meta (Annotation)
-            const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
-
-            if (charts.main.options.plugins.annotation) {
-                const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
-                anno.yMin = valorMeta;
-                anno.yMax = valorMeta;
-                anno.label.content = 'Meta: ' + valorMeta;
-            }
-            charts.main.update();
-
-
-
-            // --- GRÁFICO 2: EFICIÊNCIA OPERADOR ---
-            const nomes = (tl.costureira || [])
-                .filter(n => n && n.trim() !== "")
-                .map(nome => {
-                    const partes = nome.trim().split(' ');
-                    return partes.length === 1 ? partes[0] : `${partes[0]} ${partes[1].substring(0, 4)}`;
+                    plugins: [ChartDataLabels]
                 });
-
-            const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
-                return Number(normalizePercent(v).toFixed(1));
-            });
-
-            const volume = (tl.prodreal1 || []).slice(0, nomes.length);
-            const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
-
-
-
-             const dados = nomes.map((n, i) => ({
-    nome: n,
-    perc: perc[i],
-    vol: volume[i]
-})).sort((a, b) => b.perc - a.perc);
-
-// 🔄 separa novamente já ordenado
-const nomesOrd = dados.map(d => d.nome);
-const percOrd = dados.map(d => d.perc);
-const volumeOrd = dados.map(d => d.vol);
-
-
-
-
-            charts.ops.data.labels = nomes;
-            charts.ops.data.datasets[0].data = perc;
-            charts.ops.data.datasets[0].backgroundColor = cores;
-            charts.ops.data.datasets[0].volumeData = volume;
-
-            atualizarTabelaOperadores(nomes, perc, volume);
-
-            charts.ops.update();
-
-
-        }
-        function getVolumeImage(porc) {
-            if (porc <= 0) return 'N0.png';
-            if (porc <= 10) return 'N1.png';
-            if (porc <= 20) return 'N2.png';
-            if (porc <= 40) return 'N3.png';
-            if (porc <= 60) return 'N4.png';
-            if (porc <= 80) return 'N5.png';
-            if (porc <= 100) return 'N6.png';
-            return 'N7.png';
-        }
-
-        function updateRitmoStatus(valor) {
-            const el = document.getElementById('ritmo-status');
-
-            if (!el) return;
-
-            if (valor >= 90) {
-                el.innerText = "🟢 Bem Cadenciado";
-                animateValue(el);
-                el.style.background = "#dcfce7";
-                el.style.color = "#166534";
-            }
-            else if (valor >= 80) {
-                el.innerText = "🟡 Ritmo Oscilante";
-                animateValue(el);
-                el.style.background = "#fef9c3";
-                el.style.color = "#854d0e";
-            }
-            else {
-                el.innerText = "🔴 Ritmo Baixo";
-                animateValue(el);
-                el.style.background = "#fee2e2";
-                el.style.color = "#991b1b";
-            }
-        }
-
-        function updateQualidadeStatus(valor) {
-            const el = document.getElementById('qualidade-status');
-
-            if (!el) return;
-
-            if (valor >= 90) {
-                el.innerText = "🟢 Ótimo";
-                el.style.background = "#dcfce7";
-                el.style.color = "#166534";
-            }
-            else if (valor >= 35) {
-                el.innerText = "🟡 Atenção";
-                el.style.background = "#fef9c3";
-                el.style.color = "#854d0e";
-            }
-            else {
-                el.innerText = "🔴 Crítico";
-                el.style.background = "#fee2e2";
-                el.style.color = "#991b1b";
             }
 
-            animateValue(el);
-        }
-        function animateValue(el) {
-            el.classList.add('updated');
-            setTimeout(() => el.classList.remove('updated'), 300);
-        }
+            async function filtrarModelosPorFicha(ficha, selectId) {
+                if (!ficha) return;
+                const elMod = document.getElementById(selectId);
+                elMod.classList.add('loading-input');
 
-        function useDemoMode(opInfo) {
-            updateUI(opInfo, {
-                total: "--", media: "--", boas: "--", consertos: "--", ritmo: 0, qualidade: 0,
-                timeline: {
-                    labels: ['Sem Dados'], prod: [0], meta: [0], prodReal: 0, retrabalho: 0, porc: 0,
-                    costureira: ['Aguardando'], prodreal1: [0], metadia: 0, porcexec: 0
-                }
-            });
-        }
+                const res = await fetchGAS(CONFIG_API_URL, { action: 'getModelosPorFicha', ficha: ficha });
 
-        function switchTab(tab) {
-            document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
-            document.querySelectorAll('[id^="tab-"]').forEach(t => t.className = 'py-2 px-4 transition-all text-slate-500 whitespace-nowrap text-sm uppercase tracking-wider');
+                elMod.classList.remove('loading-input');
+                elMod.innerHTML = '';
 
-            const target = document.getElementById(`view-${tab}`);
-            if (target) target.classList.remove('hidden');
-
-            document.getElementById(`tab-${tab}`).className = 'py-2 px-4 transition-all tab-active whitespace-nowrap text-sm uppercase tracking-wider';
-            if (tab === 'analise') {
-                setTimeout(() => {
-                    if (document.getElementById('analiseOperacao').value) {
-                        carregarGrafico();
-                    }
-                }, 200);
-            }
-            if (tab === 'painel') {
-                fetchData(); // Dispara a busca de dados da API e atualiza os gráficos
-            }
-
-        }
-
-        window.onload = () => {
-            const hoje = new Date();
-            const offset = hoje.getTimezoneOffset();
-            const dataLocal = new Date(hoje.getTime() - (offset * 60 * 1000));
-            const hojeISO = dataLocal.toISOString().split('T')[0];
-            const hojeBR = hoje.toLocaleDateString('pt-BR');
-            updateClock();
-            switchTab('painel');
-            initCharts();
-            initMobileMenu();
-            fetchData();
-            let timeout;
-
-            document.getElementById('campoData').value = hojeBR;
-            document.getElementById('manualData').value = hojeISO;
-            document.getElementById('analiseData').value = document.getElementById('manualData').value;
-            document.addEventListener('mousemove', () => {
-                const btn = document.getElementById('btn-exit');
-                if (!btn) return; // evita erro se ainda não carregou
-
-                btn.style.opacity = '1';
-
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    btn.style.opacity = '0';
-                }, 2000);
-            });
-            carregarListasIniciais();
-        };
-
-        async function fetchGAS(baseUrl, params) {
-            let url = baseUrl + (baseUrl.includes('?') ? '&' : '?');
-            const queryParts = [];
-            for (const key in params) queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
-            url += queryParts.join('&');
-
-            try {
-                const response = await fetch(url);
-                const text = await response.text();
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    return { status: "error", message: "Erro de formato" };
-                }
-            } catch (err) {
-                return { status: "error", message: "Erro de conexão" };
-            }
-        }
-
-        async function carregarListasIniciais() {
-            mostrarStatus('Sincronizando listas...', 'success');
-            const data = await fetchGAS(CONFIG_API_URL, { action: 'getListas' });
-
-            if (data.status === 'error') {
-                mostrarStatus('Erro ao carregar', 'error');
-                return;
-            }
-
-            todosOsModelos = data.modelos || [];
-            todasAsCostureiras = data.colaboradores || [];
-
-            const popular = (id, lista) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.innerHTML = '<option value="">Selecione...</option>';
-                (lista || []).forEach(v => {
-                    if (v) el.innerHTML += `<option value="${v}">${v}</option>`;
-                });
-            };
-
-            popular('campoBotao', data.botoes);
-            popular('campoSetor', data.setores);
-            popular('campoOperacao', data.operacoes);
-            popular('campoColaborador', data.colaboradores);
-            popular('campoModelo', todosOsModelos);
-            popular('campoFicha', data.fichas);
-
-            popular('manualSetor', data.setores);
-            popular('manualOperacao', data.operacoes);
-            popular('manualModelo', todosOsModelos);
-            popular('manualColaborador', data.colaboradores);
-            popular('manualHora', data.horas || ["07:00", "08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]);
-
-            popular('manualFicha', data.fichas);
-
-            popular('analiseOperacao', data.operacoes);
-
-            mostrarStatus('Listas Prontas!', 'success');
-        }
-
-
-        async function carregarGrafico() {
-
-            const btn = document.getElementById('btnCarregarGrafico');
-            const loading = document.getElementById('loadingGrafico');
-
-            const dataISO = document.getElementById('analiseData').value;
-            const operacao = document.getElementById('analiseOperacao').value;
-
-            if (!dataISO || !operacao) {
-                mostrarStatus('Selecione Data e Operação', 'error');
-                return;
-            }
-
-            // 🔒 trava botão + mostra loading
-            btn.disabled = true;
-            btn.classList.add('opacity-50');
-            loading.classList.remove('hidden');
-
-            const [ano, mes, dia] = dataISO.split("-");
-            const dataBR = `${dia}/${mes}/${ano}`;
-
-            try {
-
-                // 🔥 feedback visual imediato (limpa gráfico)
-                if (chart) {
-                    chart.destroy();
-                }
-
-                const res = await fetchGAS(CONFIG_API_URL, {
-                    action: 'getProducaoPorHora',
-                    data: dataBR,
-                    operacao: operacao
-                });
-
-                if (res && typeof res === 'object') {
-                    desenharGrafico(res);
-                }
-
-            } catch (err) {
-                mostrarStatus('Erro ao carregar gráfico', 'error');
-            }
-
-            // 🔓 libera botão
-            btn.disabled = false;
-            btn.classList.remove('opacity-50');
-            loading.classList.add('hidden');
-        }
-
-        let chart;
-
-        function desenharGrafico(dados) {
-
-            const labels = Object.keys(dados).sort((a, b) => {
-                return parseInt(a) - parseInt(b);
-            });
-            const valores = labels.map(h => dados[h]);
-
-            const ctx = document.getElementById('graficoProducao');
-
-            if (chart) chart.destroy();
-
-            chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Produção por Hora',
-                        data: valores
-                    }]
-                },
-                options: {
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top',
-                            formatter: (value) => value,
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
-                    }
-                },
-                plugins: [ChartDataLabels]
-            });
-        }
-
-        async function filtrarModelosPorFicha(ficha, selectId) {
-            if (!ficha) return;
-            const elMod = document.getElementById(selectId);
-            elMod.classList.add('loading-input');
-
-            const res = await fetchGAS(CONFIG_API_URL, { action: 'getModelosPorFicha', ficha: ficha });
-
-            elMod.classList.remove('loading-input');
-            elMod.innerHTML = '';
-
-            if (res && res.modelos && res.modelos.length > 0) {
-                res.modelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
-            } else {
-                elMod.innerHTML = '<option value="">Lista Geral:</option>';
-                todosOsModelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
-            }
-        }
-
-        function recalcularProducao() {
-            const ficha = document.getElementById('manualFicha').value;
-            if (!ficha) return;
-
-            aoMudarFichaManual(ficha);
-        }
-
-        async function aoMudarFichaManual(ficha) {
-            if (!ficha) return;
-
-            await filtrarModelosPorFicha(ficha, 'manualModelo');
-
-            const fieldTotal = document.getElementById('manualTotalPecasFicha');
-            const fieldFinalizadas = document.getElementById('manualPecasFinalizadas');
-            const fieldPendentes = document.getElementById('manualPecasPendentes');
-
-            // estado inicial
-            fieldTotal.value = "Calculando...";
-            fieldFinalizadas.value = "Calculando...";
-            if (fieldPendentes) fieldPendentes.value = "Calculando...";
-
-            // 🔴 pega data
-            const dataISO = document.getElementById('manualData').value;
-
-            let dataBR = "";
-            if (dataISO) {
-                const [ano, mes, dia] = dataISO.split("-");
-                dataBR = `${dia}/${mes}/${ano}`;
-            }
-
-            try {
-                // 🚀 roda as duas chamadas em paralelo (mais rápido)
-                const [resTotal, resFinal] = await Promise.all([
-                    fetchGAS(CONFIG_API_URL, {
-                        action: 'getInfoProducaoFicha',
-                        ficha: ficha
-                    }),
-                    fetchGAS(CONFIG_API_URL, {
-                        action: 'getPecasFinalizadasFicha',
-                        data: dataBR,
-                        ficha: ficha
-                    })
-                ]);
-
-                // ✔ total
-                const total = (resTotal && resTotal.status !== 'error')
-                    ? Number(resTotal.totalFicha) || 0
-                    : 0;
-
-                fieldTotal.value = total;
-
-                // ✔ finalizadas
-                const finalizadas = (resFinal && resFinal.status !== 'error')
-                    ? Number(resFinal.pecasFinalizadas) || 0
-                    : 0;
-
-                fieldFinalizadas.value = finalizadas;
-
-                // ✔ pendentes
-                const pendentes = Math.max(0, total - finalizadas);
-
-                if (fieldPendentes) {
-                    fieldPendentes.value = pendentes;
-                }
-
-            } catch (err) {
-                fieldTotal.value = 0;
-                fieldFinalizadas.value = 0;
-                if (fieldPendentes) fieldPendentes.value = 0;
-            }
-        }
-        async function puxarDadosBotao(botaoId) {
-            if (!botaoId) return;
-            mostrarStatus('Buscando dados...', 'success');
-            const res = await fetchGAS(CONFIG_API_URL, { action: 'getBotaoDados', id: botaoId });
-
-            if (res && res.status !== 'error') {
-                document.getElementById('campoFicha').value = res.ficha || '';
-                document.getElementById('campoModelo').value = res.modelo || '';
-                document.getElementById('campoSetor').value = res.setor || '';
-                document.getElementById('campoOperacao').value = res.operacao || '';
-                document.getElementById('campoColaborador').value = res.colaborador || '';
-                document.getElementById('campoMaquina').value = res.maquina || '';
-                document.getElementById('campoMeta').value = res.meta || '';
-                document.getElementById('campoLeadTime').value = res.leadtime || '';
-
-            }
-        }
-
-        async function enviarForm(e, tipo) {
-            e.preventDefault();
-            const form = e.target;
-            const inputs = form.querySelectorAll('[required]');
-            let valid = true;
-            inputs.forEach(i => { if (!i.value) valid = false; });
-
-            if (!valid) {
-                mostrarStatus('Preencha os campos obrigatórios!', 'error');
-                return;
-            }
-
-            mostrarStatus('Salvando...', 'success');
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
-            data.action = tipo === 'manual' ? 'salvarManual' : 'salvarConfig';
-
-            try {
-                const destino =
-                    tipo === 'manual'
-                        ? LANCAMENTO_API_URL
-                        : CONFIG_API_URL;
-
-                const response = await fetch(destino, {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                });
-
-                const resultText = await response.text();
-
-
-                if (resultText.toLowerCase().includes("sucesso") || resultText.toLowerCase().includes("ok")) {
-                    mostrarStatus('Lançado com Sucesso!', 'success');
-                    if (tipo === 'manual') {
-                        const fichaAtual = document.getElementById('manualFicha').value;
-                        document.getElementById('manualProducao').value = "";
-                        document.getElementById('manualColaborador').value = "";
-                        document.getElementById('manualProducao').focus();
-                        // Atualiza os totais após o lançamento
-                        if (fichaAtual) aoMudarFichaManual(fichaAtual);
-                    }
-
-                    if (tipo === 'config') {
-                        const formConfig = document.getElementById('configForm');
-
-                        document.getElementById('campoBotao').value = "";
-                        document.getElementById('campoFicha').value = "";
-                        document.getElementById('campoModelo').value = "";
-
-                        document.getElementById('campoSetor').value = "";
-                        document.getElementById('campoOperacao').value = "";
-                        document.getElementById('campoColaborador').value = "";
-
-                        document.getElementById('campoMaquina').value = "";
-                        document.getElementById('campoMeta').value = "";
-                        document.getElementById('campoLeadTime').value = "";
-
-                        // mantém alguns ajustes manuais importantes
-                        document.getElementById('campoData').value = document.getElementById('campoData').value;
-
-                        //document.getElementById('campoModelo').innerHTML ='<option value="">Selecione...</option>';
-                    }
-
-
+                if (res && res.modelos && res.modelos.length > 0) {
+                    res.modelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
                 } else {
-                    mostrarStatus('Erro ao salvar.', 'error');
+                    elMod.innerHTML = '<option value="">Lista Geral:</option>';
+                    todosOsModelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
                 }
-            } catch (err) {
-                mostrarStatus('Erro de conexão.', 'error');
             }
-        }
 
-        document.getElementById('configForm').onsubmit = (e) => enviarForm(e, 'config');
-        document.getElementById('lancamentoForm').onsubmit = (e) => enviarForm(e, 'manual');
+            function recalcularProducao() {
+                const ficha = document.getElementById('manualFicha').value;
+                if (!ficha) return;
 
-        function mostrarStatus(msg, type) {
-            const el = document.getElementById('statusMessage');
-            if (!el) return;
-            el.textContent = msg;
-            el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full shadow-2xl text-sm font-bold z-50 ${type === 'success' ? 'bg-slate-900 text-white' : 'bg-red-600 text-white'}`;
-            el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 3000);
-        }
-    </script>
+                aoMudarFichaManual(ficha);
+            }
+
+            async function aoMudarFichaManual(ficha) {
+                if (!ficha) return;
+
+                await filtrarModelosPorFicha(ficha, 'manualModelo');
+
+                const fieldTotal = document.getElementById('manualTotalPecasFicha');
+                const fieldFinalizadas = document.getElementById('manualPecasFinalizadas');
+                const fieldPendentes = document.getElementById('manualPecasPendentes');
+
+                // estado inicial
+                fieldTotal.value = "Calculando...";
+                fieldFinalizadas.value = "Calculando...";
+                if (fieldPendentes) fieldPendentes.value = "Calculando...";
+
+                // 🔴 pega data
+                const dataISO = document.getElementById('manualData').value;
+
+                let dataBR = "";
+                if (dataISO) {
+                    const [ano, mes, dia] = dataISO.split("-");
+                    dataBR = `${dia}/${mes}/${ano}`;
+                }
+
+                try {
+                    // 🚀 roda as duas chamadas em paralelo (mais rápido)
+                    const [resTotal, resFinal] = await Promise.all([
+                        fetchGAS(CONFIG_API_URL, {
+                            action: 'getInfoProducaoFicha',
+                            ficha: ficha
+                        }),
+                        fetchGAS(CONFIG_API_URL, {
+                            action: 'getPecasFinalizadasFicha',
+                            data: dataBR,
+                            ficha: ficha
+                        })
+                    ]);
+
+                    // ✔ total
+                    const total = (resTotal && resTotal.status !== 'error')
+                        ? Number(resTotal.totalFicha) || 0
+                        : 0;
+
+                    fieldTotal.value = total;
+
+                    // ✔ finalizadas
+                    const finalizadas = (resFinal && resFinal.status !== 'error')
+                        ? Number(resFinal.pecasFinalizadas) || 0
+                        : 0;
+
+                    fieldFinalizadas.value = finalizadas;
+
+                    // ✔ pendentes
+                    const pendentes = Math.max(0, total - finalizadas);
+
+                    if (fieldPendentes) {
+                        fieldPendentes.value = pendentes;
+                    }
+
+                } catch (err) {
+                    fieldTotal.value = 0;
+                    fieldFinalizadas.value = 0;
+                    if (fieldPendentes) fieldPendentes.value = 0;
+                }
+            }
+            async function puxarDadosBotao(botaoId) {
+                if (!botaoId) return;
+                mostrarStatus('Buscando dados...', 'success');
+                const res = await fetchGAS(CONFIG_API_URL, { action: 'getBotaoDados', id: botaoId });
+
+                if (res && res.status !== 'error') {
+                    document.getElementById('campoFicha').value = res.ficha || '';
+                    document.getElementById('campoModelo').value = res.modelo || '';
+                    document.getElementById('campoSetor').value = res.setor || '';
+                    document.getElementById('campoOperacao').value = res.operacao || '';
+                    document.getElementById('campoColaborador').value = res.colaborador || '';
+                    document.getElementById('campoMaquina').value = res.maquina || '';
+                    document.getElementById('campoMeta').value = res.meta || '';
+                    document.getElementById('campoLeadTime').value = res.leadtime || '';
+
+                }
+            }
+
+            async function enviarForm(e, tipo) {
+                e.preventDefault();
+                const form = e.target;
+                const inputs = form.querySelectorAll('[required]');
+                let valid = true;
+                inputs.forEach(i => { if (!i.value) valid = false; });
+
+                if (!valid) {
+                    mostrarStatus('Preencha os campos obrigatórios!', 'error');
+                    return;
+                }
+
+                mostrarStatus('Salvando...', 'success');
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                data.action = tipo === 'manual' ? 'salvarManual' : 'salvarConfig';
+
+                try {
+                    const destino =
+                        tipo === 'manual'
+                            ? LANCAMENTO_API_URL
+                            : CONFIG_API_URL;
+
+                    const response = await fetch(destino, {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+
+                    const resultText = await response.text();
+
+
+                    if (resultText.toLowerCase().includes("sucesso") || resultText.toLowerCase().includes("ok")) {
+                        mostrarStatus('Lançado com Sucesso!', 'success');
+                        if (tipo === 'manual') {
+                            const fichaAtual = document.getElementById('manualFicha').value;
+                            document.getElementById('manualProducao').value = "";
+                            document.getElementById('manualColaborador').value = "";
+                            document.getElementById('manualProducao').focus();
+                            // Atualiza os totais após o lançamento
+                            if (fichaAtual) aoMudarFichaManual(fichaAtual);
+                        }
+
+                        if (tipo === 'config') {
+                            const formConfig = document.getElementById('configForm');
+
+                            document.getElementById('campoBotao').value = "";
+                            document.getElementById('campoFicha').value = "";
+                            document.getElementById('campoModelo').value = "";
+
+                            document.getElementById('campoSetor').value = "";
+                            document.getElementById('campoOperacao').value = "";
+                            document.getElementById('campoColaborador').value = "";
+
+                            document.getElementById('campoMaquina').value = "";
+                            document.getElementById('campoMeta').value = "";
+                            document.getElementById('campoLeadTime').value = "";
+
+                            // mantém alguns ajustes manuais importantes
+                            document.getElementById('campoData').value = document.getElementById('campoData').value;
+
+                            //document.getElementById('campoModelo').innerHTML ='<option value="">Selecione...</option>';
+                        }
+
+
+                    } else {
+                        mostrarStatus('Erro ao salvar.', 'error');
+                    }
+                } catch (err) {
+                    mostrarStatus('Erro de conexão.', 'error');
+                }
+            }
+
+            document.getElementById('configForm').onsubmit = (e) => enviarForm(e, 'config');
+            document.getElementById('lancamentoForm').onsubmit = (e) => enviarForm(e, 'manual');
+
+            function mostrarStatus(msg, type) {
+                const el = document.getElementById('statusMessage');
+                if (!el) return;
+                el.textContent = msg;
+                el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full shadow-2xl text-sm font-bold z-50 ${type === 'success' ? 'bg-slate-900 text-white' : 'bg-red-600 text-white'}`;
+                el.classList.remove('hidden');
+                setTimeout(() => el.classList.add('hidden'), 3000);
+            }
+        </script>
 </body>
 <div id="loading-overlay"
     class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
