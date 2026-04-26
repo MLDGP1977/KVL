@@ -257,10 +257,12 @@
             <div id="mobile-menu" class="lg:hidden p-2 flex flex-col gap-2">
 
                 <!-- SETORES -->
-                <div id="setores" class="flex flex-wrap gap-2"></div>
+                <div id="setores" class="grid grid-cols-3 gap-2"></div>
 
                 <!-- OPERAÇÕES -->
-                <div id="operacoes" class="flex flex-wrap gap-2 mt-2"></div>
+                <select id="operacoesSelect" class="w-full p-2 mt-2 border rounded-lg text-sm bg-white shadow-sm">
+                    <option value="">Selecione a operação</option>
+                </select>
 
             </div>
 
@@ -849,7 +851,7 @@
                 Object.keys(SETORES).forEach(setor => {
                     const btn = document.createElement('button');
                     btn.textContent = setor;
-                    btn.className = "bg-slate-200 px-3 py-2 rounded text-xs font-bold";
+                    btn.className = "w-full text-center bg-slate-100 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all";
 
                     btn.onclick = () => {
                         // remove seleção de todos
@@ -884,39 +886,34 @@
                 el.classList.add('opacity-0', 'pointer-events-none');
             }
 
-            function renderOperacoes(setor) {
-                const opsDiv = document.getElementById('operacoes');
-                opsDiv.innerHTML = "";
+function renderOperacoes(setor) {
+    const select = document.getElementById('operacoesSelect');
 
-                SETORES[setor].forEach(op => {
-                    const index = OPERATIONS.findIndex(o => o.id === op.id);
+    select.innerHTML = '<option value="">Selecione a operação</option>';
 
-                    const btn = document.createElement('button');
-                    btn.textContent = op.label.split(': ')[1] || op.label;
+    SETORES[setor].forEach(op => {
+        const index = OPERATIONS.findIndex(o => o.id === op.id);
 
-                    btn.className = "bg-slate-200 px-3 py-2 rounded text-xs font-bold";
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = op.label;
 
-                    btn.onclick = () => {
-                        modoManual = true;
+        select.appendChild(option);
+    });
 
-                        if (rotationTimeout) clearTimeout(rotationTimeout);
-                        currentOpIndex = index;
+    select.onchange = function () {
+        if (this.value === "") return;
 
+        modoManual = true;
 
-                        document.querySelectorAll('#operacoes button')
-                            .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+        if (rotationTimeout) clearTimeout(rotationTimeout);
 
+        currentOpIndex = parseInt(this.value);
 
-                        btn.classList.add('bg-blue-500', 'text-white');
-
-                        showLoading();
-
-                        fetchData();
-                    };
-
-                    opsDiv.appendChild(btn);
-                });
-            }
+        showLoading();
+        fetchData();
+    };
+}
 
 
 
