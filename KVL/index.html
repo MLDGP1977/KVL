@@ -108,10 +108,10 @@
                 <!-- ABA PAINEL -->
                 <div id="containerPainel"></div>
 
-                <div id="mobile-menu" class="lg:hidden p-2 flex flex-col gap-2">
+                <div id="setores" class="grid grid-cols-3 gap-2"></div>
 
                     <!-- SETORES -->
-                    <div id="setores" class="grid grid-cols-3 gap-2"></div>
+                    <div id="setores" class="grid grid-cols-3 gap-2 text-center"></div>
 
                     <!-- OPERAÇÕES -->
                     <select id="operacoesSelect" class="w-full p-2 mt-2 border rounded-lg text-sm bg-white shadow-sm">
@@ -226,11 +226,32 @@
                         </div>
                     </div>
                     <div class="bg-white p-4 rounded-2xl border shadow-sm">
-                        <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Eficiência Operador
-                        </h3>
+                        <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Eficiência Operador</h3>
                         <div class="h-[250px] max-h-[250px]">
                             <canvas id="chart-operador-dash"></canvas>
                         </div>
+                     </div>   
+                        
+                        <div class="bg-white p-4 rounded-2xl border shadow-sm mt-4">
+    <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">
+        Eficiência Detalhada
+    </h3>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead>
+                <tr class="text-slate-400 text-xs uppercase">
+                    <th class="py-2">Operador</th>
+                    <th class="py-2 text-center">%</th>
+                    <th class="py-2 text-center">Qtd</th>
+                    <th class="py-2 text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaOperadores"></tbody>
+        </table>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>
@@ -388,7 +409,7 @@
                     <div class="grid grid-cols-3 gap-3 pt-2">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-tight">
-                                Peças na Ficha
+                                Pçs na Ficha
                             </label>
                             <input type="text" id="manualTotalPecasFicha" readonly
                                 class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-600 font-bold shadow-inner">
@@ -396,7 +417,7 @@
 
                         <div>
                             <label class="block text-xs font-bold text-emerald-700 mb-1 uppercase tracking-tight">
-                                Peças Finalizadas
+                                Pçs Concluídas
                             </label>
                             <input type="text" id="manualPecasFinalizadas" readonly
                                 class="w-full p-3 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-700 font-bold shadow-inner">
@@ -404,7 +425,7 @@
 
                         <div>
                             <label class="block text-xs font-bold text-amber-700 mb-1 uppercase tracking-tight">
-                                Peças Pendentes
+                                Pçs Pendentes
                             </label>
                             <input type="text" id="manualPecasPendentes" readonly
                                 class="w-full p-3 bg-amber-50 border border-amber-100 rounded-xl font-bold">
@@ -554,7 +575,7 @@
         let lastSuccessfulData = {};
         let retryCount = 0;
         const MAX_RETRIES = 2;
-        let modoManual = window.innerWidth < 768;
+        let modoManual = true;
 
 
         let todosOsModelos = [];
@@ -726,10 +747,67 @@
 
 
             updateCharts(data);
-
-
-
         }
+
+function atualizarTabelaOperadores(nomes, perc, volume) {
+    const tbody = document.getElementById('tabelaOperadores');
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    // 🔥 CALCULA TOTAIS
+    const totalQtd = volume.reduce((acc, v) => acc + (v || 0), 0);
+
+    // média ponderada (mais correta)
+    const totalPerc = totalQtd > 0
+        ? Math.round(volume.reduce((acc, v, i) => acc + (v * perc[i]), 0) / totalQtd)
+        : 0;
+
+    // 🔥 LINHA TOTAL
+    tbody.innerHTML += `
+        <tr class="bg-slate-100 border-b-2">
+            <td class="py-2 font-bold">TOTAL OPERAÇÃO</td>
+            <td class="py-2 text-center font-bold">${totalPerc}%</td>
+            <td class="py-2 text-center font-bold">${totalQtd}</td>
+            <td class="py-2 text-center font-bold text-blue-600">Geral</td>
+        </tr>
+    `;
+
+    // 🔽 LINHAS DOS OPERADORES
+    nomes.forEach((nome, i) => {
+        const p = perc[i] || 0;
+        const v = volume[i] || 0;
+
+        let status = "";
+        let cor = "";
+
+        if (p >= 90) {
+            status = "Ótimo";
+            cor = "text-green-600";
+        } else if (p >= 70) {
+            status = "Atenção";
+            cor = "text-yellow-600";
+        } else {
+            status = "Crítico";
+            cor = "text-red-600";
+        }
+
+        tbody.innerHTML += `
+            <tr class="border-t">
+                <td class="py-2 font-semibold">${nome}</td>
+                <td class="py-2 text-center font-bold">${p}%</td>
+                <td class="py-2 text-center">${v}</td>
+                <td class="py-2 text-center font-bold ${cor}">
+                    ${status}
+                </td>
+            </tr>
+        `;
+    });
+}
+
+
+
+
         function initCharts() {
             const baseOptions = {
                 responsive: true, maintainAspectRatio: false,
@@ -891,6 +969,7 @@
             if (!modoManual) return;
 
             const setoresDiv = document.getElementById('setores');
+            if (!setoresDiv) return;
             const opsDiv = document.getElementById('operacoes');
 
             Object.keys(SETORES).forEach(setor => {
@@ -911,6 +990,7 @@
                 setoresDiv.appendChild(btn);
             });
             const primeiroSetor = Object.keys(SETORES)[0];
+
 
         }
         function showLoading() {
@@ -1001,10 +1081,28 @@ function renderOperacoes(setor) {
             const volume = (tl.prodreal1 || []).slice(0, nomes.length);
             const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
 
+
+
+             const dados = nomes.map((n, i) => ({
+    nome: n,
+    perc: perc[i],
+    vol: volume[i]
+})).sort((a, b) => b.perc - a.perc);
+
+// 🔄 separa novamente já ordenado
+const nomesOrd = dados.map(d => d.nome);
+const percOrd = dados.map(d => d.perc);
+const volumeOrd = dados.map(d => d.vol);
+
+
+
+
             charts.ops.data.labels = nomes;
             charts.ops.data.datasets[0].data = perc;
             charts.ops.data.datasets[0].backgroundColor = cores;
             charts.ops.data.datasets[0].volumeData = volume;
+
+            atualizarTabelaOperadores(nomes, perc, volume);
 
             charts.ops.update();
 
@@ -1418,7 +1516,7 @@ function renderOperacoes(setor) {
                 });
 
                 const resultText = await response.text();
-                console.log(resultText);
+
 
                 if (resultText.toLowerCase().includes("sucesso") || resultText.toLowerCase().includes("ok")) {
                     mostrarStatus('Lançado com Sucesso!', 'success');
