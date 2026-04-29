@@ -86,10 +86,19 @@
         <div class="flex-grow pb-20 overflow-y-auto">
             <!-- ABA PAINEL -->
             <div id="view-painel" class="p-5 animate-in fade-in duration-300">
-                <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
-                    <span class="bg-indigo-600 w-1.5 h-5 mr-2 rounded"></span>
-                    Painel Geral
-                </h2>
+<div class="flex items-center justify-between mb-4">
+
+    <h2 class="text-base font-bold text-slate-700 flex items-center">
+        <span class="bg-indigo-600 w-1.5 h-5 mr-2 rounded"></span>
+        Painel Geral
+    </h2>
+
+    <button id="btn-refresh"
+        class="px-3 py-1 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg shadow">
+        🔄 Atualizar
+    </button>
+
+</div>
                 <div>
                     <h1 id="operation-title" class="font-extrabold uppercase text-slate-900 text-xs lg:text-base">
                         Sincronizando...</h1>
@@ -505,7 +514,7 @@
             const MAX_RETRIES = 2;
             let allData = {};
             let lastFetchTime = 0;
-            const CACHE_TIME = 300000; // 30s
+            const CACHE_TIME = 120000; // 2min
             let modoManual = true;
             let todosOsModelos = [];
             let todasAsCostureiras = [];
@@ -588,63 +597,98 @@
             }
 
             let cacheDadosOperacoes = {};
-  async function fetchData() {
-    const currentOp = OPERATIONS[currentOpIndex];
 
-    const statusText = document.getElementById('status-text');
-    const statusDot = document.getElementById('status-dot');
+            async function fetchData() {
+                const currentOp = OPERATIONS[currentOpIndex];
+                const statusText = document.getElementById('status-text');
+                const statusDot = document.getElementById('status-dot');
+                const hasData = allData && Object.keys(allData).length > 0;
+                if (!hasData) {
+                    showLoading();
+                }
+                try {
+                    const data = await fetchAllData();
+                    if (data && data[currentOp.id]) {
+                        statusText.innerText = "Conectado";
+                        statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                        updateUI(currentOp, data[currentOp.id]);
+                    } else {
+                        throw new Error("Sem dados");
+                    }
+                } catch (err) {
+                    statusText.innerText = "Erro de conexão";
+                    statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+                    handleFetchError();
+                }
+                hideLoading();
+            }
 
-    showLoading();
-
-    try {
-        const data = await fetchAllData();
-
-        if (data && data[currentOp.id]) {
-
-            // ✅ ATUALIZA STATUS AQUI
-            statusText.innerText = "Conectado";
-            statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
-
-            updateUI(currentOp, data[currentOp.id]);
-
-        } else {
-            throw new Error("Sem dados");
+async function fetchAllData(force = false) {
+    const now = Date.now();
+    const hasData = allData && Object.keys(allData).length > 0;
+    if (force) {
+        const res = await fetch(API_URL + "?action=getAll");
+        const json = await res.json();
+        if (json.status === "success") {
+            allData = json.data;
+            lastFetchTime = now;
+            return allData;
         }
-
-    } catch (err) {
-
-        // ❌ ERRO
-        statusText.innerText = "Erro de conexão";
-        statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
-
-        handleFetchError();
+        throw new Error("Erro ao forçar atualização");
     }
-
-    hideLoading();
+    if (hasData && (now - lastFetchTime < CACHE_TIME)) {
+        return allData;
+    }
+    if (!hasData) {
+        const res = await fetch(API_URL + "?action=getAll");
+        const json = await res.json();
+        if (json.status === "success") {
+            allData = json.data;
+            lastFetchTime = now;
+            return allData;
+        }
+        throw new Error("Erro inicial");
+    }
+    atualizarDadosEmBackground();
+    return allData;
 }
 
-            async function fetchAllData(force = false) {
-                const now = Date.now();
-                if (!force && allData && (now - lastFetchTime < CACHE_TIME)) {
-                   return allData;
-                }
-                showLoading();
+            async function atualizarDadosEmBackground() {
                 try {
                     const res = await fetch(API_URL + "?action=getAll");
                     const json = await res.json();
                     if (json.status === "success") {
                         allData = json.data;
-                        lastFetchTime = now;
-                        console.log("dados atualizados");
-                        return allData;
+                        lastFetchTime = Date.now();
+                        console.log("🔄 dados atualizados em background");
+                        const currentOp = OPERATIONS[currentOpIndex];
+                        if (allData[currentOp.id]) {
+                            updateUI(currentOp, allData[currentOp.id]);
+                        }
                     }
                 } catch (err) {
-                    console.error(err);
+                    console.error("Erro ao atualizar em background");
                 }
-                hideLoading();
             }
 
-
+            async function forcarAtualizacao() {
+                const statusText = document.getElementById('status-text');
+                const statusDot = document.getElementById('status-dot');
+                statusText.innerText = "Atualizando...";
+                statusDot.className = "w-2 h-2 rounded-full bg-yellow-400";
+                try {
+                    const data = await fetchAllData(true); // 🔥 força atualização
+                    const currentOp = OPERATIONS[currentOpIndex];
+                    if (data && data[currentOp.id]) {
+                        updateUI(currentOp, data[currentOp.id]);
+                        statusText.innerText = "Atualizado manualmente";
+                        statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                    }
+                } catch (err) {
+                    statusText.innerText = "Erro ao atualizar";
+                    statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+                }
+            }
 
             function startTimer() {
                 if (rotationTimeout) clearTimeout(rotationTimeout);
@@ -1371,6 +1415,8 @@
                 el.classList.remove('hidden');
                 setTimeout(() => el.classList.add('hidden'), 3000);
             }
+
+            document.getElementById('btn-refresh').addEventListener('click', forcarAtualizacao);
         </script>
 </body>
 <div id="loading-overlay"
@@ -1380,5 +1426,4 @@
         <span class="font-bold text-sm text-slate-700">A carregar...</span>
     </div>
 </div>
-
 </html>
