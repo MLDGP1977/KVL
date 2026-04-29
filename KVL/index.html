@@ -62,22 +62,18 @@
             <div class="p-6 flex flex-col items-center">
                 <img src="https://mldgp1977.github.io/KVL/logo.png" alt="Logo" class="h-20 mb-3 object-contain"
                     onerror="this.src='https://via.placeholder.com/250?text=LOGO'">
-
                 <h1 class="text-xl font-black text-slate-800 tracking-tight uppercase">Painel de Produção</h1>
                 <p class="text-xs text-slate-400 font-medium mb-4">Gestão e Controle Industrial</p>
-
                 <div
                     class="flex space-x-2 mt-2 overflow-x-auto w-full justify-start md:justify-center hide-scrollbar px-2">
                     <button onclick="switchTab('painel')" id="tab-painel"
                         class="py-2 px-4 transition-all tab-active text-sm uppercase tracking-wider">
                         Painel
                     </button>
-
                     <button onclick="switchTab('manual')" id="tab-manual"
                         class="py-2 px-4 transition-all text-slate-500 hover:text-blue-600 text-sm uppercase tracking-wider">
                         Lançamento
                     </button>
-
                     <button onclick="switchTab('config')" id="tab-config"
                         class="py-2 px-4 transition-all text-slate-500 hover:text-blue-600 text-sm uppercase tracking-wider">
                         Configuração
@@ -88,7 +84,6 @@
 
         <!-- CONTEÚDO -->
         <div class="flex-grow pb-20 overflow-y-auto">
-
             <!-- ABA PAINEL -->
             <div id="view-painel" class="p-5 animate-in fade-in duration-300">
                 <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
@@ -105,45 +100,32 @@
                     </div>
                 </div>
 
-
                 <!-- ABA PAINEL -->
                 <div id="containerPainel"></div>
-
                 <div class="space-y-3 mb-4">
-
                     <div id="setores" class="grid grid-cols-3 gap-2 text-center"></div>
-
                     <select id="operacoesSelect" class="w-full p-2 border rounded-lg text-sm bg-white shadow-sm">
                         <option value="">Selecione a operação</option>
                     </select>
-
                 </div>
-
-
-
                 <div class="grid grid-cols-2 gap-3 mb-6">
                     <div class="bg-white p-3 rounded-2xl border shadow-sm border-l-4 border-slate-400">
-
                         <!-- Título -->
                         <span class="flex items-center gap-2 text-slate-600 font-bold text-base">
                             <i class="fas fa-box"></i> Produção
                         </span>
-
                         <!-- Valor -->
                         <div id="card-total-producao"
                             class="text-black font-bold text-3xl text-center mt-2 tabular-nums">
                             0
                         </div>
-
                     </div>
                     <div
                         class="bg-white p-3 rounded-2xl border shadow-sm border-l-4 border-rose-500 hover:shadow-md transition">
-
                         <!-- Título -->
                         <span class="flex items-center gap-2 text-slate-600 font-bold text-base">
                             <i class="fas fa-tools"></i> Consertos
                         </span>
-
                         <!-- Valor -->
                         <div id="card-consertos" class="text-rose-600 font-bold text-3xl text-center mt-2 tabular-nums">
                             0
@@ -151,71 +133,53 @@
                     </div>
                     <div
                         class="bg-white p-3 rounded-2xl border shadow-sm border-l-4 border-cyan-500 hover:shadow-md transition">
-
                         <!-- Título -->
                         <span class="flex items-center gap-2 text-slate-600 font-bold text-base">
                             <i class="fas fa-check-circle"></i> Qualidade
                         </span>
-
                         <!-- Valor -->
                         <div id="card-qualidade" class="text-cyan-600 font-bold text-3xl text-center mt-2 tabular-nums">
                             0%
                         </div>
-
                         <!-- Subtexto -->
                         <div id="qualidade-status" class="text-center text-sm font-semibold text-slate-400 mt-1">
                             --
                         </div>
                     </div>
-
                     <div class="bg-white p-3 rounded-2xl border shadow-sm border-l-4 border-blue-500">
-
                         <!-- Título -->
                         <div class="text-slate-600 font-bold text-base mb-2">
                             <i class="fas fa-chart-pie mr-1"></i> Progresso
                         </div>
-
                         <!-- Conteúdo -->
                         <div class="flex items-center gap-4">
-
-                            <!-- 🍩 ESQUERDA: DONUT + IMAGEM -->
                             <div class="relative flex items-center justify-center">
                                 <svg class="w-[70px] h-[70px] lg:w-[90px] lg:h-[90px] transform -rotate-90"
                                     viewBox="0 0 100 100">
-
                                     <circle cx="50" cy="50" r="42" stroke="#f1f5f9" stroke-width="8"
                                         fill="transparent" />
-
                                     <circle id="progress-circle" cx="50" cy="50" r="42" stroke="#3b82f6"
                                         stroke-width="8" fill="transparent" stroke-dasharray="263.89"
                                         stroke-dashoffset="263.89" stroke-linecap="round"
                                         class="transition-all duration-700" />
                                 </svg>
-
                                 <!-- imagem central -->
                                 <img id="volume-img" src="https://mldgp1977.github.io/KVL/N0.png"
                                     class="absolute w-7 h-7 lg:w-9 lg:h-9 object-contain">
                             </div>
-
-                            <!-- 📊 DIREITA: TEXTO -->
                             <div class="flex flex-col justify-center flex-1">
-
                                 <!-- % principal -->
                                 <span id="perc-conclusao"
                                     class="text-blue-600 font-bold text-3xl leading-none tabular-nums">
                                     0%
                                 </span>
-
                                 <!-- meta -->
                                 <span id="meta-dia-val" class="text-sm font-semibold text-slate-400 mt-1">
                                     --
                                 </span>
-
                             </div>
-
                         </div>
                     </div>
-
                 </div>
                 <!-- Graficos -->
                 <div class="space-y-6">
@@ -233,12 +197,10 @@
                             <canvas id="chart-operador-dash"></canvas>
                         </div>
                     </div>
-
                     <div class="bg-white p-4 rounded-2xl border shadow-sm mt-4">
                         <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">
                             Eficiência Detalhada
                         </h3>
-
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left">
                                 <thead>
@@ -253,11 +215,8 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
             <!-- Config Botons -->
             <div id="view-config" class="p-5 animate-in fade-in duration-300">
                 <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
@@ -271,7 +230,6 @@
                             <option value="">Carregando IDs...</option>
                         </select>
                     </div>
-
                     <div class="grid grid-cols-1 gap-3">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -283,19 +241,16 @@
                                 <label class="block text-xs font-semibold text-slate-500 mb-1">Ficha</label>
                                 <select id="campoFicha" name="Ficha"
                                     class="w-full p-3 border border-slate-200 rounded-xl shadow-sm bg-white">
-
                                 </select>
                                 <datalist id="listaFichasConfig"></datalist>
                             </div>
                         </div>
-
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Modelo</label>
                             <select id="campoModelo" name="Modelo" required
                                 class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm transition-all">
                             </select>
                         </div>
-
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-500 mb-1">Setor</label>
@@ -308,13 +263,11 @@
                                     class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
                             </div>
                         </div>
-
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Colaborador</label>
                             <select id="campoColaborador" name="Colaborador" required
                                 class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
                         </div>
-
                         <div class="grid grid-cols-3 gap-2">
                             <div class="col-span-1">
                                 <label class="block text-xs font-semibold text-slate-500 mb-1">Máquina</label>
@@ -333,7 +286,6 @@
                             </div>
                         </div>
                     </div>
-
                     <button type="submit"
                         class="w-full bg-blue-600 active:bg-blue-800 text-white font-bold py-4 rounded-2xl shadow-lg mt-2 transition-all">
                         SALVAR CONFIGURAÇÃO
@@ -346,7 +298,6 @@
                 <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
                     <span class="bg-emerald-600 w-1.5 h-5 mr-2 rounded"></span> Lançamento de Produção
                 </h2>
-
                 <form id="lancamentoForm" class="space-y-4">
                     <div class="grid grid-cols-2 gap-3">
                         <div>
@@ -362,7 +313,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 mb-1">Modelo</label>
                         <select id="manualModelo" name="Modelo" required
@@ -370,7 +320,6 @@
                             <option value="">Selecione a Ficha...</option>
                         </select>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Setor</label>
@@ -383,7 +332,6 @@
                                 class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 mb-1 text-emerald-700">Costureira
                             (Lista Geral)</label>
@@ -392,7 +340,6 @@
                             <option value="">Carregando...</option>
                         </select>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Produção (Qtd)</label>
@@ -406,8 +353,7 @@
                                 class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
                         </div>
                     </div>
-
-                     <div class="grid grid-cols-3 gap-3 pt-2">
+                    <div class="grid grid-cols-3 gap-3 pt-2">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1 tracking-tight">
                                 Peças na Ficha
@@ -415,7 +361,6 @@
                             <input type="text" id="manualTotalPecasFicha" readonly
                                 class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-600 font-bold shadow-inner">
                         </div>
-
                         <div>
                             <label class="block text-xs font-bold text-emerald-700 mb-1 tracking-tight">
                                 Peças Concluídas
@@ -423,7 +368,6 @@
                             <input type="text" id="manualPecasFinalizadas" readonly
                                 class="w-full p-3 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-700 font-bold shadow-inner">
                         </div>
-
                         <div>
                             <label class="block text-xs font-bold text-amber-700 mb-1 tracking-tight">
                                 Peças Pendentes
@@ -438,51 +382,39 @@
                     </button>
                 </form>
             </div>
-
-
             <div id="statusMessage"
                 class="fixed bottom-6 left-1/2 -translate-x-1/2 hidden px-6 py-3 rounded-full shadow-2xl text-sm font-bold z-50 transition-all">
             </div>
-
-
             <!-- ABA ANÁLISE -->
             <div id="view-analise" class="p-5 hidden animate-in fade-in duration-300">
-
                 <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
                     <span class="bg-purple-600 w-1.5 h-5 mr-2 rounded"></span>
                     Análise de Produção
                 </h2>
-
                 <!-- filtros -->
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Data</label>
                         <input type="date" id="analiseData" class="w-full p-3 border rounded-xl">
                     </div>
-
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Operação</label>
                         <select id="analiseOperacao" class="w-full p-3 border rounded-xl"></select>
                     </div>
                 </div>
-
                 <!-- gráfico -->
                 <div class="flex gap-2 mb-3">
                     <button id="btnCarregarGrafico" onclick="carregarGrafico()"
                         class="bg-purple-600 text-white px-4 py-2 rounded-xl font-bold">
                         Gerar Gráfico
                     </button>
-
                     <span id="loadingGrafico" class="hidden text-sm text-slate-500 flex items-center">
                         ⏳ Carregando...
                     </span>
                 </div>
-
                 <canvas id="graficoProducao"></canvas>
-
             </div>
         </div>
-
         <script>
             Chart.register(ChartDataLabels);
             Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
@@ -500,11 +432,9 @@
 
                 return val;
             };
-
             const CONFIG_API_URL = 'https://script.google.com/macros/s/AKfycbw58X9fHQNtN89z1piRnB8fGnpd65ipbvVYRHt3Jpa3PDGUHHUyrsp89SooxLSdz5ER/exec';
-            const API_URL = 'https://script.google.com/macros/s/AKfycbwVXmll05QQOMqjcM6gVJZrtG8ctsVDXAh_l85eqQXqdkkSkuqzbeyDo7PTge8EN9Difw/exec';
+            const API_URL = 'https://script.google.com/macros/s/AKfycbwDlFg8yT3kzoKuxJxh5Qye7I7DCffkT7WFIBbq0yTuawze3sCscIcOVPetLn3MxpuqIA/exec';
             const LANCAMENTO_API_URL = 'https://script.google.com/macros/s/AKfycbzLxh58y2Lw0tesJ125RajOHAS5el5JS_sNOOU-NH_ACmp_p3PJHyktvnshmNAwC0lw/exec';
-
             const OPERATIONS = [
                 { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoCaseado', label: 'Acabamento: Caseado', icon: 'fa-bacon', color: '#3b82f6' },
@@ -559,9 +489,7 @@
                 { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-
             ];
-
             const SETORES = {
                 Acabamento: OPERATIONS.filter(op => op.label.includes('Acabamento')),
                 Montagem: OPERATIONS.filter(op => op.label.includes('Montagem')),
@@ -569,29 +497,27 @@
                 Traseira: OPERATIONS.filter(op => op.label.includes('Traseira')),
                 Preparação: OPERATIONS.filter(op => op.label.includes('Preparação'))
             };
-
             let currentOpIndex = 0;
             let charts = {};
             let rotationTimeout = null;
             let lastSuccessfulData = {};
             let retryCount = 0;
             const MAX_RETRIES = 2;
+            let allData = {};
+            let lastFetchTime = 0;
+            const CACHE_TIME = 300000; // 30s
             let modoManual = true;
-
-
             let todosOsModelos = [];
             let todasAsCostureiras = [];
 
+
             function updateClock() {
                 const now = new Date();
-
                 const clockEl = document.getElementById('clock');
                 const dateEl = document.getElementById('date');
-
                 if (clockEl) {
                     clockEl.innerText = now.toLocaleTimeString('pt-PT');
                 }
-
                 if (dateEl) {
                     dateEl.innerText = now.toLocaleDateString('pt-PT', {
                         weekday: 'long',
@@ -600,36 +526,29 @@
                     });
                 }
             }
-            setInterval(updateClock, 1000);
 
+            setInterval(updateClock, 1000);
             window.handleApiResponse = function (result) {
                 hideLoading();
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
-
                 if (result && (result.status === 'success' || result.data) && result.data) {
-
+                    cacheDadosOperacoes[currentOp] = {
+                        data: result.data,
+                        timestamp: Date.now()
+                    };
                     retryCount = 0;
                     lastSuccessfulData[currentOp] = result.data;
-
                     const total = result.data.total || 0;
-
-                    // 🔍 verifica se existe alguma operação com valor > 0
                     const existeValida = Object.values(lastSuccessfulData)
                         .some(d => (d.total || 0) > 0);
-
-                    // 🚫 se atual é zero E existe alguma válida → pula
                     if (!modoManual && total <= 0 && existeValida) {
                         currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
                         fetchData();
                         return;
                     }
-
-                    // ✅ se TODAS são zero → entra aqui normalmente
                     updateUI(OPERATIONS[currentOpIndex], result.data);
-
-                    // 🟡 muda status visual (opcional, mas muito bom)
                     if (!existeValida) {
                         statusText.innerText = "Sem produção";
                         statusDot.className = "w-2 h-2 rounded-full bg-yellow-400 pulse-status";
@@ -644,12 +563,12 @@
                     handleFetchError();
                 }
             };
+
             function handleFetchError() {
                 hideLoading();
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
-
                 if (retryCount < MAX_RETRIES) {
                     retryCount++;
                     statusText.innerText = `A tentar novamente (${retryCount})...`;
@@ -659,7 +578,6 @@
                     retryCount = 0;
                     statusText.innerText = "Erro de Ligação (Cache)";
                     statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
-
                     if (lastSuccessfulData[currentOp]) {
                         updateUI(OPERATIONS[currentOpIndex], lastSuccessfulData[currentOp]);
                     } else {
@@ -668,22 +586,68 @@
                     startTimer();
                 }
             }
-            function fetchData() {
-                const currentOp = OPERATIONS[currentOpIndex];
-                const old = document.getElementById('api-script');
-                if (old) old.remove();
 
-                const script = document.createElement('script');
-                script.id = 'api-script';
-                // Adicionado parâmetro cache-breaker 'v' para evitar respostas antigas do browser
-                script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
+            let cacheDadosOperacoes = {};
+  async function fetchData() {
+    const currentOp = OPERATIONS[currentOpIndex];
 
-                script.onerror = () => handleFetchError();
-                document.body.appendChild(script);
+    const statusText = document.getElementById('status-text');
+    const statusDot = document.getElementById('status-dot');
+
+    showLoading();
+
+    try {
+        const data = await fetchAllData();
+
+        if (data && data[currentOp.id]) {
+
+            // ✅ ATUALIZA STATUS AQUI
+            statusText.innerText = "Conectado";
+            statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+
+            updateUI(currentOp, data[currentOp.id]);
+
+        } else {
+            throw new Error("Sem dados");
+        }
+
+    } catch (err) {
+
+        // ❌ ERRO
+        statusText.innerText = "Erro de conexão";
+        statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+
+        handleFetchError();
+    }
+
+    hideLoading();
+}
+
+            async function fetchAllData(force = false) {
+                const now = Date.now();
+                if (!force && allData && (now - lastFetchTime < CACHE_TIME)) {
+                   return allData;
+                }
+                showLoading();
+                try {
+                    const res = await fetch(API_URL + "?action=getAll");
+                    const json = await res.json();
+                    if (json.status === "success") {
+                        allData = json.data;
+                        lastFetchTime = now;
+                        console.log("dados atualizados");
+                        return allData;
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+                hideLoading();
             }
+
+
+
             function startTimer() {
                 if (rotationTimeout) clearTimeout(rotationTimeout);
-
                 if (modoManual) return;
                 rotationTimeout = setTimeout(() => {
                     currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
@@ -693,95 +657,61 @@
 
             function updateUI(opInfo, data) {
                 if (!data) return;
-
                 document.getElementById('operation-title').innerText = opInfo.label;
-
-
-
-
                 document.getElementById('card-total-producao').innerText = data.total || 0;
-
                 const percentCard = (v) => {
                     let val = parseFloat(v) || 0;
-
-                    // normaliza tudo para %
                     if (val <= 1) {
                         val = val * 100;
                     } else if (val <= 10) {
-                        // caso venha 3 (representando 300%)
                         val = val * 100;
                     }
-
                     val = Math.min(val, 100);
-
                     return Math.round(val);
                 };
-
                 const ritmoVal = percentCard(data.ritmo);
                 const qualidadeVal = percentCard(data.qualidade);
                 updateQualidadeStatus(qualidadeVal);
-
-
                 document.getElementById('card-qualidade').innerText = qualidadeVal + '%';
-
                 updateRitmoStatus(ritmoVal);
-
                 const tl = data.timeline || {};
                 const metaDia = parseInt(tl.metadia) || 0;
                 const porcExecRaw = parseFloat(tl.porcexec) || 0;
                 const porcExec = normalizePercent(tl.porcexec) / 100;
                 const porcExecPercent = normalizePercent(tl.porcexec);
                 const img = getVolumeImage(porcExecPercent);
-
                 document.getElementById('volume-img').src =
                     `https://mldgp1977.github.io/KVL/${img}`;
-
                 document.getElementById('meta-dia-val').innerText = `Meta: ${metaDia}`;
                 document.getElementById('perc-conclusao').innerText =
                     Math.round(normalizePercent(tl.porcexec)) + '%';
-
                 const dashOffset = 263.89 - (263.89 * Math.min(1, porcExec));
                 document.getElementById('progress-circle').style.strokeDashoffset = dashOffset;
-
-
                 const percRet = parseFloat(tl.porc) || 0;
-
-
                 updateCharts(data);
             }
 
             function atualizarTabelaOperadores(nomes, perc, volume) {
                 const tbody = document.getElementById('tabelaOperadores');
                 if (!tbody) return;
-
                 tbody.innerHTML = "";
-
-                // 🔥 CALCULA TOTAIS
                 const totalQtd = volume.reduce((acc, v) => acc + (v || 0), 0);
-
-                // média ponderada (mais correta)
                 const totalPerc = totalQtd > 0
                     ? Math.round(volume.reduce((acc, v, i) => acc + (v * perc[i]), 0) / totalQtd)
                     : 0;
-
-                // 🔥 LINHA TOTAL
                 tbody.innerHTML += `
-        <tr class="bg-slate-100 border-b-2">
-            <td class="py-2 font-bold">TOTAL OPERAÇÃO</td>
-            <td class="py-2 text-center font-bold">${totalPerc}%</td>
-            <td class="py-2 text-center font-bold">${totalQtd}</td>
-            <td class="py-2 text-center font-bold text-blue-600">Geral</td>
-        </tr>
-    `;
-
-                // 🔽 LINHAS DOS OPERADORES
+                                   <tr class="bg-slate-100 border-b-2">
+                                   <td class="py-2 font-bold">TOTAL OPERAÇÃO</td>
+                                   <td class="py-2 text-center font-bold">${totalPerc}%</td>
+                                   <td class="py-2 text-center font-bold">${totalQtd}</td>
+                                   <td class="py-2 text-center font-bold text-blue-600">Geral</td>
+                                   </tr>
+                                     `;
                 nomes.forEach((nome, i) => {
                     const p = perc[i] || 0;
                     const v = volume[i] || 0;
-
                     let status = "";
                     let cor = "";
-
                     if (p >= 90) {
                         status = "Ótimo";
                         cor = "text-green-600";
@@ -792,22 +722,18 @@
                         status = "Crítico";
                         cor = "text-red-600";
                     }
-
                     tbody.innerHTML += `
-            <tr class="border-t">
-                <td class="py-2 font-semibold">${nome}</td>
-                <td class="py-2 text-center font-bold">${p}%</td>
-                <td class="py-2 text-center">${v}</td>
-                <td class="py-2 text-center font-bold ${cor}">
-                    ${status}
-                </td>
-            </tr>
-        `;
+                                    <tr class="border-t">
+                                    <td class="py-2 font-semibold">${nome}</td>
+                                    <td class="py-2 text-center font-bold">${p}%</td>
+                                    <td class="py-2 text-center">${v}</td>
+                                    <td class="py-2 text-center font-bold ${cor}">
+                                    ${status}
+                                    </td>
+                                    </tr>
+                                    `;
                 });
             }
-
-
-
 
             function initCharts() {
                 const baseOptions = {
@@ -819,12 +745,10 @@
                         y: { beginAtZero: true, grace: '15%', grid: { display: false }, ticks: { color: '#f1f5f9' }, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 } } }
                     }
                 };
-
                 charts.main = new Chart(document.getElementById('chart-producao-meta-dash'), {
                     data: {
                         labels: [],
                         datasets: [
-                            //  { type: 'line', label: 'Meta', borderColor: '#dc2626', borderWidth: 3, borderDash: [6, 6], pointRadius: 0, datalabels: { display: function (context) { return context.dataIndex === context.dataset.data.length - 1; }, align: 'right', anchor: 'end', offset: 60, color: '#ffffff', borderRadius: 4, padding: 4, color: '#dc2626', font: { weight: 'bold', size: 13 } }, data: [] },
                             { type: 'bar', label: 'Produzido', backgroundColor: '#3b82f6', borderRadius: 4, data: [], maxBarThickness: 80, barPercentage: 0.9, categoryPercentage: 0.8, datalabels: { anchor: 'end', align: 'top' } }
                         ]
                     },
@@ -882,8 +806,6 @@
                                 backgroundColor: [],
                                 datalabels: {
                                     labels: {
-
-                                        // 🔝 LABEL EXTERNO (PERCENTUAL)
                                         percent: {
                                             anchor: 'end',
                                             align: 'end',
@@ -897,8 +819,6 @@
                                                 size: 13
                                             }
                                         },
-
-                                        // 📦 LABEL INTERNO (VOLUME PRODUZIDO)
                                         volume: {
                                             anchor: 'center',
                                             align: 'center',
@@ -922,13 +842,11 @@
                         maintainAspectRatio: false,
                         plugins: {
                             legend: { display: false },
-
                             tooltip: {
                                 callbacks: {
                                     label: function (context) {
                                         const performance = context.raw;
                                         const volume = context.dataset.volumeData?.[context.dataIndex] || 0;
-
                                         return [
                                             `Performance: ${performance}%`,
                                             `Quantidade: ${volume}`
@@ -968,95 +886,71 @@
             }
             function initMobileMenu() {
                 if (!modoManual) return;
-
                 const setoresDiv = document.getElementById('setores');
                 if (!setoresDiv) return;
                 const opsDiv = document.getElementById('operacoes');
-
                 Object.keys(SETORES).forEach(setor => {
                     const btn = document.createElement('button');
                     btn.textContent = setor;
                     btn.className = "w-full text-center bg-slate-100 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all";
-
                     btn.onclick = () => {
-
                         document.querySelectorAll('#setores button')
                             .forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-
                         btn.classList.add('bg-blue-500', 'text-white');
-
                         renderOperacoes(setor);
                     };
 
                     setoresDiv.appendChild(btn);
                 });
                 const primeiroSetor = Object.keys(SETORES)[0];
-
-
             }
+
             function showLoading() {
                 const el = document.getElementById('loading-overlay');
                 el.classList.remove('opacity-0', 'pointer-events-none');
                 el.classList.add('opacity-100');
             }
+
             function hideLoading() {
                 const el = document.getElementById('loading-overlay');
                 el.classList.remove('opacity-100');
                 el.classList.add('opacity-0', 'pointer-events-none');
             }
+
             function renderOperacoes(setor) {
                 const select = document.getElementById('operacoesSelect');
-
                 select.innerHTML = '<option value="">Selecione a operação</option>';
-
                 SETORES[setor].forEach(op => {
                     const index = OPERATIONS.findIndex(o => o.id === op.id);
-
                     const option = document.createElement('option');
                     option.value = index;
                     option.textContent = op.label;
-
                     select.appendChild(option);
                 });
-
                 select.onchange = function () {
                     if (this.value === "") return;
-
                     modoManual = true;
-
                     if (rotationTimeout) clearTimeout(rotationTimeout);
-
                     currentOpIndex = parseInt(this.value);
-
                     showLoading();
                     fetchData();
                 };
             }
 
-
             function updateCharts(data) {
                 const tl = data.timeline;
                 if (!tl || !charts.main || !charts.ops) return;
-
-                // --- GRÁFICO 1: PRODUÇÃO vs META ---
                 const labels = tl.labels || [];
                 const prod = tl.prod || [];
                 const metaArray = tl.meta || [];
-
                 const filtered = labels.map((label, i) => ({
                     label,
                     prod: prod[i],
                     meta: metaArray[i]
                 })).filter(item => item.label && item.label !== "");
-
                 charts.main.data.labels = filtered.map(i => i.label);
-
-                // CORREÇÃO: O dataset de barras agora é o [0]
                 charts.main.data.datasets[0].data = filtered.map(i => i.prod);
-
-                // Atualiza a Linha de Meta (Annotation)
                 const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
-
                 if (charts.main.options.plugins.annotation) {
                     const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
                     anno.yMin = valorMeta;
@@ -1064,9 +958,6 @@
                     anno.label.content = 'Meta: ' + valorMeta;
                 }
                 charts.main.update();
-
-
-
                 // --- GRÁFICO 2: EFICIÊNCIA OPERADOR ---
                 const nomes = (tl.costureira || [])
                     .filter(n => n && n.trim() !== "")
@@ -1074,41 +965,27 @@
                         const partes = nome.trim().split(' ');
                         return partes.length === 1 ? partes[0] : `${partes[0]} ${partes[1].substring(0, 4)}`;
                     });
-
                 const perc = (tl.ating || []).slice(0, nomes.length).map(v => {
                     return Number(normalizePercent(v).toFixed(1));
                 });
-
                 const volume = (tl.prodreal1 || []).slice(0, nomes.length);
                 const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
-
-
-
                 const dados = nomes.map((n, i) => ({
                     nome: n,
                     perc: perc[i],
                     vol: volume[i]
                 })).sort((a, b) => b.perc - a.perc);
-
-                // 🔄 separa novamente já ordenado
                 const nomesOrd = dados.map(d => d.nome);
                 const percOrd = dados.map(d => d.perc);
                 const volumeOrd = dados.map(d => d.vol);
-
-
-
-
                 charts.ops.data.labels = nomes;
                 charts.ops.data.datasets[0].data = perc;
                 charts.ops.data.datasets[0].backgroundColor = cores;
                 charts.ops.data.datasets[0].volumeData = volume;
-
                 atualizarTabelaOperadores(nomes, perc, volume);
-
                 charts.ops.update();
-
-
             }
+
             function getVolumeImage(porc) {
                 if (porc <= 0) return 'N0.png';
                 if (porc <= 10) return 'N1.png';
@@ -1122,9 +999,7 @@
 
             function updateRitmoStatus(valor) {
                 const el = document.getElementById('ritmo-status');
-
                 if (!el) return;
-
                 if (valor >= 90) {
                     el.innerText = "🟢 Bem Cadenciado";
                     animateValue(el);
@@ -1147,9 +1022,7 @@
 
             function updateQualidadeStatus(valor) {
                 const el = document.getElementById('qualidade-status');
-
                 if (!el) return;
-
                 if (valor >= 90) {
                     el.innerText = "🟢 Ótimo";
                     el.style.background = "#dcfce7";
@@ -1168,6 +1041,7 @@
 
                 animateValue(el);
             }
+
             function animateValue(el) {
                 el.classList.add('updated');
                 setTimeout(() => el.classList.remove('updated'), 300);
@@ -1186,10 +1060,8 @@
             function switchTab(tab) {
                 document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
                 document.querySelectorAll('[id^="tab-"]').forEach(t => t.className = 'py-2 px-4 transition-all text-slate-500 whitespace-nowrap text-sm uppercase tracking-wider');
-
                 const target = document.getElementById(`view-${tab}`);
                 if (target) target.classList.remove('hidden');
-
                 document.getElementById(`tab-${tab}`).className = 'py-2 px-4 transition-all tab-active whitespace-nowrap text-sm uppercase tracking-wider';
                 if (tab === 'analise') {
                     setTimeout(() => {
@@ -1201,7 +1073,6 @@
                 if (tab === 'painel') {
                     fetchData(); // Dispara a busca de dados da API e atualiza os gráficos
                 }
-
             }
 
             window.onload = () => {
@@ -1216,16 +1087,13 @@
                 initMobileMenu();
                 fetchData();
                 let timeout;
-
                 document.getElementById('campoData').value = hojeBR;
                 document.getElementById('manualData').value = hojeISO;
                 document.getElementById('analiseData').value = document.getElementById('manualData').value;
                 document.addEventListener('mousemove', () => {
                     const btn = document.getElementById('btn-exit');
                     if (!btn) return; // evita erro se ainda não carregou
-
                     btn.style.opacity = '1';
-
                     clearTimeout(timeout);
                     timeout = setTimeout(() => {
                         btn.style.opacity = '0';
@@ -1239,7 +1107,6 @@
                 const queryParts = [];
                 for (const key in params) queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
                 url += queryParts.join('&');
-
                 try {
                     const response = await fetch(url);
                     const text = await response.text();
@@ -1256,15 +1123,12 @@
             async function carregarListasIniciais() {
                 mostrarStatus('Sincronizando listas...', 'success');
                 const data = await fetchGAS(CONFIG_API_URL, { action: 'getListas' });
-
                 if (data.status === 'error') {
                     mostrarStatus('Erro ao carregar', 'error');
                     return;
                 }
-
                 todosOsModelos = data.modelos || [];
                 todasAsCostureiras = data.colaboradores || [];
-
                 const popular = (id, lista) => {
                     const el = document.getElementById(id);
                     if (!el) return;
@@ -1280,55 +1144,39 @@
                 popular('campoColaborador', data.colaboradores);
                 popular('campoModelo', todosOsModelos);
                 popular('campoFicha', data.fichas);
-
                 popular('manualSetor', data.setores);
                 popular('manualOperacao', data.operacoes);
                 popular('manualModelo', todosOsModelos);
                 popular('manualColaborador', data.colaboradores);
                 popular('manualHora', data.horas || ["07:00", "08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]);
-
                 popular('manualFicha', data.fichas);
-
                 popular('analiseOperacao', data.operacoes);
-
                 mostrarStatus('Listas Prontas!', 'success');
             }
 
-
             async function carregarGrafico() {
-
                 const btn = document.getElementById('btnCarregarGrafico');
                 const loading = document.getElementById('loadingGrafico');
-
                 const dataISO = document.getElementById('analiseData').value;
                 const operacao = document.getElementById('analiseOperacao').value;
-
                 if (!dataISO || !operacao) {
                     mostrarStatus('Selecione Data e Operação', 'error');
                     return;
                 }
-
-                // 🔒 trava botão + mostra loading
                 btn.disabled = true;
                 btn.classList.add('opacity-50');
                 loading.classList.remove('hidden');
-
                 const [ano, mes, dia] = dataISO.split("-");
                 const dataBR = `${dia}/${mes}/${ano}`;
-
                 try {
-
-                    // 🔥 feedback visual imediato (limpa gráfico)
                     if (chart) {
                         chart.destroy();
                     }
-
                     const res = await fetchGAS(CONFIG_API_URL, {
                         action: 'getProducaoPorHora',
                         data: dataBR,
                         operacao: operacao
                     });
-
                     if (res && typeof res === 'object') {
                         desenharGrafico(res);
                     }
@@ -1336,26 +1184,19 @@
                 } catch (err) {
                     mostrarStatus('Erro ao carregar gráfico', 'error');
                 }
-
-                // 🔓 libera botão
                 btn.disabled = false;
                 btn.classList.remove('opacity-50');
                 loading.classList.add('hidden');
             }
 
             let chart;
-
             function desenharGrafico(dados) {
-
                 const labels = Object.keys(dados).sort((a, b) => {
                     return parseInt(a) - parseInt(b);
                 });
                 const valores = labels.map(h => dados[h]);
-
                 const ctx = document.getElementById('graficoProducao');
-
                 if (chart) chart.destroy();
-
                 chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -1385,12 +1226,9 @@
                 if (!ficha) return;
                 const elMod = document.getElementById(selectId);
                 elMod.classList.add('loading-input');
-
                 const res = await fetchGAS(CONFIG_API_URL, { action: 'getModelosPorFicha', ficha: ficha });
-
                 elMod.classList.remove('loading-input');
                 elMod.innerHTML = '';
-
                 if (res && res.modelos && res.modelos.length > 0) {
                     res.modelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
                 } else {
@@ -1402,35 +1240,25 @@
             function recalcularProducao() {
                 const ficha = document.getElementById('manualFicha').value;
                 if (!ficha) return;
-
                 aoMudarFichaManual(ficha);
             }
 
             async function aoMudarFichaManual(ficha) {
                 if (!ficha) return;
-
                 await filtrarModelosPorFicha(ficha, 'manualModelo');
-
                 const fieldTotal = document.getElementById('manualTotalPecasFicha');
                 const fieldFinalizadas = document.getElementById('manualPecasFinalizadas');
                 const fieldPendentes = document.getElementById('manualPecasPendentes');
-
-                // estado inicial
                 fieldTotal.value = "Calculando...";
                 fieldFinalizadas.value = "Calculando...";
                 if (fieldPendentes) fieldPendentes.value = "Calculando...";
-
-                // 🔴 pega data
                 const dataISO = document.getElementById('manualData').value;
-
                 let dataBR = "";
                 if (dataISO) {
                     const [ano, mes, dia] = dataISO.split("-");
                     dataBR = `${dia}/${mes}/${ano}`;
                 }
-
                 try {
-                    // 🚀 roda as duas chamadas em paralelo (mais rápido)
                     const [resTotal, resFinal] = await Promise.all([
                         fetchGAS(CONFIG_API_URL, {
                             action: 'getInfoProducaoFicha',
@@ -1442,39 +1270,29 @@
                             ficha: ficha
                         })
                     ]);
-
-                    // ✔ total
                     const total = (resTotal && resTotal.status !== 'error')
                         ? Number(resTotal.totalFicha) || 0
                         : 0;
-
                     fieldTotal.value = total;
-
-                    // ✔ finalizadas
                     const finalizadas = (resFinal && resFinal.status !== 'error')
                         ? Number(resFinal.pecasFinalizadas) || 0
                         : 0;
-
                     fieldFinalizadas.value = finalizadas;
-
-                    // ✔ pendentes
                     const pendentes = Math.max(0, total - finalizadas);
-
                     if (fieldPendentes) {
                         fieldPendentes.value = pendentes;
                     }
-
                 } catch (err) {
                     fieldTotal.value = 0;
                     fieldFinalizadas.value = 0;
                     if (fieldPendentes) fieldPendentes.value = 0;
                 }
             }
+
             async function puxarDadosBotao(botaoId) {
                 if (!botaoId) return;
                 mostrarStatus('Buscando dados...', 'success');
                 const res = await fetchGAS(CONFIG_API_URL, { action: 'getBotaoDados', id: botaoId });
-
                 if (res && res.status !== 'error') {
                     document.getElementById('campoFicha').value = res.ficha || '';
                     document.getElementById('campoModelo').value = res.modelo || '';
@@ -1484,7 +1302,6 @@
                     document.getElementById('campoMaquina').value = res.maquina || '';
                     document.getElementById('campoMeta').value = res.meta || '';
                     document.getElementById('campoLeadTime').value = res.leadtime || '';
-
                 }
             }
 
@@ -1494,7 +1311,6 @@
                 const inputs = form.querySelectorAll('[required]');
                 let valid = true;
                 inputs.forEach(i => { if (!i.value) valid = false; });
-
                 if (!valid) {
                     mostrarStatus('Preencha os campos obrigatórios!', 'error');
                     return;
@@ -1504,21 +1320,17 @@
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData);
                 data.action = tipo === 'manual' ? 'salvarManual' : 'salvarConfig';
-
                 try {
                     const destino =
                         tipo === 'manual'
                             ? LANCAMENTO_API_URL
                             : CONFIG_API_URL;
-
                     const response = await fetch(destino, {
                         method: 'POST',
                         body: JSON.stringify(data)
                     });
 
                     const resultText = await response.text();
-
-
                     if (resultText.toLowerCase().includes("sucesso") || resultText.toLowerCase().includes("ok")) {
                         mostrarStatus('Lançado com Sucesso!', 'success');
                         if (tipo === 'manual') {
@@ -1526,32 +1338,21 @@
                             document.getElementById('manualProducao').value = "";
                             document.getElementById('manualColaborador').value = "";
                             document.getElementById('manualProducao').focus();
-                            // Atualiza os totais após o lançamento
                             if (fichaAtual) aoMudarFichaManual(fichaAtual);
                         }
-
                         if (tipo === 'config') {
                             const formConfig = document.getElementById('configForm');
-
                             document.getElementById('campoBotao').value = "";
                             document.getElementById('campoFicha').value = "";
                             document.getElementById('campoModelo').value = "";
-
                             document.getElementById('campoSetor').value = "";
                             document.getElementById('campoOperacao').value = "";
                             document.getElementById('campoColaborador').value = "";
-
                             document.getElementById('campoMaquina').value = "";
                             document.getElementById('campoMeta').value = "";
                             document.getElementById('campoLeadTime').value = "";
-
-                            // mantém alguns ajustes manuais importantes
                             document.getElementById('campoData').value = document.getElementById('campoData').value;
-
-                            //document.getElementById('campoModelo').innerHTML ='<option value="">Selecione...</option>';
                         }
-
-
                     } else {
                         mostrarStatus('Erro ao salvar.', 'error');
                     }
@@ -1562,7 +1363,6 @@
 
             document.getElementById('configForm').onsubmit = (e) => enviarForm(e, 'config');
             document.getElementById('lancamentoForm').onsubmit = (e) => enviarForm(e, 'manual');
-
             function mostrarStatus(msg, type) {
                 const el = document.getElementById('statusMessage');
                 if (!el) return;
@@ -1575,7 +1375,6 @@
 </body>
 <div id="loading-overlay"
     class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
-
     <div class="bg-white px-6 py-4 rounded-xl shadow-xl flex items-center gap-3">
         <div class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         <span class="font-bold text-sm text-slate-700">A carregar...</span>
