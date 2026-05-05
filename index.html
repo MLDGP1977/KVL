@@ -350,13 +350,13 @@
                             <!-- DIREITA -->
                             <div class="ml-auto flex items-center gap-3 text-[8px] font-bold">
                                 <span class="flex items-center gap-1 text-slate-600">
-                                    <span class="w-2 h-2 bg-green-500 rounded-sm"></span> ≥90%
+                                    <span class="w-2 h-2 bg-green-500 rounded-sm"></span> ≥80%
                                 </span>
                                 <span class="flex items-center gap-1 text-slate-600">
-                                    <span class="w-2 h-2 bg-yellow-400 rounded-sm"></span> 70–90%
+                                    <span class="w-2 h-2 bg-yellow-400 rounded-sm"></span> 60–80%
                                 </span>
                                 <span class="flex items-center gap-1 text-slate-600">
-                                    <span class="w-2 h-2 bg-red-500 rounded-sm"></span> &lt;70%
+                                    <span class="w-2 h-2 bg-red-500 rounded-sm"></span> &lt;60%
                                 </span>
                             </div>
                         </h3>
@@ -969,7 +969,7 @@ function renderOperacoes(setor) {
                 });
 
                 const volume = (tl.prodreal1 || []).slice(0, nomes.length);
-                const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
+                const cores = perc.map(v => v < 60 ? '#ef4444' : v < 80 ? '#facc15' : '#22c55e');
 
                 charts.ops.data.labels = nomes;
                 charts.ops.data.datasets[0].data = perc;
