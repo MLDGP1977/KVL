@@ -677,7 +677,7 @@ async function fetchAllData(force = false) {
                 statusText.innerText = "Atualizando...";
                 statusDot.className = "w-2 h-2 rounded-full bg-yellow-400";
                 try {
-                    const data = await fetchAllData(true); // 🔥 força atualização
+                    const data = await fetchAllData(true); 
                     const currentOp = OPERATIONS[currentOpIndex];
                     if (data && data[currentOp.id]) {
                         updateUI(currentOp, data[currentOp.id]);
@@ -756,10 +756,10 @@ async function fetchAllData(force = false) {
                     const v = volume[i] || 0;
                     let status = "";
                     let cor = "";
-                    if (p >= 90) {
+                    if (p >= 80) {
                         status = "Ótimo";
                         cor = "text-green-600";
-                    } else if (p >= 70) {
+                    } else if (p >= 60) {
                         status = "Atenção";
                         cor = "text-yellow-600";
                     } else {
@@ -1013,7 +1013,7 @@ async function fetchAllData(force = false) {
                     return Number(normalizePercent(v).toFixed(1));
                 });
                 const volume = (tl.prodreal1 || []).slice(0, nomes.length);
-                const cores = perc.map(v => v < 70 ? '#ef4444' : v < 90 ? '#facc15' : '#22c55e');
+                const cores = perc.map(v => v < 60 ? '#ef4444' : v < 80 ? '#facc15' : '#22c55e');
                 const dados = nomes.map((n, i) => ({
                     nome: n,
                     perc: perc[i],
