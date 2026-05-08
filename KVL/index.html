@@ -62,20 +62,28 @@
             <div class="p-6 flex flex-col items-center">
                 <img src="https://mldgp1977.github.io/KVL/logo.png" alt="Logo" class="h-20 mb-3 object-contain"
                     onerror="this.src='https://via.placeholder.com/250?text=LOGO'">
-                <h1 class="text-xl font-black text-slate-800 tracking-tight uppercase">Painel de Produção</h1>
-                <p class="text-xs text-slate-400 font-medium mb-4">Gestão e Controle Industrial</p>
+                <h1 class="text-xl font-black text-slate-800 tracking-tight uppercase">
+                    Painel de Produção
+                </h1>
+                <p class="text-xs text-slate-400 font-medium mb-4">
+                    Gestão e Controle Industrial
+                </p>
                 <div
-                    class="flex space-x-2 mt-2 overflow-x-auto w-full justify-start md:justify-center hide-scrollbar px-2">
+                    class="flex gap-2 mt-2 w-full overflow-x-auto md:justify-center hide-scrollbar px-2 whitespace-nowrap">
                     <button onclick="switchTab('painel')" id="tab-painel"
-                        class="py-2 px-4 transition-all tab-active text-sm uppercase tracking-wider">
+                        class="flex-shrink-0 py-2 px-3 transition-all tab-active text-xs sm:text-sm uppercase tracking-wider">
                         Painel
                     </button>
                     <button onclick="switchTab('manual')" id="tab-manual"
-                        class="py-2 px-4 transition-all text-slate-500 hover:text-blue-600 text-sm uppercase tracking-wider">
+                        class="flex-shrink-0 py-2 px-3 transition-all text-slate-500 hover:text-blue-600 text-xs sm:text-sm uppercase tracking-wider">
                         Lançamento
                     </button>
+                    <button onclick="switchTab('resumo')" id="tab-resumo"
+                        class="flex-shrink-0 py-2 px-3 transition-all text-slate-500 hover:text-blue-600 text-xs sm:text-sm uppercase tracking-wider">
+                        Resumo
+                    </button>
                     <button onclick="switchTab('config')" id="tab-config"
-                        class="py-2 px-4 transition-all text-slate-500 hover:text-blue-600 text-sm uppercase tracking-wider">
+                        class="flex-shrink-0 py-2 px-3 transition-all text-slate-500 hover:text-blue-600 text-xs sm:text-sm uppercase tracking-wider">
                         Configuração
                     </button>
                 </div>
@@ -86,19 +94,19 @@
         <div class="flex-grow pb-20 overflow-y-auto">
             <!-- ABA PAINEL -->
             <div id="view-painel" class="p-5 animate-in fade-in duration-300">
-<div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-4">
 
-    <h2 class="text-base font-bold text-slate-700 flex items-center">
-        <span class="bg-indigo-600 w-1.5 h-5 mr-2 rounded"></span>
-        Painel Geral
-    </h2>
+                    <h2 class="text-base font-bold text-slate-700 flex items-center">
+                        <span class="bg-indigo-600 w-1.5 h-5 mr-2 rounded"></span>
+                        Painel Geral
+                    </h2>
 
-    <button id="btn-refresh"
-        class="px-3 py-1 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg shadow">
-        🔄 Atualizar
-    </button>
+                    <button id="btn-refresh"
+                        class="px-3 py-1 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg shadow">
+                        🔄 Atualizar
+                    </button>
 
-</div>
+                </div>
                 <div>
                     <h1 id="operation-title" class="font-extrabold uppercase text-slate-900 text-xs lg:text-base">
                         Sincronizando...</h1>
@@ -316,38 +324,48 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Ficha</label>
-                            <select id="manualFicha" name="Ficha" onchange="aoMudarFichaManual(this.value)" required
+                            <input id="manualFicha" name="Ficha" list="listaManualFicha" required
+                                placeholder="Digite ou selecione..." onclick="limparParaNovaBusca(this)"
+                                onfocus="limparParaNovaBusca(this)" onchange="aoMudarFichaManual(this.value)"
                                 class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
-                                <option value="">Selecione...</option>
-                            </select>
+                            <datalist id="listaManualFicha"></datalist>
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 mb-1">Modelo</label>
-                        <select id="manualModelo" name="Modelo" required
+                        <input id="manualModelo" name="Modelo" list="listaManualModelo" required
+                            placeholder="Digite ou selecione..." onclick="limparCampoBusca(this)"
+                            onfocus="limparCampoBusca(this)"
                             class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
-                            <option value="">Selecione a Ficha...</option>
-                        </select>
+                        <datalist id="listaManualModelo"></datalist>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Setor</label>
-                            <select id="manualSetor" name="Setor" required
-                                class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
+                            <input id="manualSetor" name="Setor" list="listaManualSetor" required
+                                placeholder="Digite ou selecione..." onclick="limparCampoBusca(this)"
+                                onfocus="limparCampoBusca(this)"
+                                class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
+                            <datalist id="listaManualSetor"></datalist>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 mb-1">Operação</label>
-                            <select id="manualOperacao" name="Operacao" required
-                                class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm"></select>
+                            <input id="manualOperacao" name="Operacao" list="listaManualOperacao" required
+                                placeholder="Digite ou selecione..." onclick="limparCampoBusca(this)"
+                                onfocus="limparCampoBusca(this)"
+                                class="w-full p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
+                            <datalist id="listaManualOperacao"></datalist>
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 mb-1 text-emerald-700">Costureira
                             (Lista Geral)</label>
-                        <select id="manualColaborador" name="Colaborador" required
+                        <input id="manualColaborador" name="Colaborador" list="listaManualColaborador" required
+                            placeholder="Digite ou selecione..." onclick="limparCampoBusca(this)"
+                            onfocus="limparCampoBusca(this)"
                             class="w-full p-3 border border-emerald-200 rounded-xl bg-white shadow-sm">
-                            <option value="">Carregando...</option>
-                        </select>
+
+                        <datalist id="listaManualColaborador"></datalist>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
@@ -423,6 +441,30 @@
                 </div>
                 <canvas id="graficoProducao"></canvas>
             </div>
+
+            <div id="view-resumo" class="p-5 hidden animate-in fade-in duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-bold mb-4 text-slate-700 flex items-center">
+                        <span class="bg-violet-600 w-1.5 h-5 mr-2 rounded"></span>
+                        Resumo Gerencial
+                    </h2>
+                    <button onclick="enviarResumoWhatsApp()" class="bg-green-600 hover:bg-green-700
+                   text-white px-4 py-2 rounded-lg
+                   text-sm font-semibold">
+
+                        WhatsApp
+                    </button>
+                </div>
+                <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <tbody id="tabelaResumo"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
         <script>
             Chart.register(ChartDataLabels);
@@ -431,70 +473,67 @@
             Chart.defaults.color = '#94a3b8';
             const normalizePercent = (v) => {
                 let val = parseFloat(v);
-
                 if (isNaN(val)) return 0;
-
-                // se for decimal (0.85, 1.21, 2.35 vindo como proporção)
                 if (val <= 10) {
                     val = val * 100;
                 }
-
                 return val;
             };
             const CONFIG_API_URL = 'https://script.google.com/macros/s/AKfycbw58X9fHQNtN89z1piRnB8fGnpd65ipbvVYRHt3Jpa3PDGUHHUyrsp89SooxLSdz5ER/exec';
             const API_URL = 'https://script.google.com/macros/s/AKfycbwDlFg8yT3kzoKuxJxh5Qye7I7DCffkT7WFIBbq0yTuawze3sCscIcOVPetLn3MxpuqIA/exec';
             const LANCAMENTO_API_URL = 'https://script.google.com/macros/s/AKfycbzLxh58y2Lw0tesJ125RajOHAS5el5JS_sNOOU-NH_ACmp_p3PJHyktvnshmNAwC0lw/exec';
+            const RESUMO_API_URL = 'https://script.google.com/macros/s/AKfycbzLxh58y2Lw0tesJ125RajOHAS5el5JS_sNOOU-NH_ACmp_p3PJHyktvnshmNAwC0lw/exec';
             const OPERATIONS = [
                 { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoCaseado', label: 'Acabamento: Caseado', icon: 'fa-bacon', color: '#3b82f6' },
-                { id: 'RtAcabamentoCosturaPonta', label: 'Acabamento: Costura Ponta', icon: 'fa-bacon', color: '#3b82f6' },
-                { id: 'RtAcabamentoEtiquetaCos', label: 'Acabamento: Etiqueta Cós', icon: 'fa-bacon', color: '#3b82f6' },
+                //{ id: 'RtAcabamentoCosturaPonta', label: 'Acabamento: Costura Ponta', icon: 'fa-bacon', color: '#3b82f6' },
+                //{ id: 'RtAcabamentoEtiquetaCos', label: 'Acabamento: Etiqueta Cós', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoPassante', label: 'Acabamento: Passante', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoPonta', label: 'Acabamento: Ponta', icon: 'fa-bacon', color: '#3b82f6' },
-                { id: 'RtAcabamentoRebEntrePernas', label: 'Acabamento: Reb Entre Perna', icon: 'fa-bacon', color: '#3b82f6' },
+                //{ id: 'RtAcabamentoRebEntrePernas', label: 'Acabamento: Reb Entre Perna', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoRevisaoFinal', label: 'Acabamento: Revisão Final', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoTravet', label: 'Acabamento: Travet', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RTDianteira2Lado', label: 'Dianteira: 2°Lado', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraBcBolso', label: 'Dianteira: Boca Bolso', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraBRelog', label: 'Dianteira: Bolso Relogio', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraCaseado', label: 'Dianteira: Caseado', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraCaseado', label: 'Dianteira: Caseado', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraVista', label: 'Dianteira: Conj. Vista', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraCurva', label: 'Dianteira: Curva', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraEspelho', label: 'Dianteira: Espelho', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraFPerna', label: 'Dianteira: Fechar entre Perna', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraFEspelho', label: 'Dianteira: Fechar Espelho', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraEspelho', label: 'Dianteira: Espelho', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraFPerna', label: 'Dianteira: Fechar entre Perna', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraFEspelho', label: 'Dianteira: Fechar Espelho', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraFForro', label: 'Dianteira: Fechar Forro', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraFixado', label: 'Dianteira: Fixado', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraFixadoL', label: 'Dianteira: Fixado Lateral', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraFixadoL', label: 'Dianteira: Fixado Lateral', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraFBoca', label: 'Dianteira: Forro Boca', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraGanchinho', label: 'Dianteira: Ganchinho', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraMPonta', label: 'Dianteira: Marcação Ponta', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraPonta', label: 'Dianteira: Ponta', icon: 'fa-clone', color: '#10b981' },
-                { id: 'RTDianteiraRevel', label: 'Dianteira: Revel Boca', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraMPonta', label: 'Dianteira: Marcação Ponta', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraPonta', label: 'Dianteira: Ponta', icon: 'fa-clone', color: '#10b981' },
+                //{ id: 'RTDianteiraRevel', label: 'Dianteira: Revel Boca', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTDianteiraSand', label: 'Dianteira: Sanduíche', icon: 'fa-clone', color: '#10b981' },
                 { id: 'RTMontAcop', label: 'Montagem: Acoplamento', icon: 'fa-object-group', color: '#f59e0b' },
-                { id: 'RTMontBarra', label: 'Montagem: Barra', icon: 'fa-object-group', color: '#f59e0b' },
-                { id: 'RTMontBolso', label: 'Montagem: Boca Bolso', icon: 'fa-object-group', color: '#f59e0b' },
+                //{ id: 'RTMontBarra', label: 'Montagem: Barra', icon: 'fa-object-group', color: '#f59e0b' },
+                //{ id: 'RTMontBolso', label: 'Montagem: Boca Bolso', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontCos', label: 'Montagem: Cós', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontPerna', label: 'Montagem: Fechar entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontLateral', label: 'Montagem: Fechar Lateral', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontPonta', label: 'Montagem: Marcação Ponta', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontReb', label: 'Montagem: Reb. Entre Perna', icon: 'fa-object-group', color: '#f59e0b' },
-                { id: 'RTMontGancho', label: 'Montagem: Rebater Gancho', icon: 'fa-object-group', color: '#f59e0b' },
+                //{ id: 'RTMontGancho', label: 'Montagem: Rebater Gancho', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTMontRLateral', label: 'Montagem: Rebater lateral', icon: 'fa-object-group', color: '#f59e0b' },
-                { id: 'RTMontTravet', label: 'Montagem: Travet', icon: 'fa-object-group', color: '#f59e0b' },
+                //{ id: 'RTMontTravet', label: 'Montagem: Travet', icon: 'fa-object-group', color: '#f59e0b' },
                 { id: 'RTPrepBRelogio', label: 'Preparação: Bainha BRelogio', icon: 'fa-uncharted', color: '#ef4444' },
                 { id: 'RTPrepBTraseiro', label: 'Preparação: Bainha BTraseiro', icon: 'fa-uncharted', color: '#ef4444' },
-                { id: 'RTPrepVista', label: 'Preparação: Bainha Con. Vista', icon: 'fa-uncharted', color: '#ef4444' },
+                //{ id: 'RTPrepVista', label: 'Preparação: Bainha Con. Vista', icon: 'fa-uncharted', color: '#ef4444' },
                 { id: 'RTPrepEmenda', label: 'Preparação: Emenda Cós', icon: 'fa-uncharted', color: '#ef4444' },
                 { id: 'RTPrepLateral', label: 'Preparação: Marc. Lateral', icon: 'fa-uncharted', color: '#ef4444' },
-                { id: 'RTPrepSanduiche', label: 'Preparação: Sanduíche', icon: 'fa-uncharted', color: '#ef4444' },
-                { id: 'RTTrasBainha', label: 'Traseira: Bainha B.Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                //{ id: 'RTPrepSanduiche', label: 'Preparação: Sanduíche', icon: 'fa-uncharted', color: '#ef4444' },
+                //{ id: 'RTTrasBainha', label: 'Traseira: Bainha B.Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasBolso', label: 'Traseira: Bolso Traseiro', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasFechadeira', label: 'Traseira: Fechadeira', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasOver', label: 'Traseira: Overloque', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-                { id: 'RTTrasForro', label: 'Traseira: Forro Boca', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
-                { id: 'RTTrasLateral', label: 'Traseira: Marcação Lateral', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                //{ id: 'RTTrasForro', label: 'Traseira: Forro Boca', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                //{ id: 'RTTrasLateral', label: 'Traseira: Marcação Lateral', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
@@ -518,7 +557,7 @@
             let modoManual = true;
             let todosOsModelos = [];
             let todasAsCostureiras = [];
-
+            let resumoGerencialCache = null;
 
             function updateClock() {
                 const now = new Date();
@@ -535,7 +574,6 @@
                     });
                 }
             }
-
             setInterval(updateClock, 1000);
             window.handleApiResponse = function (result) {
                 hideLoading();
@@ -565,7 +603,6 @@
                         statusText.innerText = "Ligado";
                         statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
                     }
-
                     startTimer();
                 }
                 else {
@@ -597,7 +634,6 @@
             }
 
             let cacheDadosOperacoes = {};
-
             async function fetchData() {
                 const currentOp = OPERATIONS[currentOpIndex];
                 const statusText = document.getElementById('status-text');
@@ -623,35 +659,35 @@
                 hideLoading();
             }
 
-async function fetchAllData(force = false) {
-    const now = Date.now();
-    const hasData = allData && Object.keys(allData).length > 0;
-    if (force) {
-        const res = await fetch(API_URL + "?action=getAll");
-        const json = await res.json();
-        if (json.status === "success") {
-            allData = json.data;
-            lastFetchTime = now;
-            return allData;
-        }
-        throw new Error("Erro ao forçar atualização");
-    }
-    if (hasData && (now - lastFetchTime < CACHE_TIME)) {
-        return allData;
-    }
-    if (!hasData) {
-        const res = await fetch(API_URL + "?action=getAll");
-        const json = await res.json();
-        if (json.status === "success") {
-            allData = json.data;
-            lastFetchTime = now;
-            return allData;
-        }
-        throw new Error("Erro inicial");
-    }
-    atualizarDadosEmBackground();
-    return allData;
-}
+            async function fetchAllData(force = false) {
+                const now = Date.now();
+                const hasData = allData && Object.keys(allData).length > 0;
+                if (force) {
+                    const res = await fetch(API_URL + "?action=getAll");
+                    const json = await res.json();
+                    if (json.status === "success") {
+                        allData = json.data;
+                        lastFetchTime = now;
+                        return allData;
+                    }
+                    throw new Error("Erro ao forçar atualização");
+                }
+                if (hasData && (now - lastFetchTime < CACHE_TIME)) {
+                    return allData;
+                }
+                if (!hasData) {
+                    const res = await fetch(API_URL + "?action=getAll");
+                    const json = await res.json();
+                    if (json.status === "success") {
+                        allData = json.data;
+                        lastFetchTime = now;
+                        return allData;
+                    }
+                    throw new Error("Erro inicial");
+                }
+                atualizarDadosEmBackground();
+                return allData;
+            }
 
             async function atualizarDadosEmBackground() {
                 try {
@@ -677,7 +713,7 @@ async function fetchAllData(force = false) {
                 statusText.innerText = "Atualizando...";
                 statusDot.className = "w-2 h-2 rounded-full bg-yellow-400";
                 try {
-                    const data = await fetchAllData(true); 
+                    const data = await fetchAllData(true);
                     const currentOp = OPERATIONS[currentOpIndex];
                     if (data && data[currentOp.id]) {
                         updateUI(currentOp, data[currentOp.id]);
@@ -703,6 +739,7 @@ async function fetchAllData(force = false) {
                 if (!data) return;
                 document.getElementById('operation-title').innerText = opInfo.label;
                 document.getElementById('card-total-producao').innerText = data.total || 0;
+                document.getElementById('card-consertos').innerText = data.consertos || 0;
                 const percentCard = (v) => {
                     let val = parseFloat(v) || 0;
                     if (val <= 1) {
@@ -928,6 +965,7 @@ async function fetchAllData(force = false) {
                     }
                 });
             }
+
             function initMobileMenu() {
                 if (!modoManual) return;
                 const setoresDiv = document.getElementById('setores');
@@ -943,7 +981,6 @@ async function fetchAllData(force = false) {
                         btn.classList.add('bg-blue-500', 'text-white');
                         renderOperacoes(setor);
                     };
-
                     setoresDiv.appendChild(btn);
                 });
                 const primeiroSetor = Object.keys(SETORES)[0];
@@ -968,7 +1005,10 @@ async function fetchAllData(force = false) {
                     const index = OPERATIONS.findIndex(o => o.id === op.id);
                     const option = document.createElement('option');
                     option.value = index;
-                    option.textContent = op.label;
+                    option.textContent =
+                        op.label.includes(':')
+                            ? op.label.split(':')[1].trim()
+                            : op.label;
                     select.appendChild(option);
                 });
                 select.onchange = function () {
@@ -1082,7 +1122,6 @@ async function fetchAllData(force = false) {
                     el.style.background = "#fee2e2";
                     el.style.color = "#991b1b";
                 }
-
                 animateValue(el);
             }
 
@@ -1115,7 +1154,13 @@ async function fetchAllData(force = false) {
                     }, 200);
                 }
                 if (tab === 'painel') {
-                    fetchData(); // Dispara a busca de dados da API e atualiza os gráficos
+                    fetchData();
+                }
+                if (tab === 'resumo') {
+                    carregarResumoGerencial();
+                    if (!resumoGerencialCache) {
+                        atualizarResumoGerencial();
+                    }
                 }
             }
 
@@ -1126,17 +1171,18 @@ async function fetchAllData(force = false) {
                 const hojeISO = dataLocal.toISOString().split('T')[0];
                 const hojeBR = hoje.toLocaleDateString('pt-BR');
                 updateClock();
+                atualizarResumoGerencial();
                 switchTab('painel');
                 initCharts();
                 initMobileMenu();
-                fetchData();
+                setInterval(atualizarResumoGerencial, 60000);
                 let timeout;
                 document.getElementById('campoData').value = hojeBR;
                 document.getElementById('manualData').value = hojeISO;
                 document.getElementById('analiseData').value = document.getElementById('manualData').value;
                 document.addEventListener('mousemove', () => {
                     const btn = document.getElementById('btn-exit');
-                    if (!btn) return; // evita erro se ainda não carregou
+                    if (!btn) return;
                     btn.style.opacity = '1';
                     clearTimeout(timeout);
                     timeout = setTimeout(() => {
@@ -1181,23 +1227,191 @@ async function fetchAllData(force = false) {
                         if (v) el.innerHTML += `<option value="${v}">${v}</option>`;
                     });
                 };
-
                 popular('campoBotao', data.botoes);
                 popular('campoSetor', data.setores);
                 popular('campoOperacao', data.operacoes);
                 popular('campoColaborador', data.colaboradores);
                 popular('campoModelo', todosOsModelos);
                 popular('campoFicha', data.fichas);
-                popular('manualSetor', data.setores);
-                popular('manualOperacao', data.operacoes);
-                popular('manualModelo', todosOsModelos);
-                popular('manualColaborador', data.colaboradores);
+                popularDatalist('listaManualSetor', data.setores);
+                popularDatalist('listaManualOperacao', data.operacoes);
+                popularDatalist('listaManualModelo', todosOsModelos);
+                popularDatalist('listaManualColaborador', data.colaboradores);
                 popular('manualHora', data.horas || ["07:00", "08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]);
-                popular('manualFicha', data.fichas);
+                popularDatalist('listaManualFicha', data.fichas);
                 popular('analiseOperacao', data.operacoes);
                 mostrarStatus('Listas Prontas!', 'success');
             }
 
+            function popularDatalist(id, lista, preencherPrimeiro = false, campoInput = null) {
+                const datalist = document.getElementById(id);
+                if (!datalist) return;
+                datalist.innerHTML = '';
+                (lista || []).forEach(item => {
+                    if (item) {
+                        const option = document.createElement('option');
+                        option.value = item;
+                        datalist.appendChild(option);
+                    }
+                });
+                if (preencherPrimeiro && campoInput && lista.length > 0) {
+                    const input = document.getElementById(campoInput);
+
+                    if (input) {
+                        input.value = lista[0];
+                    }
+                }
+            }
+
+            function limparCampoBusca(campo) {
+                campo.value = '';
+            }
+
+            function limparParaNovaBusca(campo) {
+                campo.value = '';
+            }
+
+            function limparCampoBusca(campo) {
+                campo.value = '';
+            }
+
+            function limparCampoBusca(campo) {
+                campo.value = '';
+            }
+
+            function limparCampoBusca(campo) {
+                campo.value = '';
+            }
+
+            const OPERACOES_RESUMO = [
+                "Bolso Traseiro",
+                "Gancho",
+                "Ganchinho",
+                "Acoplamento",
+                "Cós",
+                "Passante",
+                "Revisão"
+            ];
+
+            function carregarResumoGerencial() {
+                const tabela = document.getElementById('tabelaResumo');
+                if (!tabela) return;
+                if (!resumoGerencialCache) {
+
+                    tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="p-4 text-center">
+                    Carregando resumo...
+                </td>
+            </tr>
+        `;
+                    return;
+                }
+                const res = resumoGerencialCache;
+                const operacoes = Object.keys(res);
+                const labels = {
+                    'bolso traseiro': 'Bolso Traseiro',
+                    'gancho': 'Gancho',
+                    'ganchinho': 'Ganchinho',
+                    'acoplamento': 'Acoplamento',
+                    'cós': 'Cós',
+                    'passante': 'Passante',
+                    'revisão final': 'Revisão Final'
+                };
+                const primeiraOp = operacoes[0];
+                const dadosRef = res[primeiraOp] || {};
+                const tituloPenultima = dadosRef.penultimaHora
+                    ? `Última Hora (${dadosRef.penultimaHora}hs)`
+                    : "Reg. Anterior";
+
+                const tituloUltima = dadosRef.ultimaHora
+                    ? `Hora Atual (${dadosRef.ultimaHora}hs)`
+                    : "Hora Atual";
+                let html = `
+    <tr class="bg-slate-100">
+        <th class="p-3 text-left">Operação</th>
+        <th class="p-3 text-center">
+            ${tituloPenultima}
+        </th>
+        <th class="p-3 text-center">
+            ${tituloUltima}
+        </th>
+        <th class="p-3 text-center">
+            Total Produção Dia
+        </th>
+        <th class="p-3 text-center">
+            Ating. Meta % 
+        </th>
+    </tr>
+    `;
+                operacoes.forEach(op => {
+                    const dados = res[op] || {};
+                    html += `
+        <tr class="border-t">
+            <td class="p-3 font-semibold whitespace-nowrap">
+                ${labels[op] || op}
+            </td>
+            <td class="p-3 text-center">
+                ${dados.penultima || 0}
+            </td>
+            <td class="p-3 text-center">
+                ${dados.ultima || 0}
+            </td>
+            <td class="p-3 text-center font-bold text-blue-600">
+                ${dados.dia || 0}
+            </td>
+            <td class="p-3 text-center font-bold text-emerald-600">
+                ${dados.atingimento || 0}%
+            </td>
+        </tr>
+        `;
+                });
+                tabela.innerHTML = html;
+            }
+
+            async function atualizarResumoGerencial() {
+                try {
+                    const response = await fetch(
+                        `${RESUMO_API_URL}?action=getResumoGerencial`
+                    );
+                    resumoGerencialCache = await response.json();
+                    console.log("Resumo atualizado");
+                    carregarResumoGerencial();
+                } catch (erro) {
+
+                    console.error("Erro resumo:", erro);
+                }
+            }
+
+            function enviarResumoWhatsApp() {
+                if (!resumoGerencialCache) return;
+                const res = resumoGerencialCache;
+                const labels = {
+                    'bolso traseiro': 'Bolso Traseiro',
+                    'gancho': 'Gancho',
+                    'ganchinho': 'Ganchinho',
+                    'acoplamento': 'Acoplamento',
+                    'cós': 'Cós',
+                    'passante': 'Passante',
+                    'revisão final': 'Revisão Final'
+                };
+                let mensagem = ` *RESUMO GERENCIAL*\n\n`;
+                Object.keys(res).forEach(op => {
+                    const dados = res[op];
+                    mensagem +=
+                        `${labels[op] || op}:
+Reg. Anterior: (${dados.penultimaHora ? dados.penultimaHora + 'hs' : '--'}): ${dados.penultima || 0}
+Hora Atual: (${dados.ultimaHora ? dados.ultimaHora + 'hs' : '--'}): ${dados.ultima || 0}
+Produção Dia: ${dados.dia || 0}
+Ating. Meta: ${dados.atingimento || 0}%
+\`\`\`
+`;
+                });
+                const url =
+                    `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+
+                window.open(url, '_blank');
+            }
             async function carregarGrafico() {
                 const btn = document.getElementById('btnCarregarGrafico');
                 const loading = document.getElementById('loadingGrafico');
@@ -1224,7 +1438,6 @@ async function fetchAllData(force = false) {
                     if (res && typeof res === 'object') {
                         desenharGrafico(res);
                     }
-
                 } catch (err) {
                     mostrarStatus('Erro ao carregar gráfico', 'error');
                 }
@@ -1266,18 +1479,42 @@ async function fetchAllData(force = false) {
                 });
             }
 
-            async function filtrarModelosPorFicha(ficha, selectId) {
+            async function filtrarModelosPorFicha(ficha, inputId) {
                 if (!ficha) return;
-                const elMod = document.getElementById(selectId);
-                elMod.classList.add('loading-input');
-                const res = await fetchGAS(CONFIG_API_URL, { action: 'getModelosPorFicha', ficha: ficha });
-                elMod.classList.remove('loading-input');
-                elMod.innerHTML = '';
-                if (res && res.modelos && res.modelos.length > 0) {
-                    res.modelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
-                } else {
-                    elMod.innerHTML = '<option value="">Lista Geral:</option>';
-                    todosOsModelos.forEach(v => elMod.innerHTML += `<option value="${v}">${v}</option>`);
+                const inputModelo = document.getElementById(inputId);
+                const listaModelos = document.getElementById('listaManualModelo');
+                inputModelo.classList.add('loading-input');
+                try {
+                    const res = await fetchGAS(CONFIG_API_URL, {
+                        action: 'getModelosPorFicha',
+                        ficha: ficha
+                    });
+                    listaModelos.innerHTML = '';
+                    const modelos = (
+                        res &&
+                        res.modelos &&
+                        res.modelos.length > 0
+                    )
+                        ? res.modelos
+                        : todosOsModelos;
+
+                    modelos.forEach(modelo => {
+                        const option = document.createElement('option');
+                        option.value = modelo;
+                        listaModelos.appendChild(option);
+                    });
+
+                    // PREENCHE automaticamente o campo
+                    if (modelos.length > 0) {
+                        inputModelo.value = modelos[0];
+                    } else {
+                        inputModelo.value = '';
+                    }
+
+                } catch (erro) {
+                    console.error("Erro ao carregar modelos:", erro);
+                } finally {
+                    inputModelo.classList.remove('loading-input');
                 }
             }
 
@@ -1359,7 +1596,6 @@ async function fetchAllData(force = false) {
                     mostrarStatus('Preencha os campos obrigatórios!', 'error');
                     return;
                 }
-
                 mostrarStatus('Salvando...', 'success');
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData);
@@ -1373,7 +1609,6 @@ async function fetchAllData(force = false) {
                         method: 'POST',
                         body: JSON.stringify(data)
                     });
-
                     const resultText = await response.text();
                     if (resultText.toLowerCase().includes("sucesso") || resultText.toLowerCase().includes("ok")) {
                         mostrarStatus('Lançado com Sucesso!', 'success');
@@ -1426,4 +1661,5 @@ async function fetchAllData(force = false) {
         <span class="font-bold text-sm text-slate-700">A carregar...</span>
     </div>
 </div>
+
 </html>
