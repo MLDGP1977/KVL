@@ -1393,11 +1393,8 @@
             }
 
 function enviarResumoWhatsApp() {
-
     if (!resumoGerencialCache) return;
-
     const res = resumoGerencialCache;
-
     const labels = {
         'bolso traseiro': 'Bolso Traseiro',
         'gancho': 'Gancho',
@@ -1407,33 +1404,40 @@ function enviarResumoWhatsApp() {
         'passante': 'Passante',
         'revisão final': 'Revisão Final'
     };
-
-    let mensagem = `*RESUMO GERENCIAL*\n\n`;
-
-    Object.keys(res).forEach(op => {
-
+    const ordemOperacoes = [
+        'bolso traseiro',
+        'gancho',
+        'ganchinho',
+        'acoplamento',
+        'cós',
+        'passante',
+        'revisão final'
+    ];
+    const agora = new Date();
+    const horaAtual = String(agora.getHours()).padStart(2, '0');
+    let mensagem = `*RESUMO GERENCIAL HORÁRIO ${horaAtual}hs*\n\n`;
+    ordemOperacoes.forEach(op => {
         const dados = res[op];
-
+        if (!dados) return;
         let tendencia = '▬';
-
         if ((dados.ultima || 0) > (dados.penultima || 0)) {
             tendencia = '▲';
         } else if ((dados.ultima || 0) < (dados.penultima || 0)) {
             tendencia = '▼';
         }
-
         mensagem +=
 `${labels[op] || op}
 Reg. Anterior: (${dados.penultimaHora ? dados.penultimaHora + 'hs' : '--'}): ${dados.penultima || 0}
 Hora Atual: (${dados.ultimaHora ? dados.ultimaHora + 'hs' : '--'}): ${dados.ultima || 0} ${tendencia}
 Produção Dia: ${dados.dia || 0}
-Ating. Meta: ${dados.atingimento || 0}%\n━━━━━━━━━━━━━━\n`;
+Ating. Meta: ${dados.atingimento || 0}%
 
+━━━━━━━━━━━━━━
+`;
     });
 
     const url =
         `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-
     window.open(url, '_blank');
 }
 
