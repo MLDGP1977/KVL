@@ -1415,7 +1415,7 @@ function enviarResumoWhatsApp() {
     ];
     const agora = new Date();
     const horaAtual = String(agora.getHours()).padStart(2, '0');
-    let mensagem = `*RESUMO GERENCIAL HORÁRIO ${horaAtual}hs*\n\n`;
+    let mensagem = `*RESUMO GERENCIAL HORÁRIO ${horaAtual}hs*\n`;
     ordemOperacoes.forEach(op => {
         const dados = res[op];
         if (!dados) return;
@@ -1426,13 +1426,7 @@ function enviarResumoWhatsApp() {
             tendencia = '▼';
         }
         mensagem +=
-`${labels[op] || op}
-Reg. Anterior: (${dados.penultimaHora ? dados.penultimaHora + 'hs' : '--'}): ${dados.penultima || 0}
-Hora Atual: (${dados.ultimaHora ? dados.ultimaHora + 'hs' : '--'}): ${dados.ultima || 0} ${tendencia}
-Produção Dia: ${dados.dia || 0}
-Ating. Meta: ${dados.atingimento || 0}%
-
-━━━━━━━━━━━━━━
+`*${labels[op] || op}* Hora: ${dados.ultima || 0} ${tendencia} | Dia: ${dados.dia || 0}
 `;
     });
 
