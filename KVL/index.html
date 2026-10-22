@@ -1023,7 +1023,8 @@
                 })).filter(item => item.label && item.label !== "");
                 charts.main.data.labels = filtered.map(i => i.label);
                 charts.main.data.datasets[0].data = filtered.map(i => i.prod);
-                const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
+                //const valorMeta = filtered.length > 0 ? filtered[filtered.length - 1].meta : 0;
+                const valorMeta = Number(tl.metaglobal) || 0;
                 if (charts.main.options.plugins.annotation) {
                     const anno = charts.main.options.plugins.annotation.annotations.linhaMeta;
                     anno.yMin = valorMeta;
@@ -1664,6 +1665,8 @@ function enviarResumoWhatsApp() {
             }
 
             document.getElementById('btn-refresh').addEventListener('click', forcarAtualizacao);
+            setInterval(atualizarDadosEmBackground, 60000);
+
         </script>
 </body>
 <div id="loading-overlay"
