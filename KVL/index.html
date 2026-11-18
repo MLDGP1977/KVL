@@ -526,6 +526,8 @@
                 { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+                { id: 'RTTrasRefPala', label: 'Traseira: Reforço Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+
             ];
             const SETORES = {
                 Acabamento: OPERATIONS.filter(op => op.label.includes('Acabamento')),
@@ -1275,11 +1277,12 @@
 
             const OPERACOES_RESUMO = [
                 "Bolso Traseiro",
-                "Gancho",
+                "Rebater Gancho",
                 "Ganchinho",
                 "Acoplamento",
                 "Cós",
                 "Passante",
+                "Ponta",
                 "Revisão"
             ];
 
@@ -1301,11 +1304,12 @@
                 const operacoes = Object.keys(res);
                 const labels = {
                     'bolso traseiro': 'Bolso Traseiro',
-                    'gancho': 'Gancho',
+                    'rebater gancho': 'Rebater Gancho',
                     'ganchinho': 'Ganchinho',
                     'acoplamento': 'Acoplamento',
                     'cós': 'Cós',
                     'passante': 'Passante',
+                    'ponta': 'Ponta',
                     'revisão final': 'Revisão Final'
                 };
                 const primeiraOp = operacoes[0];
@@ -1382,48 +1386,50 @@
                 }
             }
 
-function enviarResumoWhatsApp() {
-    if (!resumoGerencialCache) return;
-    const res = resumoGerencialCache;
-    const labels = {
-        'bolso traseiro': 'Bolso Traseiro',
-        'gancho': 'Gancho',
-        'ganchinho': 'Ganchinho',
-        'acoplamento': 'Acoplamento',
-        'cós': 'Cós',
-        'passante': 'Passante',
-        'revisão final': 'Revisão Final'
-    };
-    const ordemOperacoes = [
-        'bolso traseiro',
-        'gancho',
-        'ganchinho',
-        'acoplamento',
-        'cós',
-        'passante',
-        'revisão final'
-    ];
-    const agora = new Date();
-    const horaAtual = String(agora.getHours()).padStart(2, '0');
-    let mensagem = `*RESUMO GERENCIAL KVL HORÁRIO ${horaAtual}hs*\n`;
-    ordemOperacoes.forEach(op => {
-        const dados = res[op];
-        if (!dados) return;
-        let tendencia = '▬';
-        if ((dados.ultima || 0) > (dados.penultima || 0)) {
-            tendencia = '▲';
-        } else if ((dados.ultima || 0) < (dados.penultima || 0)) {
-            tendencia = '▼';
-        }
-        mensagem +=
-`*${labels[op] || op}* Hora: ${dados.ultima || 0} ${tendencia} | Dia: ${dados.dia || 0}
+            function enviarResumoWhatsApp() {
+                if (!resumoGerencialCache) return;
+                const res = resumoGerencialCache;
+                const labels = {
+                    'bolso traseiro': 'Bolso Traseiro',
+                    'rebater gancho': 'Rebater Gancho',
+                    'ganchinho': 'Ganchinho',
+                    'acoplamento': 'Acoplamento',
+                    'cós': 'Cós',
+                    'passante': 'Passante',
+                    'ponta': 'Ponta',
+                    'revisão final': 'Revisão Final'
+                };
+                const ordemOperacoes = [
+                    'bolso traseiro',
+                    'rebater gancho',
+                    'ganchinho',
+                    'acoplamento',
+                    'cós',
+                    'passante',
+                    'ponta',
+                    'revisão final'
+                ];
+                const agora = new Date();
+                const horaAtual = String(agora.getHours()).padStart(2, '0');
+                let mensagem = `*RESUMO GERENCIAL KVL HORÁRIO ${horaAtual}hs*\n`;
+                ordemOperacoes.forEach(op => {
+                    const dados = res[op];
+                    if (!dados) return;
+                    let tendencia = '▬';
+                    if ((dados.ultima || 0) > (dados.penultima || 0)) {
+                        tendencia = '▲';
+                    } else if ((dados.ultima || 0) < (dados.penultima || 0)) {
+                        tendencia = '▼';
+                    }
+                    mensagem +=
+                        `*${labels[op] || op}* Hora: ${dados.ultima || 0} ${tendencia} | Dia: ${dados.dia || 0}
 `;
-    });
+                });
 
-    const url =
-        `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-    window.open(url, '_blank');
-}
+                const url =
+                    `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+                window.open(url, '_blank');
+            }
 
             async function carregarGrafico() {
                 const btn = document.getElementById('btnCarregarGrafico');
