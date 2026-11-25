@@ -390,7 +390,7 @@
 
             // URL da API
             const API_URL = 'https://script.google.com/macros/s/AKfycbwER8vJIJsl2NoVX2QUmcGpGehS0CFk1VhHcFV3fbpni3Xq4YCAP3lRZ_JaCs41SbP6iw/exec';
-
+           
             const OPERATIONS = [
                 { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
                 { id: 'RtAcabamentoCaseado', label: 'Acabamento: Caseado', icon: 'fa-bacon', color: '#3b82f6' },
@@ -549,6 +549,17 @@
                 document.body.appendChild(script);
             }
 
+            function irParaOperacao(index) {
+
+    currentOpIndex = index;
+
+    // liberta qualquer pedido em curso para poder buscar já
+    if (typeof liberarPedido === 'function') liberarPedido();
+
+    showLoading();
+    fetchData();
+}
+
             function startTimer() {
                 if (rotationTimeout) clearTimeout(rotationTimeout);
 
@@ -622,9 +633,16 @@
                 updateCharts(data);
 
                 document.getElementById('next-op').innerText = OPERATIONS[(currentOpIndex + 1) % OPERATIONS.length].label;
-                document.getElementById('op-indicators').innerHTML = OPERATIONS.map((_, i) =>
-                    `<div class="h-1.5 rounded-full transition-all duration-500 ${i === currentOpIndex ? 'w-4 bg-blue-600' : 'w-1 bg-slate-200'}"></div>`
-                ).join('');
+document.getElementById('op-indicators').innerHTML = OPERATIONS.map((op, i) => `
+    <button type="button"
+        onclick="irParaOperacao(${i})"
+        class="group relative flex items-center justify-center px-1 py-2 cursor-pointer">
+        <span class="h-1.5 rounded-full transition-all duration-500 ${i === currentOpIndex ? 'w-4 bg-blue-600' : 'w-1 bg-slate-200 group-hover:bg-blue-400'}"></span>
+        <span class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-[10px] font-bold text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+            ${op.label}
+        </span>
+    </button>
+`).join('');
             }
 
             function initCharts() {
