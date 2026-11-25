@@ -424,7 +424,7 @@
             };
 
             // URL da API
-            const API_URL = 'https://script.google.com/macros/s/AKfycbwVXmll05QQOMqjcM6gVJZrtG8ctsVDXAh_l85eqQXqdkkSkuqzbeyDo7PTge8EN9Difw/exec';
+            const API_URL = 'https://script.google.com/macros/s/AKfycbxSZVUO-CvHr1g5mY23JVLh-tEhkUhoB39icOD-K-oW9B2veegQvdkNvCZMBjQFoHk/exec';
 
             const OPERATIONS = [
                 { id: 'RtAcabamentoBarra', label: 'Acabamento: Barra', icon: 'fa-bacon', color: '#3b82f6' },
@@ -469,6 +469,7 @@
                 { id: 'RTTrasPala', label: 'Traseira: Pala', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasGancho', label: 'Traseira: Rebater Gancho', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
                 { id: 'RTTrasRefila', label: 'Traseira: Refilado', icon: 'fa-solid fa-diagram-successor', color: '8b5cf6' },
+            
             ];
 
             const SETORES = {
@@ -496,7 +497,10 @@
             setInterval(updateClock, 1000);
 
             window.handleApiResponse = function (result) {
+                
+                liberarPedido();
                 hideLoading();
+                
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
@@ -508,21 +512,22 @@
 
                     const total = result.data.total || 0;
 
-                    // 🔍 verifica se existe alguma operação com valor > 0
+                    
                     const existeValida = Object.values(lastSuccessfulData)
                         .some(d => (d.total || 0) > 0);
 
-                    // 🚫 se atual é zero E existe alguma válida → pula
+                    
                     if (!modoManual && total <= 0 && existeValida) {
                         currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
-                        fetchData();
+                        //fetchData();
+                        setTimeout(fetchData, 2000);
                         return;
                     }
 
-                    // ✅ se TODAS são zero → entra aqui normalmente
+                   
                     updateUI(OPERATIONS[currentOpIndex], result.data);
 
-                    // 🟡 muda status visual (opcional, mas muito bom)
+                    
                     if (!existeValida) {
                         statusText.innerText = "Sem produção";
                         statusDot.className = "w-2 h-2 rounded-full bg-yellow-400 pulse-status";
@@ -537,8 +542,11 @@
                     handleFetchError();
                 }
             };
+
             function handleFetchError() {
+                liberarPedido();
                 hideLoading();
+                
                 const statusText = document.getElementById('status-text');
                 const statusDot = document.getElementById('status-dot');
                 const currentOp = OPERATIONS[currentOpIndex].id;
@@ -562,19 +570,48 @@
                 }
             }
 
-            function fetchData() {
-                const currentOp = OPERATIONS[currentOpIndex];
-                const old = document.getElementById('api-script');
-                if (old) old.remove();
+           
+            var pedidoAberto = false;
+var pedidoTimer = null;
 
-                const script = document.createElement('script');
-                script.id = 'api-script';
-                // Adicionado parâmetro cache-breaker 'v' para evitar respostas antigas do browser
-                script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
+function fetchData() {
+    if (pedidoAberto) return;              // nunca dois pedidos ao mesmo tempo
+    pedidoAberto = true;
 
-                script.onerror = () => handleFetchError();
-                document.body.appendChild(script);
-            }
+    const currentOp = OPERATIONS[currentOpIndex];
+    const old = document.getElementById('api-script');
+    if (old) old.remove();
+
+    const script = document.createElement('script');
+    script.id = 'api-script';
+    script.src = `${API_URL}?sheet=${currentOp.id}&callback=handleApiResponse&v=${Date.now()}`;
+    script.onerror = () => { liberarPedido(); handleFetchError(); };
+    document.body.appendChild(script);
+
+    if (pedidoTimer) clearTimeout(pedidoTimer);
+    pedidoTimer = setTimeout(function () {
+        if (pedidoAberto) { liberarPedido(); handleFetchError(); }
+    }, 15000);                             // 15s de tolerância
+}
+
+function liberarPedido() {
+    pedidoAberto = false;
+    if (pedidoTimer) { clearTimeout(pedidoTimer); pedidoTimer = null; }
+}
+
+function irParaOperacao(index) {
+    // trava a rotação automática para ficar nesta operação
+    //modoManual = true;
+    //if (rotationTimeout) { clearTimeout(rotationTimeout); rotationTimeout = null; }
+
+    currentOpIndex = index;
+
+    // liberta qualquer pedido em curso para poder buscar já
+    if (typeof liberarPedido === 'function') liberarPedido();
+
+    showLoading();
+    fetchData();
+}
 
             function startTimer() {
                 if (rotationTimeout) clearTimeout(rotationTimeout);
@@ -583,7 +620,7 @@
                 rotationTimeout = setTimeout(() => {
                     currentOpIndex = (currentOpIndex + 1) % OPERATIONS.length;
                     fetchData();
-                }, 10000);
+                }, 30000);
             }
 
             function updateUI(opInfo, data) {
@@ -649,9 +686,16 @@
                 updateCharts(data);
 
                 document.getElementById('next-op').innerText = OPERATIONS[(currentOpIndex + 1) % OPERATIONS.length].label;
-                document.getElementById('op-indicators').innerHTML = OPERATIONS.map((_, i) =>
-                    `<div class="h-1.5 rounded-full transition-all duration-500 ${i === currentOpIndex ? 'w-4 bg-blue-600' : 'w-1 bg-slate-200'}"></div>`
-                ).join('');
+            document.getElementById('op-indicators').innerHTML = OPERATIONS.map((op, i) => `
+    <button type="button"
+        onclick="irParaOperacao(${i})"
+        class="group relative flex items-center justify-center px-1 py-2 cursor-pointer">
+        <span class="h-1.5 rounded-full transition-all duration-500 ${i === currentOpIndex ? 'w-4 bg-blue-600' : 'w-1 bg-slate-200 group-hover:bg-blue-400'}"></span>
+        <span class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-[10px] font-bold text-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
+            ${op.label}
+        </span>
+    </button>
+`).join('');
             }
 
             function initCharts() {
